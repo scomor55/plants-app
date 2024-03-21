@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">rma24projekat-19153</string>
+    <string-array name="plants">
+        <item>Medicinski</item>
+        <item>Kuharski</item>
+        <item>Botanički</item>
+    </string-array>
+</resources>
