@@ -86,6 +86,66 @@ class MainActivity : AppCompatActivity() {
                 jela = listOf("Jogurt sa voćem"),
                 klimatskiTipovi = listOf(KlimatskiTip.SREDOZEMNA, KlimatskiTip.SUHA),
                 zemljisniTipovi = listOf(Zemljište.PJESKOVITO, Zemljište.KRECNJACKO)
+            ),
+            Biljka(
+                naziv = "Hibiskus (Hibiscus sabdariffa)",
+                porodica = "Malvaceae (sljezovke)",
+                medicinskoUpozorenje = "Hibiskus čaj se obično smatra sigurnim, ali osobe koje uzimaju lijekove za snižavanje krvnog tlaka trebaju biti oprezne.",
+                medicinskeKoristi = listOf(MedicinskaKorist.SMIRENJE, MedicinskaKorist.IMMUNOSUPORT),
+                profilOkusa = ProfilOkusaBiljke.CITRUSNI,
+                jela = listOf("Torta od limuna i hibiskusa"),
+                klimatskiTipovi = listOf(KlimatskiTip.TROPSKA, KlimatskiTip.SUBTROPSKA),
+                zemljisniTipovi = listOf(Zemljište.CRNICA, Zemljište.KRECNJACKO)
+            ),
+            Biljka(
+                naziv = "Šafran (Crocus sativus)",
+                porodica = "Iridaceae (perunike)",
+                medicinskoUpozorenje = "Šafran se obično koristi kao začin i nema posebnih upozorenja.",
+                medicinskeKoristi = listOf(MedicinskaKorist.SMIRENJE, MedicinskaKorist.REGULACIJAPROBAVE),
+                profilOkusa = ProfilOkusaBiljke.LJUTO,
+                jela = listOf("Juha od luka sa šafranom"),
+                klimatskiTipovi = listOf(KlimatskiTip.UMJERENA),
+                zemljisniTipovi = listOf(Zemljište.CRNICA, Zemljište.KRECNJACKO)
+            ),
+            Biljka(
+                naziv = "Kopriva (Urtica dioica)",
+                porodica = "Urticaceae (koprive)",
+                medicinskoUpozorenje = "Kopriva može izazvati alergijske reakcije kod osjetljivih osoba.",
+                medicinskeKoristi = listOf(MedicinskaKorist.IMMUNOSUPORT),
+                profilOkusa = ProfilOkusaBiljke.MENTA,
+                jela = listOf("Pire od koprive"),
+                klimatskiTipovi = listOf(KlimatskiTip.UMJERENA),
+                zemljisniTipovi = listOf(Zemljište.CRNICA, Zemljište.KRECNJACKO)
+            ),
+            Biljka(
+                naziv = "Kadulja (Salvia officinalis)",
+                porodica = "Lamiaceae (metvice)",
+                medicinskoUpozorenje = "Kadulja se obično koristi kao začin i nema posebnih upozorenja.",
+                medicinskeKoristi = listOf(MedicinskaKorist.REGULACIJAPROBAVE),
+                profilOkusa = ProfilOkusaBiljke.AROMATICNO,
+                jela = listOf("Tjestenina u umaku od maslaca i kadulje"),
+                klimatskiTipovi = listOf(KlimatskiTip.UMJERENA),
+                zemljisniTipovi = listOf(Zemljište.CRNICA, Zemljište.KRECNJACKO)
+            ),
+            Biljka(
+                naziv = "Kadulja (Salvia officinalis)",
+                porodica = "Lamiaceae (kaćunovke)",
+                medicinskoUpozorenje = "Kadulja se obično koristi kao začin i nema posebnih upozorenja.",
+                medicinskeKoristi = listOf(MedicinskaKorist.REGULACIJAPROBAVE),
+                profilOkusa = ProfilOkusaBiljke.AROMATICNO,
+                jela = listOf("Tjestenina u umaku od maslaca i kadulje"),
+                klimatskiTipovi = listOf(KlimatskiTip.UMJERENA),
+                zemljisniTipovi = listOf(Zemljište.CRNICA, Zemljište.KRECNJACKO)
+            ),
+            Biljka(
+                naziv = "Orhideja  (Orchidaceae)",
+                porodica = "Orchidaceae (metvice)",
+                medicinskoUpozorenje = "Kadulja se obično koristi kao začin i nema posebnih upozorenja.",
+                medicinskeKoristi = listOf(MedicinskaKorist.REGULACIJAPROBAVE),
+                profilOkusa = ProfilOkusaBiljke.AROMATICNO,
+                jela = listOf("Tjestenina u umaku od maslaca i kadulje"),
+                klimatskiTipovi = listOf(KlimatskiTip.UMJERENA),
+                zemljisniTipovi = listOf(Zemljište.CRNICA, Zemljište.KRECNJACKO)
             )
         )
 
