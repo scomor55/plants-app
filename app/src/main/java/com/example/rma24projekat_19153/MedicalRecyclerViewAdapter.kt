@@ -24,9 +24,10 @@ class PlantsListAdapter(
         holder.plantImage.setImageResource(0)
         holder.plantUpozorenje.text = plants[position].medicinskoUpozorenje
       // Ovdje mozda prepravka
-        holder.plantKorist1.text = plants[position].medicinskeKoristi[0].toString()
-       /* holder.plantKorist2.text = plants[position].medicinskeKoristi[1].toString()
-        holder.plantKorist3.text = plants[position].medicinskeKoristi[2].toString()*/
+        val koristi = plants[position].medicinskeKoristi
+        holder.plantKorist1.text = koristi.getOrNull(0)?.toString() ?: ""
+        holder.plantKorist2.text = koristi.getOrNull(1)?.toString() ?: ""
+        holder.plantKorist3.text = koristi.getOrNull(2)?.toString() ?: ""
     }
 
     fun updatePlants(plants: List<Biljka>){

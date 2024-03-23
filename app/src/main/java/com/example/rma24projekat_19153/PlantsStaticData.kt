@@ -102,16 +102,6 @@ fun getPlants(): List<Biljka> {
             zemljisniTipovi = listOf(Zemljište.CRNICA, Zemljište.KRECNJACKO)
         ),
         Biljka(
-            naziv = "Kadulja (Salvia officinalis)",
-            porodica = "Lamiaceae (kaćunovke)",
-            medicinskoUpozorenje = "Kadulja se obično koristi kao začin i nema posebnih upozorenja.",
-            medicinskeKoristi = listOf(MedicinskaKorist.REGULACIJAPROBAVE),
-            profilOkusa = ProfilOkusaBiljke.AROMATICNO,
-            jela = listOf("Tjestenina u umaku od maslaca i kadulje"),
-            klimatskiTipovi = listOf(KlimatskiTip.UMJERENA),
-            zemljisniTipovi = listOf(Zemljište.CRNICA, Zemljište.KRECNJACKO)
-        ),
-        Biljka(
             naziv = "Orhideja  (Orchidaceae)",
             porodica = "Orchidaceae (metvice)",
             medicinskoUpozorenje = "Kadulja se obično koristi kao začin i nema posebnih upozorenja.",
