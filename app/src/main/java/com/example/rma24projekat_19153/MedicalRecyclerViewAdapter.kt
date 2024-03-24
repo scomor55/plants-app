@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 class MedicalPlantsListAdapter(
     private var plants: List <Biljka>
 ): RecyclerView.Adapter<MedicalPlantsListAdapter.MedicalPlantsViewHolder>(){
+    private lateinit var itemClickListener: MedicalPlantsListAdapter.PlantItemClickListener
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -20,14 +22,7 @@ class MedicalPlantsListAdapter(
 
     override fun getItemCount(): Int = plants.size
     override fun onBindViewHolder(holder: MedicalPlantsViewHolder, position: Int) {
-        holder.plantNaziv.text = plants[position].naziv
-        holder.plantImage.setImageResource(0)
-        holder.plantUpozorenje.text = plants[position].medicinskoUpozorenje
-      // Ovdje mozda prepravka
-        val koristi = plants[position].medicinskeKoristi
-        holder.plantKorist1.text = koristi.getOrNull(0)?.toString() ?: ""
-        holder.plantKorist2.text = koristi.getOrNull(1)?.toString() ?: ""
-        holder.plantKorist3.text = koristi.getOrNull(2)?.toString() ?: ""
+        holder.bind(plants[position])
     }
 
     fun updatePlants(plants: List<Biljka>){
@@ -42,5 +37,28 @@ class MedicalPlantsListAdapter(
         val plantKorist1: TextView = itemView.findViewById(R.id.korist1Item)
         val plantKorist2: TextView = itemView.findViewById(R.id.korist2Item)
         val plantKorist3: TextView = itemView.findViewById(R.id.korist3Item)
+
+        fun bind(plant: Biljka){
+            plantNaziv.text = plant.naziv
+            plantImage.setImageResource(R.drawable.biljka)
+            plantUpozorenje.text = plant.medicinskoUpozorenje
+
+            val koristi = plant.medicinskeKoristi
+            plantKorist1.text = koristi.getOrNull(0)?.toString() ?: ""
+            plantKorist2.text = koristi.getOrNull(1)?.toString() ?: ""
+            plantKorist3.text = koristi.getOrNull(2)?.toString() ?: ""
+
+            itemView.setOnClickListener {
+                itemClickListener.onPlantItemClick(plant)
+            }
+        }
+    }
+
+    interface PlantItemClickListener {
+        fun onPlantItemClick(plant: Biljka)
+    }
+
+    fun setOnPlantItemClickListener(listener: PlantItemClickListener) {
+        itemClickListener = listener
     }
 }

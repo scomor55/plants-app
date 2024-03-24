@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 class BotanicPlantsListAdapter(
     private var plants: List <Biljka>
 ): RecyclerView.Adapter<BotanicPlantsListAdapter.BotanicPlantsViewHolder>(){
+    private lateinit var itemClickListener: BotanicPlantsListAdapter.PlantItemClickListener
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -20,13 +22,7 @@ class BotanicPlantsListAdapter(
 
     override fun getItemCount(): Int = plants.size
     override fun onBindViewHolder(holder: BotanicPlantsViewHolder, position: Int) {
-        holder.plantNaziv.text = plants[position].naziv
-        holder.plantImage.setImageResource(0)
-        holder.plantPorodica.text = plants[position].porodica
-        // Ovdje mozda prepravka
-        holder.plantKlimatskiTip.text = plants[position].klimatskiTipovi.getOrNull(0).toString()
-        holder.plantZemljisniTip.text = plants[position].zemljisniTipovi.getOrNull(0).toString()
-
+        holder.bind(plants[position])
     }
 
     fun updatePlants(plants: List<Biljka>){
@@ -40,5 +36,26 @@ class BotanicPlantsListAdapter(
         val plantPorodica: TextView = itemView.findViewById(R.id.porodicaItem)
         val plantKlimatskiTip: TextView = itemView.findViewById(R.id.klimatskiTipItem)
         val plantZemljisniTip: TextView = itemView.findViewById(R.id.zemljisniTipItem)
+
+        fun bind(plant: Biljka){
+            plantNaziv.text = plant.naziv
+            plantImage.setImageResource(R.drawable.biljka)
+            plantPorodica.text = plant.porodica
+            plantKlimatskiTip.text = plant.klimatskiTipovi.getOrNull(0).toString()
+            plantZemljisniTip.text = plant.zemljisniTipovi.getOrNull(0).toString()
+
+
+            itemView.setOnClickListener {
+                itemClickListener.onPlantItemClick(plant)
+            }
+        }
+    }
+
+    interface PlantItemClickListener {
+        fun onPlantItemClick(plant: Biljka)
+    }
+
+    fun setOnPlantItemClickListener(listener: PlantItemClickListener) {
+        itemClickListener = listener
     }
 }

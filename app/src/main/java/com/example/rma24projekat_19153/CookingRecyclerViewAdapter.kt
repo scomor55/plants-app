@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 class CookingPlantsListAdapter(
     private var plants: List <Biljka>
 ): RecyclerView.Adapter<CookingPlantsListAdapter.CookingPlantsViewHolder>(){
+    private lateinit var itemClickListener: CookingPlantsListAdapter.PlantItemClickListener
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -20,14 +22,7 @@ class CookingPlantsListAdapter(
 
     override fun getItemCount(): Int = plants.size
     override fun onBindViewHolder(holder: CookingPlantsViewHolder, position: Int) {
-        holder.plantNaziv.text = plants[position].naziv
-        holder.plantImage.setImageResource(0)
-        holder.plantOkus.text = plants[position].profilOkusa.opis
-        // Ovdje mozda prepravka
-        val jela = plants[position].jela
-        holder.plantJelo1.text = jela.getOrNull(0)?.toString() ?: ""
-        holder.plantJelo2.text = jela.getOrNull(1)?.toString() ?: ""
-        holder.plantJelo3.text = jela.getOrNull(2)?.toString() ?: ""
+        holder.bind(plants[position])
     }
 
     fun updatePlants(plants: List<Biljka>){
@@ -42,5 +37,28 @@ class CookingPlantsListAdapter(
         val plantJelo1: TextView = itemView.findViewById(R.id.jelo1Item)
         val plantJelo2: TextView = itemView.findViewById(R.id.jelo2Item)
         val plantJelo3: TextView = itemView.findViewById(R.id.jelo3Item)
+
+        fun bind(plant: Biljka){
+            plantNaziv.text = plant.naziv
+            plantImage.setImageResource(R.drawable.biljka)
+            plantOkus.text = plant.profilOkusa.opis
+
+            val jela = plant.jela
+            plantJelo1.text = jela.getOrNull(0)?.toString() ?: ""
+            plantJelo2.text = jela.getOrNull(1)?.toString() ?: ""
+            plantJelo3.text = jela.getOrNull(2)?.toString() ?: ""
+
+            itemView.setOnClickListener {
+                itemClickListener.onPlantItemClick(plant)
+            }
+        }
+    }
+
+    interface PlantItemClickListener {
+        fun onPlantItemClick(plant: Biljka)
+    }
+
+    fun setOnPlantItemClickListener(listener: PlantItemClickListener) {
+        itemClickListener = listener
     }
 }
