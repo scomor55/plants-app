@@ -48,16 +48,44 @@ class MainActivity : AppCompatActivity() {
                         medicalPlantsAdapter = MedicalPlantsListAdapter(listOf())
                         plants.adapter = medicalPlantsAdapter
                         medicalPlantsAdapter.updatePlants(listOfPlants)
+                        medicalPlantsAdapter.setOnPlantItemClickListener(object: MedicalPlantsListAdapter.PlantItemClickListener {
+                            override fun onPlantItemClick(plant: Biljka) {
+                                val similarPlants = listOfPlants.filter {
+                                    it.medicinskeKoristi.intersect(plant.medicinskeKoristi)
+                                        .isNotEmpty()
+                                }
+                                medicalPlantsAdapter.updatePlants(similarPlants)
+                            }
+                        }
+                        )
+
                     }
                     "Kuharski" -> {
                         cookingPlantsAdapter = CookingPlantsListAdapter(listOf())
                         plants.adapter = cookingPlantsAdapter
                         cookingPlantsAdapter.updatePlants(listOfPlants)
+                        cookingPlantsAdapter.setOnPlantItemClickListener(object : CookingPlantsListAdapter.PlantItemClickListener{
+                            override fun onPlantItemClick(plant: Biljka) {
+                                val similarPlants = listOfPlants.filter {
+                                    it.jela.intersect(plant.jela)
+                                        .isNotEmpty()
+                                }
+                                cookingPlantsAdapter.updatePlants(similarPlants)
+                            }
+                        })
                     }
                     "Botanički" ->{
                         botanicPlantsAdapter = BotanicPlantsListAdapter(listOf())
                         plants.adapter = botanicPlantsAdapter
                         botanicPlantsAdapter.updatePlants(listOfPlants)
+                        botanicPlantsAdapter.setOnPlantItemClickListener(object : BotanicPlantsListAdapter.PlantItemClickListener{
+                            override fun onPlantItemClick(plant: Biljka) {
+                                val similarPlants = listOfPlants.filter {
+                                    it.porodica == plant.porodica
+                                }
+                                botanicPlantsAdapter.updatePlants(similarPlants)
+                            }
+                        })
                     }
                 }
             }
