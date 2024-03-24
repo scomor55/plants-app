@@ -7,19 +7,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class PlantsListAdapter(
+class MedicalPlantsListAdapter(
     private var plants: List <Biljka>
-): RecyclerView.Adapter<PlantsListAdapter.PlantsViewHolder>(){
+): RecyclerView.Adapter<MedicalPlantsListAdapter.MedicalPlantsViewHolder>(){
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): PlantsViewHolder {
+    ): MedicalPlantsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.medicinski_layout,parent,false)
-        return PlantsViewHolder(view)
+        return MedicalPlantsViewHolder(view)
     }
 
     override fun getItemCount(): Int = plants.size
-    override fun onBindViewHolder(holder: PlantsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MedicalPlantsViewHolder, position: Int) {
         holder.plantNaziv.text = plants[position].naziv
         holder.plantImage.setImageResource(0)
         holder.plantUpozorenje.text = plants[position].medicinskoUpozorenje
@@ -35,7 +35,7 @@ class PlantsListAdapter(
         notifyDataSetChanged()
     }
 
-    inner class PlantsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+    inner class MedicalPlantsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         val plantImage: ImageView = itemView.findViewById(R.id.slikaItem)
         val plantNaziv: TextView = itemView.findViewById(R.id.nazivItem)
         val plantUpozorenje: TextView = itemView.findViewById(R.id.upozorenjeItem)
