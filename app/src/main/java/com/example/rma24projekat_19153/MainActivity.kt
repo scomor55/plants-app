@@ -24,16 +24,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var medicalPlantsAdapter: MedicalPlantsListAdapter
     private lateinit var cookingPlantsAdapter: CookingPlantsListAdapter
     private lateinit var botanicPlantsAdapter: BotanicPlantsListAdapter
+    private lateinit var similarPlants: List <Biljka>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        /* ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-             insets
-         }*/
+
 
         plants = findViewById(R.id.biljkeRV)
         plants.layoutManager = LinearLayoutManager(
@@ -42,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             false
         )
         plants.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
-
+        similarPlants = listOf()
         //Spinner controller
         val spinner = findViewById<Spinner>(R.id.modSpinner)
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -56,10 +53,15 @@ class MainActivity : AppCompatActivity() {
                     "Medicinski" -> {
                         medicalPlantsAdapter = MedicalPlantsListAdapter(listOf())
                         plants.adapter = medicalPlantsAdapter
-                        medicalPlantsAdapter.updatePlants(listOfPlants)
+                        if(similarPlants.isNotEmpty()){
+                            medicalPlantsAdapter.updatePlants(similarPlants)
+                        }else{
+                            medicalPlantsAdapter.updatePlants(listOfPlants)
+
+                        }
                         medicalPlantsAdapter.setOnPlantItemClickListener(object: MedicalPlantsListAdapter.PlantItemClickListener {
                             override fun onPlantItemClick(plant: Biljka) {
-                                val similarPlants = listOfPlants.filter {
+                                 similarPlants = listOfPlants.filter {
                                     it.medicinskeKoristi.intersect(plant.medicinskeKoristi)
                                         .isNotEmpty()
                                 }
@@ -72,10 +74,14 @@ class MainActivity : AppCompatActivity() {
                     "Kuharski" -> {
                         cookingPlantsAdapter = CookingPlantsListAdapter(listOf())
                         plants.adapter = cookingPlantsAdapter
-                        cookingPlantsAdapter.updatePlants(listOfPlants)
+                        if(similarPlants.isNotEmpty()){
+                            cookingPlantsAdapter.updatePlants(similarPlants)
+                        }else{
+                            cookingPlantsAdapter.updatePlants(listOfPlants)
+                        }
                         cookingPlantsAdapter.setOnPlantItemClickListener(object : CookingPlantsListAdapter.PlantItemClickListener{
                             override fun onPlantItemClick(plant: Biljka) {
-                                val similarPlants = listOfPlants.filter {
+                                 similarPlants = listOfPlants.filter {
                                     it.jela.intersect(plant.jela)
                                         .isNotEmpty()
                                 }
@@ -86,10 +92,14 @@ class MainActivity : AppCompatActivity() {
                     "Botanički" ->{
                         botanicPlantsAdapter = BotanicPlantsListAdapter(listOf())
                         plants.adapter = botanicPlantsAdapter
-                        botanicPlantsAdapter.updatePlants(listOfPlants)
+                        if(similarPlants.isNotEmpty()){
+                            botanicPlantsAdapter.updatePlants(similarPlants)
+                        }else{
+                            botanicPlantsAdapter.updatePlants(listOfPlants)
+                        }
                         botanicPlantsAdapter.setOnPlantItemClickListener(object : BotanicPlantsListAdapter.PlantItemClickListener{
                             override fun onPlantItemClick(plant: Biljka) {
-                                val similarPlants = listOfPlants.filter {
+                                similarPlants = listOfPlants.filter {
                                     it.porodica == plant.porodica
                                 }
                                 botanicPlantsAdapter.updatePlants(similarPlants)
@@ -106,6 +116,7 @@ class MainActivity : AppCompatActivity() {
         resetButton = findViewById<Button>(R.id.resetBtn)
         resetButton.setOnClickListener {
             // Reset plants adapter to medicalPlantsAdapter
+            similarPlants = listOf()
             plants.adapter = medicalPlantsAdapter
             medicalPlantsAdapter.updatePlants(listOfPlants)
         }
