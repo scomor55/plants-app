@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-/*import android.widget.Spinner*/
 
 class MainActivity : AppCompatActivity() {
     private lateinit var plants: RecyclerView
@@ -119,21 +118,11 @@ class MainActivity : AppCompatActivity() {
             similarPlants = listOf()
             plants.adapter = medicalPlantsAdapter
             medicalPlantsAdapter.updatePlants(listOfPlants)
+            spinner.setSelection(0)
         }
-
-        /*plants = findViewById(R.id.biljkeRV)
-        plants.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
-        plants.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
-        */medicalPlantsAdapter = MedicalPlantsListAdapter(listOf())
+        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf())
         plants.adapter = medicalPlantsAdapter
         medicalPlantsAdapter.updatePlants(listOfPlants)
-
-        /**/
-        //End of spinner controller
 
     }
 }
