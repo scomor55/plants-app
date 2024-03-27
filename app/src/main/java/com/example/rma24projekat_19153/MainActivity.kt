@@ -80,10 +80,10 @@ class MainActivity : AppCompatActivity() {
                         }
                         cookingPlantsAdapter.setOnPlantItemClickListener(object : CookingPlantsListAdapter.PlantItemClickListener{
                             override fun onPlantItemClick(plant: Biljka) {
-                                 similarPlants = listOfPlants.filter {
-                                    it.jela.intersect(plant.jela)
-                                        .isNotEmpty()
+                                var similarPlantsTaste = listOfPlants.filter { it.profilOkusa == plant.profilOkusa }
+                                var similarPlantsByDish = listOfPlants.filter {it.jela.intersect(plant.jela).isNotEmpty()
                                 }
+                                similarPlants = (similarPlantsByDish + similarPlantsTaste).distinct()
                                 cookingPlantsAdapter.updatePlants(similarPlants)
                             }
                         })
@@ -99,7 +99,9 @@ class MainActivity : AppCompatActivity() {
                         botanicPlantsAdapter.setOnPlantItemClickListener(object : BotanicPlantsListAdapter.PlantItemClickListener{
                             override fun onPlantItemClick(plant: Biljka) {
                                 similarPlants = listOfPlants.filter {
-                                    it.porodica == plant.porodica
+                                    it.porodica == plant.porodica &&
+                                    it.klimatskiTipovi.any{it in plant.klimatskiTipovi} &&
+                                    it.zemljisniTipovi.any{it in plant.zemljisniTipovi}
                                 }
                                 botanicPlantsAdapter.updatePlants(similarPlants)
                             }
