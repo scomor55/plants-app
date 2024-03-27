@@ -14,9 +14,7 @@
         android:layout_height="40dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="25dp"
-        android:layout_marginEnd="20dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/slikaItem"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,9 +36,7 @@
         android:layout_height="40dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="20dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/slikaItem"
         app:layout_constraintTop_toBottomOf="@+id/nazivItem" />
 
@@ -48,7 +44,7 @@
         android:id="@+id/jelo1Item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="18dp"
         android:text="TextView"
@@ -60,11 +56,9 @@
         android:id="@+id/jelo2Item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="25dp"
         android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/jelo3Item"
         app:layout_constraintStart_toEndOf="@+id/jelo1Item"
         app:layout_constraintTop_toBottomOf="@+id/profilOkusaItem" />
 
@@ -72,10 +66,10 @@
         android:id="@+id/jelo3Item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/jelo2Item"
         app:layout_constraintTop_toBottomOf="@+id/profilOkusaItem" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

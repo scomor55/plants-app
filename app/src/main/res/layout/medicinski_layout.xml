@@ -42,9 +42,9 @@
 
     <TextView
         android:id="@+id/korist1Item"
-        android:layout_width="70dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="18dp"
         android:text="TextView"
@@ -54,9 +54,9 @@
 
     <TextView
         android:id="@+id/korist2Item"
-        android:layout_width="70dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/korist1Item"
@@ -64,9 +64,9 @@
 
     <TextView
         android:id="@+id/korist3Item"
-        android:layout_width="70dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/korist2Item"
