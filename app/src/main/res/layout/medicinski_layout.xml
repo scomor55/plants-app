@@ -48,6 +48,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="50dp"
         android:text="TextView"
+        android:singleLine="true"
+        android:ellipsize="end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/slikaItem"
         app:layout_constraintTop_toBottomOf="@+id/upozorenjeItem" />
@@ -60,6 +62,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="50dp"
         android:text="TextView"
+        android:singleLine="true"
+        android:ellipsize="end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/korist1Item"
         app:layout_constraintTop_toBottomOf="@+id/upozorenjeItem" />
@@ -72,6 +76,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="49dp"
         android:text="TextView"
+        android:singleLine="true"
+        android:ellipsize="end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/korist2Item"
         app:layout_constraintTop_toBottomOf="@+id/upozorenjeItem" />
