@@ -41,8 +41,8 @@ class BotanicPlantsListAdapter(
             plantNaziv.text = plant.naziv
             plantImage.setImageResource(R.drawable.biljka)
             plantPorodica.text = plant.porodica
-            plantKlimatskiTip.text = plant.klimatskiTipovi.getOrNull(0).toString()
-            plantZemljisniTip.text = plant.zemljisniTipovi.getOrNull(0).toString()
+            plantKlimatskiTip.text = plant.klimatskiTipovi.getOrNull(0)?.opis ?: ""
+            plantZemljisniTip.text = plant.zemljisniTipovi.getOrNull(0)?.naziv ?: ""
 
 
             itemView.setOnClickListener {

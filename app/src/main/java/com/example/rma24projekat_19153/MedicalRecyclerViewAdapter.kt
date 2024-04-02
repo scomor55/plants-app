@@ -43,7 +43,7 @@ class MedicalPlantsListAdapter(
             plantImage.setImageResource(R.drawable.biljka)
             plantUpozorenje.text = plant.medicinskoUpozorenje
 
-            val koristi = plant.medicinskeKoristi
+            val koristi = plant.medicinskeKoristi.map { it.opis }
             plantKorist1.text = koristi.getOrNull(0)?.toString() ?: ""
             plantKorist2.text = koristi.getOrNull(1)?.toString() ?: ""
             plantKorist3.text = koristi.getOrNull(2)?.toString() ?: ""
