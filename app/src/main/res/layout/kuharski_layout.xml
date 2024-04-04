@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/nazivItem"
-        android:layout_width="235dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="25dp"
@@ -32,7 +32,7 @@
 
     <TextView
         android:id="@+id/profilOkusaItem"
-        android:layout_width="235dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
@@ -42,42 +42,42 @@
 
     <TextView
         android:id="@+id/jelo1Item"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="50dp"
-        android:text="TextView"
-        android:singleLine="true"
         android:ellipsize="end"
+        android:singleLine="true"
+        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/slikaItem"
         app:layout_constraintTop_toBottomOf="@+id/profilOkusaItem" />
 
     <TextView
         android:id="@+id/jelo2Item"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="33dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="50dp"
-        android:text="TextView"
-        android:singleLine="true"
         android:ellipsize="end"
+        android:singleLine="true"
+        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/jelo1Item"
         app:layout_constraintTop_toBottomOf="@+id/profilOkusaItem" />
 
     <TextView
         android:id="@+id/jelo3Item"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="33dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="50dp"
-        android:text="TextView"
-        android:singleLine="true"
         android:ellipsize="end"
+        android:singleLine="true"
+        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/jelo2Item"
         app:layout_constraintTop_toBottomOf="@+id/profilOkusaItem" />
