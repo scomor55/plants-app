@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         plants.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
         similarPlants = listOf()
         //Spinner controller
+
         val spinner = findViewById<Spinner>(R.id.modSpinner)
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -118,9 +119,24 @@ class MainActivity : AppCompatActivity() {
         resetButton.setOnClickListener {
             // Reset plants adapter to medicalPlantsAdapter
             similarPlants = listOf()
-            plants.adapter = medicalPlantsAdapter
-            medicalPlantsAdapter.updatePlants(listOfPlants)
-            spinner.setSelection(0)
+            val selectedItem = spinner.selectedItem.toString()
+            when(selectedItem){
+                "Medicinski" -> {
+                    plants.adapter = medicalPlantsAdapter
+                    medicalPlantsAdapter.updatePlants(listOfPlants)
+                }
+                "Kuharski" -> {
+                    plants.adapter = cookingPlantsAdapter
+                    cookingPlantsAdapter.updatePlants(listOfPlants)
+                }
+                "Botanički" -> {
+                    plants.adapter = botanicPlantsAdapter
+                    botanicPlantsAdapter.updatePlants(listOfPlants)
+                }
+            }
+           /* plants.adapter = medicalPlantsAdapter
+            medicalPlantsAdapter.updatePlants(listOfPlants)*/
+            spinner.setSelection(spinner.selectedItemPosition)
         }
         medicalPlantsAdapter = MedicalPlantsListAdapter(listOf())
         plants.adapter = medicalPlantsAdapter
