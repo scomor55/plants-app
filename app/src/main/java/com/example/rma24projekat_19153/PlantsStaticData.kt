@@ -104,10 +104,10 @@ fun getPlants(): List<Biljka> {
         Biljka(
             naziv = "Orhideja  (Orchidaceae)",
             porodica = "Orchidaceae (metvice)",
-            medicinskoUpozorenje = "Kadulja se obično koristi kao začin i nema posebnih upozorenja.",
+            medicinskoUpozorenje = "Orhideja može izazvati alergijske reakcije",
             medicinskeKoristi = listOf(MedicinskaKorist.REGULACIJAPROBAVE),
             profilOkusa = ProfilOkusaBiljke.AROMATICNO,
-            jela = listOf("Tjestenina u umaku od maslaca i kadulje"),
+            jela = listOf("Salata od orhideje"),
             klimatskiTipovi = listOf(KlimatskiTip.UMJERENA),
             zemljisniTipovi = listOf(Zemljište.CRNICA, Zemljište.KRECNJACKO)
         )
