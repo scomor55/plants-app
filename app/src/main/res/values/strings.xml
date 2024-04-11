@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">rma24projekat-19153</string>
+    <string name="naziv">Naziv</string>
+    <string name="porodica">Porodica</string>
+    <string name="medicinskoUpozorenje">Medicinsko upozorenje</string>
+    <string name="jelo">Jelo</string>
     <string-array name="plants">
         <item>Medicinski</item>
         <item>Kuharski</item>
