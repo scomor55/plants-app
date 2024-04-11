@@ -1,15 +1,24 @@
 package com.example.rma24projekat_19153
 
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ListView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class NovaBiljkaActivity : AppCompatActivity() {
 
-        override fun onCreate(savedInstanceState: Bundle?){
+    private val REQUEST_IMAGE_CAPTURE = 1
+    private lateinit var slikaIV: ImageView
+    override fun onCreate(savedInstanceState: Bundle?){
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_nova_biljka)
 
@@ -73,5 +82,32 @@ class NovaBiljkaActivity : AppCompatActivity() {
             }
             val jelaAdapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_single_choice)
             jelaListView.adapter = jelaAdapter
+
+
+        val uslikajBiljkuBtn = findViewById<Button>(R.id.uslikajBiljkuBtn)
+        slikaIV = findViewById(R.id.slikaIV)
+
+        uslikajBiljkuBtn.setOnClickListener {
+            dispatchTakePictureIntent()
         }
+        }
+
+
+    private fun dispatchTakePictureIntent() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(packageManager)?.also {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            slikaIV.setImageBitmap(imageBitmap)
+        }
+    }
+
 }
