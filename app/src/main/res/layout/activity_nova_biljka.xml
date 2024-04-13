@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,7 +10,7 @@
     <EditText
         android:id="@+id/nazivET"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
@@ -26,7 +22,7 @@
     <EditText
         android:id="@+id/porodicaET"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:layout_below="@id/nazivET"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
@@ -40,7 +36,7 @@
     <EditText
         android:id="@+id/medicinskoUpozorenjeET"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
@@ -52,7 +48,7 @@
     <EditText
         android:id="@+id/jeloET"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:layout_below="@id/nazivET"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
@@ -65,7 +61,7 @@
     <ListView
         android:id="@+id/medicinskaKoristLV"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
@@ -77,7 +73,7 @@
     <ListView
         android:id="@+id/klimatskiTipLV"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
@@ -103,7 +99,7 @@
     <ListView
         android:id="@+id/zemljisniTipLV"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:layout_below="@id/zemljisniTipLV"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
@@ -116,7 +112,7 @@
     <ListView
         android:id="@+id/profilOkusaLV"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:layout_below="@id/zemljisniTipLV"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
@@ -129,7 +125,7 @@
     <ListView
         android:id="@+id/jelaLV"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="150dp"
@@ -143,7 +139,7 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:text="Dodaj jelo"
         app:layout_constraintEnd_toEndOf="parent"
@@ -176,8 +172,8 @@
 
     <ImageView
         android:id="@+id/slikaIV"
-        android:layout_width="452dp"
-        android:layout_height="285dp"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
         android:layout_marginStart="35dp"
         android:layout_marginTop="35dp"
         android:layout_marginEnd="35dp"
@@ -188,4 +184,3 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>

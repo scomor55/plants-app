@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -90,8 +91,60 @@ class NovaBiljkaActivity : AppCompatActivity() {
         uslikajBiljkuBtn.setOnClickListener {
             dispatchTakePictureIntent()
         }
+
+        val dodajBiljkuBtn = findViewById<Button>(R.id.dodajBiljkuBtn)
+
+        dodajBiljkuBtn.setOnClickListener {
+            val nazivET = findViewById<EditText>(R.id.nazivET)
+            val porodicaET = findViewById<EditText>(R.id.porodicaET)
+            val medicinskoUpozorenjeET = findViewById<EditText>(R.id.medicinskoUpozorenjeET)
+            val jeloET = findViewById<EditText>(R.id.jeloET)
+
+            val naziv = nazivET.text.toString()
+            val porodica = porodicaET.text.toString()
+            val medicinskoUpozorenje = medicinskoUpozorenjeET.text.toString()
+            val novoJelo = jeloET.text.toString()
+
+            if (naziv.isNotEmpty()) {
+                val novaBiljka = Biljka(
+                    naziv = naziv,
+                    porodica = porodica,
+                    medicinskoUpozorenje = medicinskoUpozorenje,
+                    medicinskeKoristi = emptyList(),
+                    profilOkusa = ProfilOkusaBiljke.BEZUKUSNO,
+                    jela = listOf(novoJelo),
+                    klimatskiTipovi = emptyList(),
+                    zemljisniTipovi = emptyList()
+                )
+
+                // Add the new plant to the plants list
+                PlantsStaticData.dodajBiljku(novaBiljka)
+
+                // Notify adapters to update their data
+                adapterMedicinskaKorist.notifyDataSetChanged()
+                adapterKlimatskiTip.notifyDataSetChanged()
+                adapterZemljisniTip.notifyDataSetChanged()
+                adapterProfilOkusa.notifyDataSetChanged()
+                jelaAdapter.notifyDataSetChanged()
+
+                // Log the addition of the new plant
+                Log.d("PlantsStaticData", "Added plant: $novaBiljka")
+
+                // Show a toast message
+                Toast.makeText(this, "Biljka uspješno dodata", Toast.LENGTH_SHORT).show()
+
+                // Clear input fields
+                nazivET.setText("")
+                porodicaET.setText("")
+                medicinskoUpozorenjeET.setText("")
+                jeloET.setText("")
+            } else {
+                // Notify the user to fill in all fields
+                Toast.makeText(this, "Sva polja moraju biti popunjena", Toast.LENGTH_SHORT).show()
+            }
         }
 
+        }
 
     private fun dispatchTakePictureIntent() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
