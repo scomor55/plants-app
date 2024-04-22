@@ -143,16 +143,6 @@ class NovaBiljkaActivity : AppCompatActivity() {
                     selectedJela.add(selectedItem)
                 }
             }
-            val dummyNewPlant = Biljka(
-                naziv = "Nova biljka",
-                porodica = "Nova porodica",
-                medicinskoUpozorenje = "Upozorenje za novu biljku",
-                medicinskeKoristi = listOf(MedicinskaKorist.SMIRENJE),
-                profilOkusa = ProfilOkusaBiljke.AROMATICNO,
-                jela = listOf("Novo jelo"),
-                klimatskiTipovi = listOf(KlimatskiTip.UMJERENA),
-                zemljisniTipovi = listOf(Zemljište.CRNICA, Zemljište.KRECNJACKO)
-            )
 
             if(nazivBiljke.isNotEmpty() && selectedMedicinskaKorist.isNotEmpty() &&
                 selectedKlimatskiTip.isNotEmpty() && selectedZemljisniTip.isNotEmpty() &&
@@ -161,7 +151,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
                 val allPlants = intent.getSerializableExtra("allPlants") as? List<Biljka>
                 val novaBiljka = Biljka(nazivBiljke,porodica,medicinskoUpozorenje,selectedMedicinskaKorist,selectedProfilOkusa.first(),selectedJela,selectedKlimatskiTip,selectedZemljisniTip)
                 val newPlantsList = allPlants?.toMutableList()
-                newPlantsList?.add(dummyNewPlant)
+                newPlantsList?.add(novaBiljka)
                val returnIntent = Intent(this, MainActivity::class.java)
                 returnIntent.putExtra("novaLista",newPlantsList as Serializable)
                startActivity(returnIntent)
