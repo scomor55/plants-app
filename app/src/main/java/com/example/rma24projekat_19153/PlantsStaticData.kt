@@ -1,9 +1,7 @@
 package com.example.rma24projekat_19153
 
-import android.util.Log
-
-object PlantsStaticData {
-    private val plants: MutableList<Biljka> = mutableListOf(
+fun getPlants(): List<Biljka> {
+    return listOf(
         Biljka(
             naziv = "Bosiljak (Ocimum basilicum)",
             porodica = "Lamiaceae (usnate)",
@@ -114,14 +112,4 @@ object PlantsStaticData {
             zemljisniTipovi = listOf(Zemljište.CRNICA, Zemljište.KRECNJACKO)
         )
     )
-
-
-    fun dodajBiljku(biljka: Biljka) {
-        plants.add(biljka)
-        Log.d("PlantsStaticData", "Added plant: $biljka")
-    }
-    fun getPlants(): List<Biljka> {
-        return plants.toList()
-    }
 }
-

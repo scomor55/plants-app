@@ -1,5 +1,6 @@
 package com.example.rma24projekat_19153
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,13 +15,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rma24projekat_19153.PlantsStaticData.getPlants
-
+import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
     private lateinit var plants: RecyclerView
     private lateinit var currentPlantsAdapter: MedicalPlantsListAdapter
-    private var listOfPlants = getPlants()
+    val listOfPlants = getPlants().toMutableList()
     private lateinit var resetButton: Button
     private lateinit var medicalPlantsAdapter: MedicalPlantsListAdapter
     private lateinit var cookingPlantsAdapter: CookingPlantsListAdapter
@@ -32,6 +32,13 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
+        if(intent.hasExtra("novaLista")){
+            val newPlantsList = intent.getSerializableExtra("novaLista") as? List<Biljka>
+            if(newPlantsList != null){
+                listOfPlants.clear()
+                listOfPlants.addAll(newPlantsList)
+            }
+        }
 
         plants = findViewById(R.id.biljkeRV)
         plants.layoutManager = LinearLayoutManager(
@@ -63,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                         }
                         medicalPlantsAdapter.setOnPlantItemClickListener(object: MedicalPlantsListAdapter.PlantItemClickListener {
                             override fun onPlantItemClick(plant: Biljka) {
-                                 similarPlants = listOfPlants.filter {
+                                similarPlants = listOfPlants.filter {
                                     it.medicinskeKoristi.intersect(plant.medicinskeKoristi)
                                         .isNotEmpty()
                                 }
@@ -103,8 +110,8 @@ class MainActivity : AppCompatActivity() {
                             override fun onPlantItemClick(plant: Biljka) {
                                 similarPlants = listOfPlants.filter {
                                     it.porodica == plant.porodica &&
-                                    it.klimatskiTipovi.any{it in plant.klimatskiTipovi} &&
-                                    it.zemljisniTipovi.any{it in plant.zemljisniTipovi}
+                                            it.klimatskiTipovi.any{it in plant.klimatskiTipovi} &&
+                                            it.zemljisniTipovi.any{it in plant.zemljisniTipovi}
                                 }
                                 botanicPlantsAdapter.updatePlants(similarPlants)
                             }
@@ -136,18 +143,19 @@ class MainActivity : AppCompatActivity() {
                     botanicPlantsAdapter.updatePlants(listOfPlants)
                 }
             }
-           /* plants.adapter = medicalPlantsAdapter
-            medicalPlantsAdapter.updatePlants(listOfPlants)*/
+            /* plants.adapter = medicalPlantsAdapter
+             medicalPlantsAdapter.updatePlants(listOfPlants)*/
             spinner.setSelection(spinner.selectedItemPosition)
         }
         medicalPlantsAdapter = MedicalPlantsListAdapter(listOf())
         plants.adapter = medicalPlantsAdapter
-        medicalPlantsAdapter.updatePlants(listOfPlants)
+      //  medicalPlantsAdapter.updatePlants(listOfPlants)
 
 
         val novaBiljkaBtn = findViewById<Button>(R.id.novaBiljkaBtn)
         novaBiljkaBtn.setOnClickListener {
             val intent = Intent(this,NovaBiljkaActivity::class.java)
+            intent.putExtra("allPlants",listOfPlants as Serializable)
             startActivity(intent)
         }
 
