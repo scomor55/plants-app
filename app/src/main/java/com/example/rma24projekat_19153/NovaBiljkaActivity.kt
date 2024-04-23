@@ -39,50 +39,53 @@ class NovaBiljkaActivity : AppCompatActivity() {
 
         val listViewProfilOkusa = findViewById<ListView>(R.id.profilOkusaLV)
         val enumValuesProfilOkusa = ProfilOkusaBiljke.values()
-        val adapterProfilOkusa = ProfilOkusaAdapter(this,android.R.layout.simple_list_item_multiple_choice,enumValuesProfilOkusa)
+        val adapterProfilOkusa = ProfilOkusaAdapter(this,android.R.layout.simple_list_item_single_choice,enumValuesProfilOkusa)
         listViewProfilOkusa.adapter = adapterProfilOkusa
+        listViewProfilOkusa.choiceMode = ListView.CHOICE_MODE_SINGLE
 
         val dodajJeloBtn = findViewById<Button>(R.id.dodajJeloBtn)
         val jelaListView = findViewById<ListView>(R.id.jelaLV)
         val jeloET = findViewById<EditText>(R.id.jeloET)
+        val jelaAdapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice)
+        jelaListView.adapter = jelaAdapter
+        jelaListView.choiceMode = ListView.CHOICE_MODE_MULTIPLE
+
+        var selectedPosition = ListView.INVALID_POSITION
         dodajJeloBtn.setOnClickListener {
             val novoJelo = jeloET.text.toString().trim()
-            if (novoJelo.isNotEmpty()) {
-                val selectedItemPosition = jelaListView.checkedItemPosition
-                if (selectedItemPosition != ListView.INVALID_POSITION) {
-                    val adapter = jelaListView.adapter as ArrayAdapter<String>
-                    adapter.getItem(selectedItemPosition)?.let {
-                        adapter.remove(it)
-                        adapter.insert(novoJelo, selectedItemPosition)
+
+            if (novoJelo.isNotEmpty() && dodajJeloBtn.text == "Dodaj jelo") {
+                jelaAdapter.add(novoJelo)
+                jeloET.setText("")
+            }
+            if (dodajJeloBtn.text == "Izmijeni jelo"){
+                if (novoJelo.isNotEmpty()) {
+                    if (selectedPosition != ListView.INVALID_POSITION) {
+                        jelaAdapter.remove(jelaAdapter.getItem(selectedPosition))
+                        jelaAdapter.insert(novoJelo, selectedPosition)
                         jeloET.setText("")
                         dodajJeloBtn.text = "Dodaj jelo"
+                        jelaListView.clearChoices()
+                        selectedPosition = ListView.INVALID_POSITION
                     }
-                } else {
-                    val adapter = jelaListView.adapter as ArrayAdapter<String>
-                    adapter.add(novoJelo)
-                    jeloET.setText("")
-                    dodajJeloBtn.text = "Dodaj jelo"
+                }else {
+                    jelaAdapter.remove(jelaAdapter.getItem(selectedPosition))
+                    jelaListView.clearChoices()
+                    selectedPosition = ListView.INVALID_POSITION
                 }
-                jelaListView.clearChoices()
-            } else {
-                val selectedItemPosition = jelaListView.checkedItemPosition
-                if (selectedItemPosition != ListView.INVALID_POSITION) {
-                    val adapter = jelaListView.adapter as ArrayAdapter<String>
-                    adapter.remove(adapter.getItem(selectedItemPosition))
-                    jeloET.setText("")
-                    dodajJeloBtn.text = "Dodaj jelo"
-                }
-            }
+             }
         }
 
         jelaListView.setOnItemClickListener { parent, view, position, id ->
+            selectedPosition = position
             val selectedItem = parent.getItemAtPosition(position).toString()
             jeloET.setText(selectedItem)
             dodajJeloBtn.text = "Izmijeni jelo"
-        }
-        val jelaAdapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_single_choice)
-        jelaListView.adapter = jelaAdapter
 
+        }
+       /* val jelaAdapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice)
+        jelaListView.adapter = jelaAdapter
+     Ovo pogledaj   jelaListView.choiceMode = ListView.CHOICE_MODE_MULTIPLE*/
 
         val uslikajBiljkuBtn = findViewById<Button>(R.id.uslikajBiljkuBtn)
         slikaIV = findViewById(R.id.slikaIV)
@@ -130,6 +133,8 @@ class NovaBiljkaActivity : AppCompatActivity() {
 
             val selectedProfilOkusa = mutableListOf<ProfilOkusaBiljke>()
             val profilOkusaCheckedPositions = listViewProfilOkusa.checkedItemPositions
+            jelaListView.choiceMode = ListView.CHOICE_MODE_MULTIPLE
+
             for(i in 0 until profilOkusaCheckedPositions.size()){
                 if(profilOkusaCheckedPositions.valueAt(i)){
                     val position = profilOkusaCheckedPositions.keyAt(i)
@@ -144,9 +149,15 @@ class NovaBiljkaActivity : AppCompatActivity() {
                 }
             }
 
-            if(nazivBiljke.isNotEmpty() && selectedMedicinskaKorist.isNotEmpty() &&
-                selectedKlimatskiTip.isNotEmpty() && selectedZemljisniTip.isNotEmpty() &&
-                selectedProfilOkusa.isNotEmpty() && selectedJela.isNotEmpty()){
+            if(validation(findViewById<EditText>(R.id.nazivET),
+                    findViewById<EditText>(R.id.porodicaET),
+                    findViewById<EditText>(R.id.medicinskoUpozorenjeET),
+                    findViewById<EditText>(R.id.jeloET),
+                    listViewMedicinskaKorist,
+                    listViewKlimatskiTip,
+                    listViewZemljisniTip,
+                    listViewProfilOkusa,
+                    jelaAdapter)){
 
                 val allPlants = intent.getSerializableExtra("allPlants") as? List<Biljka>
                 val novaBiljka = Biljka(nazivBiljke,porodica,medicinskoUpozorenje,selectedMedicinskaKorist,selectedProfilOkusa.first(),selectedJela,selectedKlimatskiTip,selectedZemljisniTip)
@@ -163,6 +174,76 @@ class NovaBiljkaActivity : AppCompatActivity() {
         }
     }
 
+    private fun validation(
+        nazivBiljke: EditText,
+        porodica: EditText,
+        medicinskoUpozorenje: EditText,
+        jelo: EditText,
+        listViewMedicinskaKorist: ListView,
+        listViewKlimatskiTip: ListView,
+        listViewZemljisniTip: ListView,
+        listViewProfilOkusa: ListView,
+        jelaAdapter: ArrayAdapter<String>
+        ):Boolean {
+        var isValid = true
+
+        if (nazivBiljke.text.length < 3 || nazivBiljke.text.length > 20) {
+            nazivBiljke.error = "Naziv biljke mora imati između 3 i 20 znakova"
+            isValid = false
+        }
+        if (porodica.text.length < 3 || porodica.text.length > 20) {
+            porodica.error = "Porodica mora imati između 3 i 20 znakova"
+            isValid = false
+        }
+
+        if (jelo.text.length < 3 || jelo.text.length > 20) {
+            jelo.error = "Jelo mora imati između 3 i 20 znakova"
+            isValid = false
+        }
+
+        if (medicinskoUpozorenje.text.length < 3 || medicinskoUpozorenje.text.length > 20) {
+            medicinskoUpozorenje.error = "Medicinsko upozorenje mora imati između 3 i 20 znakova"
+            isValid = false
+        }
+
+        if (listViewMedicinskaKorist.checkedItemCount == 0) {
+            Toast.makeText(this, "Odaberite barem jednu medicinsku korist", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (listViewKlimatskiTip.checkedItemCount == 0) {
+            Toast.makeText(this, "Odaberite barem jedan klimatski tip", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (listViewZemljisniTip.checkedItemCount == 0) {
+            Toast.makeText(this, "Odaberite barem jedan zemljisni tip", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (listViewProfilOkusa.checkedItemPosition == ListView.INVALID_POSITION) {
+            Toast.makeText(this, "Odaberite profil okusa", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (jelaAdapter.count == 0) {
+            Toast.makeText(this, "Dodajte barem jedno jelo", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        val jelaSet = HashSet<String>()
+        for (i in 0 until jelaAdapter.count) {
+            val jelo = jelaAdapter.getItem(i)?.toLowerCase()
+            if (!jelaSet.add(jelo ?: "")) {
+                Toast.makeText(this, "Dva jela ne mogu biti ista", Toast.LENGTH_SHORT).show()
+                isValid = false
+                break
+            }
+        }
+
+
+        return isValid
+    }
 
     private fun dispatchTakePictureIntent() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
