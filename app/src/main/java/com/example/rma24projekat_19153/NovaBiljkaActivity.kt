@@ -46,9 +46,9 @@ class NovaBiljkaActivity : AppCompatActivity() {
         val dodajJeloBtn = findViewById<Button>(R.id.dodajJeloBtn)
         val jelaListView = findViewById<ListView>(R.id.jelaLV)
         val jeloET = findViewById<EditText>(R.id.jeloET)
-        val jelaAdapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice)
+        val jelaAdapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1)
         jelaListView.adapter = jelaAdapter
-        jelaListView.choiceMode = ListView.CHOICE_MODE_MULTIPLE
+        //jelaListView.choiceMode = ListView.CHOICE_MODE_MULTIPLE
 
         var selectedPosition = ListView.INVALID_POSITION
         dodajJeloBtn.setOnClickListener {
@@ -70,6 +70,8 @@ class NovaBiljkaActivity : AppCompatActivity() {
                     }
                 }else {
                     jelaAdapter.remove(jelaAdapter.getItem(selectedPosition))
+                    jelaListView.clearChoices()
+                    dodajJeloBtn.text = "Dodaj jelo"
                     jelaListView.clearChoices()
                     selectedPosition = ListView.INVALID_POSITION
                 }
