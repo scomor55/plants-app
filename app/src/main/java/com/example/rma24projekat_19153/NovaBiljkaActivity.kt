@@ -55,18 +55,25 @@ class NovaBiljkaActivity : AppCompatActivity() {
             val novoJelo = jeloET.text.toString().trim()
 
             if (novoJelo.isNotEmpty() && dodajJeloBtn.text == "Dodaj jelo") {
-                jelaAdapter.add(novoJelo)
-                jeloET.setText("")
+                 if(sameMeals(novoJelo,jelaAdapter)) {
+                     jelaAdapter.add(novoJelo)
+                 }
+               // jeloET.setText("")
             }
             if (dodajJeloBtn.text == "Izmijeni jelo"){
                 if (novoJelo.isNotEmpty()) {
                     if (selectedPosition != ListView.INVALID_POSITION) {
-                        jelaAdapter.remove(jelaAdapter.getItem(selectedPosition))
-                        jelaAdapter.insert(novoJelo, selectedPosition)
-                        jeloET.setText("")
-                        dodajJeloBtn.text = "Dodaj jelo"
+                        if(sameMeals(novoJelo,jelaAdapter)) {
+                            jelaAdapter.remove(jelaAdapter.getItem(selectedPosition))
+                            jelaAdapter.insert(novoJelo, selectedPosition)
+                            dodajJeloBtn.text = "Dodaj jelo"
+                            jelaListView.clearChoices()
+                            selectedPosition = ListView.INVALID_POSITION
+                        }
+                            // jeloET.setText("")
+                       /* dodajJeloBtn.text = "Dodaj jelo"
                         jelaListView.clearChoices()
-                        selectedPosition = ListView.INVALID_POSITION
+                        selectedPosition = ListView.INVALID_POSITION*/
                     }
                 }else {
                     jelaAdapter.remove(jelaAdapter.getItem(selectedPosition))
@@ -189,16 +196,16 @@ class NovaBiljkaActivity : AppCompatActivity() {
         ):Boolean {
         var isValid = true
 
-        if (nazivBiljke.text.length < 3 || nazivBiljke.text.length > 20) {
+        if (nazivBiljke.text.length < 2 || nazivBiljke.text.length > 20) {
             nazivBiljke.error = "Naziv biljke mora imati između 3 i 20 znakova"
             isValid = false
         }
-        if (porodica.text.length < 3 || porodica.text.length > 20) {
+        if (porodica.text.length < 2 || porodica.text.length > 20) {
             porodica.error = "Porodica mora imati između 3 i 20 znakova"
             isValid = false
         }
 
-        if (jelo.text.length < 3 || jelo.text.length > 20) {
+        if (jelo.text.length < 2 || jelo.text.length > 20) {
             jelo.error = "Jelo mora imati između 3 i 20 znakova"
             isValid = false
         }
@@ -245,6 +252,15 @@ class NovaBiljkaActivity : AppCompatActivity() {
 
 
         return isValid
+    }
+
+    private fun sameMeals(jelo: String,jelaAdapter: ArrayAdapter<String>):Boolean {
+        for (i in 0 until jelaAdapter.count){
+                if (jelo.lowercase() == jelaAdapter.getItem(i)?.lowercase()){
+                    return false
+                }
+        }
+        return true
     }
 
     private fun dispatchTakePictureIntent() {
