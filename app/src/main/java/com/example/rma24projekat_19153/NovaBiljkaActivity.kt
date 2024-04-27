@@ -55,25 +55,21 @@ class NovaBiljkaActivity : AppCompatActivity() {
             val novoJelo = jeloET.text.toString().trim()
 
             if (novoJelo.isNotEmpty() && dodajJeloBtn.text == "Dodaj jelo") {
-                 if(sameMeals(novoJelo,jelaAdapter)) {
+                 if(sameMeals(findViewById<EditText>(R.id.jeloET),jelaAdapter)) {
                      jelaAdapter.add(novoJelo)
                  }
-               // jeloET.setText("")
             }
             if (dodajJeloBtn.text == "Izmijeni jelo"){
                 if (novoJelo.isNotEmpty()) {
                     if (selectedPosition != ListView.INVALID_POSITION) {
-                        if(sameMeals(novoJelo,jelaAdapter)) {
+                        if(sameMeals(findViewById<EditText>(R.id.jeloET),jelaAdapter)) {
                             jelaAdapter.remove(jelaAdapter.getItem(selectedPosition))
                             jelaAdapter.insert(novoJelo, selectedPosition)
                             dodajJeloBtn.text = "Dodaj jelo"
                             jelaListView.clearChoices()
                             selectedPosition = ListView.INVALID_POSITION
                         }
-                            // jeloET.setText("")
-                       /* dodajJeloBtn.text = "Dodaj jelo"
-                        jelaListView.clearChoices()
-                        selectedPosition = ListView.INVALID_POSITION*/
+
                     }
                 }else {
                     jelaAdapter.remove(jelaAdapter.getItem(selectedPosition))
@@ -240,7 +236,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
             isValid = false
         }
 
-        val jelaSet = HashSet<String>()
+      /*  val jelaSet = HashSet<String>()
         for (i in 0 until jelaAdapter.count) {
             val jelo = jelaAdapter.getItem(i)?.toLowerCase()
             if (!jelaSet.add(jelo ?: "")) {
@@ -248,17 +244,21 @@ class NovaBiljkaActivity : AppCompatActivity() {
                 isValid = false
                 break
             }
-        }
+        }*/
 
 
         return isValid
     }
 
-    private fun sameMeals(jelo: String,jelaAdapter: ArrayAdapter<String>):Boolean {
+    private fun sameMeals(jelo: EditText,jelaAdapter: ArrayAdapter<String>):Boolean {
         for (i in 0 until jelaAdapter.count){
-                if (jelo.lowercase() == jelaAdapter.getItem(i)?.lowercase()){
+                if (jelo.text.toString().lowercase() == jelaAdapter.getItem(i)?.lowercase()){
                     return false
                 }
+        }
+        if (jelo.text.length < 2 || jelo.text.length > 20) {
+            jelo.error = "Jelo mora imati između 3 i 20 znakova"
+            return false
         }
         return true
     }
