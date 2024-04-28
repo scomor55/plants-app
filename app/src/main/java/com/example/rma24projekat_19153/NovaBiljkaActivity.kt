@@ -89,6 +89,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
                             jelaAdapter.remove(jelaAdapter.getItem(selectedPosition))
                             jelaAdapter.insert(novoJelo, selectedPosition)
                             dodajJeloBtn.text = "Dodaj jelo"
+                            findViewById<EditText>(R.id.jeloET).setText("")
                             jelaListView.clearChoices()
                             selectedPosition = ListView.INVALID_POSITION
                         }
