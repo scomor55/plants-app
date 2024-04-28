@@ -204,11 +204,6 @@ class NovaBiljkaActivity : AppCompatActivity() {
             isValid = false
         }
 
-       /* if (jelo.text.length < 2 || jelo.text.length > 20) {
-            jelo.error = "Jelo mora imati između 3 i 20 znakova"
-            isValid = false
-        }*/
-
         if (medicinskoUpozorenje.text.length < 3 || medicinskoUpozorenje.text.length > 20) {
             medicinskoUpozorenje.error = "Medicinsko upozorenje mora imati između 2 i 20 znakova"
             isValid = false
@@ -239,16 +234,6 @@ class NovaBiljkaActivity : AppCompatActivity() {
             isValid = false
         }
 
-      /*  val jelaSet = HashSet<String>()
-        for (i in 0 until jelaAdapter.count) {
-            val jelo = jelaAdapter.getItem(i)?.toLowerCase()
-            if (!jelaSet.add(jelo ?: "")) {
-                Toast.makeText(this, "Dva jela ne mogu biti ista", Toast.LENGTH_SHORT).show()
-                isValid = false
-                break
-            }
-        }*/
-
 
         return isValid
     }
@@ -261,7 +246,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
                 }
         }
         if (jelo.text.length < 2 || jelo.text.length > 20) {
-            jelo.error = "Jelo mora imati između 3 i 20 znakova"
+            jelo.error = "Jelo mora imati između 2 i 20 znakova"
             return false
         }
         return true

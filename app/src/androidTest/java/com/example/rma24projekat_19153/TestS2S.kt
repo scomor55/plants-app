@@ -323,15 +323,8 @@ class TestS2S {
 
     @Test
     fun testListViewProfilOkusa() {
-        // Find the ListView and perform a click action on the first item
-        onData(anything())
-            .inAdapterView(withId(R.id.profilOkusaLV))
-            .atPosition(0)
-            .perform(click())
-
-        // Check if only one item is checked
-        onView(withId(R.id.profilOkusaLV))
-            .check(matches(hasExactlyOneCheckedItem()))
+        onData(anything()).inAdapterView(withId(R.id.profilOkusaLV)).atPosition(0).perform(click())
+        onView(withId(R.id.profilOkusaLV)).check(matches(hasExactlyOneCheckedItem()))
     }
 
     fun hasExactlyOneCheckedItem(): Matcher<View> {
@@ -406,6 +399,40 @@ class TestS2S {
         onView(withId(R.id.dodajJeloBtn)).perform(scrollTo(), click())
 
         onView(withId(R.id.jelaLV)).check(matches(hasChildCount(1)))
+    }
+
+    @Test
+    fun testListaJelaKratkoJelo() {
+        onView(withId(R.id.nazivET)).perform(replaceText("Naziv"))
+        onView(withId(R.id.porodicaET)).perform(replaceText("Porodica"))
+        onView(withId(R.id.medicinskoUpozorenjeET)).perform(replaceText("Upozorenje"))
+
+        onData(anything()).inAdapterView(withId(R.id.medicinskaKoristLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.klimatskiTipLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.zemljisniTipLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.profilOkusaLV)).atPosition(0).perform(click())
+
+        onView(withId(R.id.jeloET)).perform(replaceText("A"))
+        onView(withId(R.id.dodajJeloBtn)).perform(scrollTo(), click())
+
+        onView(withId(R.id.jeloET)).check(matches(hasErrorText("Jelo mora imati između 2 i 20 znakova")))
+    }
+
+    @Test
+    fun testListaJelaDugoJelo() {
+        onView(withId(R.id.nazivET)).perform(replaceText("Naziv"))
+        onView(withId(R.id.porodicaET)).perform(replaceText("Porodica"))
+        onView(withId(R.id.medicinskoUpozorenjeET)).perform(replaceText("Upozorenje"))
+
+        onData(anything()).inAdapterView(withId(R.id.medicinskaKoristLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.klimatskiTipLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.zemljisniTipLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.profilOkusaLV)).atPosition(0).perform(click())
+
+        onView(withId(R.id.jeloET)).perform(replaceText("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"))
+        onView(withId(R.id.dodajJeloBtn)).perform(scrollTo(), click())
+
+        onView(withId(R.id.jeloET)).check(matches(hasErrorText("Jelo mora imati između 2 i 20 znakova")))
     }
 
     @Test
