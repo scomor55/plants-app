@@ -26,16 +26,19 @@ class NovaBiljkaActivity : AppCompatActivity() {
         val enumValuesMedicinskaKorist = MedicinskaKorist.values()
         val adapterMedicinskaKorist = MedicinskaKoristAdapter(this,android.R.layout.simple_list_item_multiple_choice,enumValuesMedicinskaKorist)
         listViewMedicinskaKorist.adapter = adapterMedicinskaKorist
+        listViewMedicinskaKorist.choiceMode = ListView.CHOICE_MODE_MULTIPLE
 
         val listViewKlimatskiTip = findViewById<ListView>(R.id.klimatskiTipLV)
         val enumValuesKlimatskiTip = KlimatskiTip.values()
         val adapterKlimatskiTip = KlimatskiTipAdapter(this,android.R.layout.simple_list_item_multiple_choice,enumValuesKlimatskiTip)
         listViewKlimatskiTip.adapter = adapterKlimatskiTip
+        listViewKlimatskiTip.choiceMode = ListView.CHOICE_MODE_MULTIPLE
 
         val listViewZemljisniTip = findViewById<ListView>(R.id.zemljisniTipLV)
         val enumValuesZemljisniTip = Zemljište.values()
         val adapterZemljisniTip = ZemljisniTipAdapter(this,android.R.layout.simple_list_item_multiple_choice,enumValuesZemljisniTip)
         listViewZemljisniTip.adapter = adapterZemljisniTip
+        listViewZemljisniTip.choiceMode = ListView.CHOICE_MODE_MULTIPLE
 
         val listViewProfilOkusa = findViewById<ListView>(R.id.profilOkusaLV)
         val enumValuesProfilOkusa = ProfilOkusaBiljke.values()
@@ -193,21 +196,21 @@ class NovaBiljkaActivity : AppCompatActivity() {
         var isValid = true
 
         if (nazivBiljke.text.length < 2 || nazivBiljke.text.length > 20) {
-            nazivBiljke.error = "Naziv biljke mora imati između 3 i 20 znakova"
+            nazivBiljke.error = "Naziv biljke mora imati između 2 i 20 znakova"
             isValid = false
         }
         if (porodica.text.length < 2 || porodica.text.length > 20) {
-            porodica.error = "Porodica mora imati između 3 i 20 znakova"
+            porodica.error = "Porodica mora imati između 2 i 20 znakova"
             isValid = false
         }
 
-        if (jelo.text.length < 2 || jelo.text.length > 20) {
+       /* if (jelo.text.length < 2 || jelo.text.length > 20) {
             jelo.error = "Jelo mora imati između 3 i 20 znakova"
             isValid = false
-        }
+        }*/
 
         if (medicinskoUpozorenje.text.length < 3 || medicinskoUpozorenje.text.length > 20) {
-            medicinskoUpozorenje.error = "Medicinsko upozorenje mora imati između 3 i 20 znakova"
+            medicinskoUpozorenje.error = "Medicinsko upozorenje mora imati između 2 i 20 znakova"
             isValid = false
         }
 
@@ -253,6 +256,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
     private fun sameMeals(jelo: EditText,jelaAdapter: ArrayAdapter<String>):Boolean {
         for (i in 0 until jelaAdapter.count){
                 if (jelo.text.toString().lowercase() == jelaAdapter.getItem(i)?.lowercase()){
+                    jelo.error = "Jelo je vec dodano"
                     return false
                 }
         }
