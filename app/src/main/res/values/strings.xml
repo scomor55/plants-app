@@ -4,6 +4,11 @@
     <string name="porodica">Porodica</string>
     <string name="medicinskoUpozorenje">Medicinsko upozorenje</string>
     <string name="jelo">Jelo</string>
+    <string name="medicinskaKoristGreska">Odaberite barem jednu medicinsku korist</string>
+    <string name="klimatskiTipGreska">Odaberite barem jedan klimatski tip</string>
+    <string name="zemljisniTipGreska">Odaberite barem jedan zemljisni tip</string>
+    <string name="profilOkusaGreska">Odaberite profil okusa</string>
+    <string name="jeloGreska">Dodajte barem jedno jelo</string>
     <string-array name="plants">
         <item>Medicinski</item>
         <item>Kuharski</item>

@@ -5,11 +5,13 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.io.Serializable
@@ -18,9 +20,27 @@ class NovaBiljkaActivity : AppCompatActivity() {
 
     private val REQUEST_IMAGE_CAPTURE = 1
     private lateinit var slikaIV: ImageView
+    private lateinit var textViewMedicinskaKorist: TextView
+    private lateinit var textViewKlimatskiTip: TextView
+    private lateinit var textViewZemljisniTip: TextView
+    private lateinit var textViewProfilOkusa: TextView
+    private lateinit var textViewJelo: TextView
+
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nova_biljka)
+
+        textViewMedicinskaKorist = findViewById<TextView>(R.id.labelMedicinskaKorist)
+        textViewMedicinskaKorist.visibility = View.INVISIBLE
+        textViewKlimatskiTip = findViewById<TextView>(R.id.labelKlimatskiTip)
+        textViewKlimatskiTip.visibility = View.INVISIBLE
+        textViewZemljisniTip = findViewById<TextView>(R.id.labelZemljisniTip)
+        textViewZemljisniTip.visibility = View.INVISIBLE
+        textViewProfilOkusa = findViewById<TextView>(R.id.labelProfilOkusa)
+        textViewProfilOkusa.visibility = View.INVISIBLE
+        textViewJelo = findViewById<TextView>(R.id.labelJelo)
+        textViewJelo.visibility = View.INVISIBLE
+
 
         val listViewMedicinskaKorist = findViewById<ListView>(R.id.medicinskaKoristLV)
         val enumValuesMedicinskaKorist = MedicinskaKorist.values()
@@ -104,6 +124,27 @@ class NovaBiljkaActivity : AppCompatActivity() {
 
         val dodajBiljkuBtn = findViewById<Button>(R.id.dodajBiljkuBtn)
         dodajBiljkuBtn.setOnClickListener {
+
+            if (listViewMedicinskaKorist.checkedItemCount != 0){
+                textViewMedicinskaKorist.visibility = View.INVISIBLE
+            }
+
+            if (listViewKlimatskiTip.checkedItemCount != 0){
+                textViewKlimatskiTip.visibility = View.INVISIBLE
+            }
+
+            if (listViewZemljisniTip.checkedItemCount != 0){
+                textViewZemljisniTip.visibility = View.INVISIBLE
+            }
+
+            if (listViewProfilOkusa.checkedItemPosition != ListView.INVALID_POSITION){
+                textViewProfilOkusa.visibility = View.INVISIBLE
+            }
+
+            if (jelaAdapter.count != 0){
+                textViewJelo.visibility = View.INVISIBLE
+            }
+
             val nazivBiljke = findViewById<EditText>(R.id.nazivET).text.toString()
             val porodica = findViewById<EditText>(R.id.porodicaET).text.toString()
             val medicinskoUpozorenje = findViewById<EditText>(R.id.medicinskoUpozorenjeET).text.toString()
@@ -166,6 +207,11 @@ class NovaBiljkaActivity : AppCompatActivity() {
                     listViewZemljisniTip,
                     listViewProfilOkusa,
                     jelaAdapter)){
+                textViewMedicinskaKorist.visibility = View.INVISIBLE
+                textViewKlimatskiTip.visibility = View.INVISIBLE
+                textViewZemljisniTip.visibility = View.INVISIBLE
+                textViewProfilOkusa.visibility = View.INVISIBLE
+                textViewJelo.visibility = View.INVISIBLE
 
                 val allPlants = intent.getSerializableExtra("allPlants") as? List<Biljka>
                 val novaBiljka = Biljka(nazivBiljke,porodica,medicinskoUpozorenje,selectedMedicinskaKorist,selectedProfilOkusa.first(),selectedJela,selectedKlimatskiTip,selectedZemljisniTip)
@@ -210,27 +256,43 @@ class NovaBiljkaActivity : AppCompatActivity() {
         }
 
         if (listViewMedicinskaKorist.checkedItemCount == 0) {
-            Toast.makeText(this, "Odaberite barem jednu medicinsku korist", Toast.LENGTH_SHORT).show()
+            textViewMedicinskaKorist = findViewById<TextView>(R.id.labelMedicinskaKorist)
+            textViewMedicinskaKorist.visibility = View.VISIBLE
+
+        //    Toast.makeText(this, "Odaberite barem jednu medicinsku korist", Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
         if (listViewKlimatskiTip.checkedItemCount == 0) {
-            Toast.makeText(this, "Odaberite barem jedan klimatski tip", Toast.LENGTH_SHORT).show()
+
+            textViewKlimatskiTip = findViewById<TextView>(R.id.labelKlimatskiTip)
+            textViewKlimatskiTip.visibility = View.VISIBLE
+
+        //    Toast.makeText(this, "Odaberite barem jedan klimatski tip", Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
         if (listViewZemljisniTip.checkedItemCount == 0) {
-            Toast.makeText(this, "Odaberite barem jedan zemljisni tip", Toast.LENGTH_SHORT).show()
+            textViewZemljisniTip = findViewById<TextView>(R.id.labelZemljisniTip)
+            textViewZemljisniTip.visibility = View.VISIBLE
+
+        //    Toast.makeText(this, "Odaberite barem jedan zemljisni tip", Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
         if (listViewProfilOkusa.checkedItemPosition == ListView.INVALID_POSITION) {
-            Toast.makeText(this, "Odaberite profil okusa", Toast.LENGTH_SHORT).show()
+            textViewProfilOkusa = findViewById<TextView>(R.id.labelProfilOkusa)
+            textViewProfilOkusa.visibility = View.VISIBLE
+
+        //    Toast.makeText(this, "Odaberite profil okusa", Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
         if (jelaAdapter.count == 0) {
-            Toast.makeText(this, "Dodajte barem jedno jelo", Toast.LENGTH_SHORT).show()
+            textViewJelo = findViewById<TextView>(R.id.labelJelo)
+            textViewJelo.visibility = View.VISIBLE
+
+        //    Toast.makeText(this, "Dodajte barem jedno jelo", Toast.LENGTH_SHORT).show()
             isValid = false
         }
 

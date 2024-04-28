@@ -254,6 +254,20 @@ class TestS2S {
 // Test medicinska korist listViewa
 
     @Test
+    fun testNijeOdabranaMedicinskaKorist() {
+        onView(withId(R.id.nazivET)).perform(replaceText("Naziv"))
+        onView(withId(R.id.porodicaET)).perform(replaceText("Porodica"))
+        onView(withId(R.id.medicinskoUpozorenjeET)).perform(replaceText("Upozorenje"))
+
+        onData(anything()).inAdapterView(withId(R.id.klimatskiTipLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.zemljisniTipLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.profilOkusaLV)).atPosition(0).perform(click())
+
+        onView(withId(R.id.dodajBiljkuBtn)).perform(scrollTo(), click())
+        onView(withId(R.id.labelMedicinskaKorist)).perform(scrollTo()).check(matches(isDisplayed()))
+    }
+
+    @Test
     fun testMedicinskaKoristLVHasSelectedItem() {
         onData(anything()).inAdapterView(withId(R.id.medicinskaKoristLV)).atPosition(0).perform(click())
         onData(anything()).inAdapterView(withId(R.id.medicinskaKoristLV)).atPosition(1).perform(click())
@@ -261,7 +275,22 @@ class TestS2S {
         onView(withId(R.id.medicinskaKoristLV)).check(matches(hasMinimumSelectedItems(1)))
     }
 
+
 // Test klimatski tip listViewa
+
+    @Test
+    fun testNijeOdabranKlimatskiTip() {
+        onView(withId(R.id.nazivET)).perform(replaceText("Naziv"))
+        onView(withId(R.id.porodicaET)).perform(replaceText("Porodica"))
+        onView(withId(R.id.medicinskoUpozorenjeET)).perform(replaceText("Upozorenje"))
+
+        onData(anything()).inAdapterView(withId(R.id.medicinskaKoristLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.zemljisniTipLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.profilOkusaLV)).atPosition(0).perform(click())
+
+        onView(withId(R.id.dodajBiljkuBtn)).perform(scrollTo(), click())
+        onView(withId(R.id.labelKlimatskiTip)).perform(scrollTo()).check(matches(isDisplayed()))
+    }
 
     @Test
     fun testKlimatskiTipLVHasSelectedItem() {
@@ -271,6 +300,21 @@ class TestS2S {
         onView(withId(R.id.klimatskiTipLV)).check(matches(hasMinimumSelectedItems(1)))
     }
 
+// test zemljisni tip
+
+    @Test
+    fun testNijeOdabranZemljisniTip() {
+        onView(withId(R.id.nazivET)).perform(replaceText("Naziv"))
+        onView(withId(R.id.porodicaET)).perform(replaceText("Porodica"))
+        onView(withId(R.id.medicinskoUpozorenjeET)).perform(replaceText("Upozorenje"))
+
+        onData(anything()).inAdapterView(withId(R.id.medicinskaKoristLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.klimatskiTipLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.profilOkusaLV)).atPosition(0).perform(click())
+
+        onView(withId(R.id.dodajBiljkuBtn)).perform(scrollTo(), click())
+        onView(withId(R.id.labelZemljisniTip)).perform(scrollTo()).check(matches(isDisplayed()))
+    }
 
     @Test
     fun testZemljisniTipLVHasSelectedItem() {
@@ -292,34 +336,19 @@ class TestS2S {
         }
     }
 
-// test za profil okusa
-   /* @Test
-    fun testListViewProfilOkusa() {
-        // Find the ListView
-        onView(withId(R.id.profilOkusaLV)).perform(scrollTo())
+    @Test
+    fun testNijeOdabranProfilOkusa() {
+        onView(withId(R.id.nazivET)).perform(replaceText("Naziv"))
+        onView(withId(R.id.porodicaET)).perform(replaceText("Porodica"))
+        onView(withId(R.id.medicinskoUpozorenjeET)).perform(replaceText("Upozorenje"))
 
-        // Select an item programmatically (for example, select the first item)
-        onData(allOf(`is`(instanceOf(ProfilOkusaBiljke::class.java)), `is`(ProfilOkusaBiljke.values()[0])))
-            .inAdapterView(withId(R.id.profilOkusaLV))
-            .perform(click())
+        onData(anything()).inAdapterView(withId(R.id.medicinskaKoristLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.klimatskiTipLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.zemljisniTipLV)).atPosition(0).perform(click())
 
-        // Assert that the correct item is selected
-        onView(withId(R.id.profilOkusaLV)).check(matches(withListSelection(`is`(0))))
+        onView(withId(R.id.dodajBiljkuBtn)).perform(scrollTo(), click())
+        onView(withId(R.id.labelProfilOkusa)).perform(scrollTo()).check(matches(isDisplayed()))
     }
-
-    fun withListSelection(selection: Matcher<Int>): Matcher<View> {
-        return object : TypeSafeMatcher<View>() {
-            override fun describeTo(description: org.hamcrest.Description) {
-                description.appendText("with list selection: ")
-                selection.describeTo(description)
-            }
-
-            override fun matchesSafely(view: View): Boolean {
-                if (view !is ListView) return false
-                return view.checkedItemPosition != ListView.INVALID_POSITION && selection.matches(view.checkedItemPosition)
-            }
-        }
-    }*/
 
     @Test
     fun testListViewProfilOkusa() {
@@ -435,6 +464,24 @@ class TestS2S {
         onView(withId(R.id.jeloET)).check(matches(hasErrorText("Jelo mora imati između 2 i 20 znakova")))
     }
 
+    @Test
+    fun testNijeDodanoNijednoJelo() {
+        onView(withId(R.id.nazivET)).perform(replaceText("Naziv"))
+        onView(withId(R.id.porodicaET)).perform(replaceText("Porodica"))
+        onView(withId(R.id.medicinskoUpozorenjeET)).perform(replaceText("Upozorenje"))
+
+        onData(anything()).inAdapterView(withId(R.id.medicinskaKoristLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.klimatskiTipLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.zemljisniTipLV)).atPosition(0).perform(click())
+        onData(anything()).inAdapterView(withId(R.id.profilOkusaLV)).atPosition(0).perform(click())
+
+        onView(withId(R.id.dodajBiljkuBtn)).perform(scrollTo(), click())
+        onView(withId(R.id.labelJelo)).perform(scrollTo()).check(matches(isDisplayed()))
+
+    }
+
+
+    // Testiranje prikaza slike traje 34 sekunde
     @Test
     fun testDisplayPlantImageAfterCapture() {
         onView(withId(R.id.uslikajBiljkuBtn)).perform(scrollTo(),click())

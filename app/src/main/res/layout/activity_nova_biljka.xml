@@ -55,7 +55,7 @@
             android:layout_height="60dp"
             android:layout_below="@id/nazivET"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="10dp"
             android:hint="@string/jelo"
             android:nestedScrollingEnabled="true"
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="10dp"
             android:choiceMode="multipleChoice"
             android:nestedScrollingEnabled="true"
@@ -110,7 +110,7 @@
             android:layout_height="100dp"
             android:layout_below="@id/zemljisniTipLV"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="10dp"
             android:choiceMode="multipleChoice"
             android:nestedScrollingEnabled="true"
@@ -124,7 +124,7 @@
             android:layout_height="100dp"
             android:layout_below="@id/zemljisniTipLV"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="10dp"
             android:choiceMode="singleChoice"
             android:nestedScrollingEnabled="true"
@@ -191,6 +191,61 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/jelaLV" />
+
+        <TextView
+            android:id="@+id/labelMedicinskaKorist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/medicinskaKoristGreska"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/medicinskaKoristLV"
+            android:textColor="@android:color/holo_red_dark"/>
+
+        <TextView
+            android:id="@+id/labelKlimatskiTip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/klimatskiTipGreska"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/klimatskiTipLV"
+            android:textColor="@android:color/holo_red_dark"/>
+
+        <TextView
+            android:id="@+id/labelZemljisniTip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/zemljisniTipGreska"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/zemljisniTipLV"
+            android:textColor="@android:color/holo_red_dark"/>
+
+        <TextView
+            android:id="@+id/labelProfilOkusa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/profilOkusaGreska"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profilOkusaLV"
+            android:textColor="@android:color/holo_red_dark"/>
+
+        <TextView
+            android:id="@+id/labelJelo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/jeloGreska"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/jeloET"
+            android:textColor="@android:color/holo_red_dark"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
