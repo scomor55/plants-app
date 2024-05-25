@@ -3,6 +3,7 @@ package com.example.rma24projekat_19153
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,38 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+
+        val latinName = "Matricaria chamomilla"
+        val trefleDAO = TrefleDAO(RetrofitClient.retrofit)
+
+
+        trefleDAO.searchPlantByLatinName(latinName,
+            onSuccess = { plant ->
+                // Ovdje možete koristiti podatke o biljci (npr. prikazati sliku)
+                // Ako je biljka null, možete prikazati defaultnu sliku
+            },
+            onFailure = { throwable ->
+                // Ovdje rukujte greškom (npr. prikažite poruku korisniku)
+            }
+        )
+
+
+
+
+
+
+      /*  val trefleDAO = TrefleDAO(RetrofitClient.retrofit)
+
+        trefleDAO.searchPlants("Matricaria chamomilla",
+            onSuccess = {plants ->
+            //    for (plant in plants) {
+                    Log.d("Plant", "${plants[0].scientificName} - ${plants[0].commonName}")
+           //     }
+            },
+            onFailure = { error ->
+                Log.e("Error", "Error: ${error.message}")
+            })*/
 
 
 
