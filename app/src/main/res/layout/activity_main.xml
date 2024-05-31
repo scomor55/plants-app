@@ -13,9 +13,7 @@
         android:layout_height="55dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="42dp"
         android:text="RESET"
-        app:layout_constraintBottom_toTopOf="@+id/biljkeRV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,9 +23,7 @@
         android:layout_height="55dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="40dp"
-        android:layout_marginBottom="40dp"
         android:entries="@array/plants"
-        app:layout_constraintBottom_toTopOf="@+id/biljkeRV"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,11 +31,12 @@
         android:id="@+id/biljkeRV"
         android:layout_width="375dp"
         android:layout_height="0dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/pretragaET" />
 
     <Button
         android:id="@+id/novaBiljkaBtn"
@@ -48,11 +45,41 @@
         android:layout_marginStart="41dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="42dp"
         android:text="NEW"
-        app:layout_constraintBottom_toTopOf="@+id/biljkeRV"
         app:layout_constraintEnd_toStartOf="@+id/resetBtn"
         app:layout_constraintStart_toEndOf="@+id/modSpinner"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/pretragaET"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:hint="Search"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/resetBtn" />
+
+    <Spinner
+        android:id="@+id/bojaSPIN"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:entries="@array/flowerColors"
+        app:layout_constraintStart_toEndOf="@+id/pretragaET"
+        app:layout_constraintTop_toBottomOf="@+id/novaBiljkaBtn" />
+
+    <Button
+        android:id="@+id/brzaPretraga"
+        android:layout_width="110dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:text="Brza pretraga"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bojaSPIN"
+        app:layout_constraintTop_toBottomOf="@+id/resetBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
