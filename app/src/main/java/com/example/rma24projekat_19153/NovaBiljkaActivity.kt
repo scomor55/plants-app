@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -14,6 +15,9 @@ import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.Serializable
 
 class NovaBiljkaActivity : AppCompatActivity() {
@@ -214,14 +218,30 @@ class NovaBiljkaActivity : AppCompatActivity() {
                 textViewProfilOkusa.visibility = View.INVISIBLE
                 textViewJelo.visibility = View.INVISIBLE
 
+
                 val allPlants = intent.getSerializableExtra("allPlants") as? List<Biljka>
                 val novaBiljka = Biljka(nazivBiljke,porodica,medicinskoUpozorenje,selectedMedicinskaKorist,selectedProfilOkusa.first(),selectedJela,selectedKlimatskiTip,selectedZemljisniTip)
                 val newPlantsList = allPlants?.toMutableList()
-                newPlantsList?.add(novaBiljka)
-               val returnIntent = Intent(this, MainActivity::class.java)
-                returnIntent.putExtra("novaLista",newPlantsList as Serializable)
-               startActivity(returnIntent)
-                finish()
+
+
+             //   val trefleDAO = TrefleDAO(RetrofitClient.retrofit,this)
+                CoroutineScope(Dispatchers.Main).launch {
+                    try {
+                        val trefleDAO = TrefleDAO(RetrofitClient.retrofit,this@NovaBiljkaActivity)
+                        val fixedBiljka = trefleDAO.fixData(novaBiljka)
+
+                        newPlantsList?.add(fixedBiljka)
+                        val returnIntent = Intent(this@NovaBiljkaActivity, MainActivity::class.java)
+                        returnIntent.putExtra("novaLista",newPlantsList as Serializable)
+                        startActivity(returnIntent)
+                        finish()
+
+                    } catch (e: Exception) {
+                        Log.e("Error", "Error: ${e.message}")
+                    }
+                }
+
+
             }else {
                 Toast.makeText(this@NovaBiljkaActivity, "Molimo popunite sva polja", Toast.LENGTH_SHORT).show()
             }

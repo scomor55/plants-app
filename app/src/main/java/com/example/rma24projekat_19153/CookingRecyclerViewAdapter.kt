@@ -6,9 +6,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CookingPlantsListAdapter(
-    private var plants: List <Biljka>
+    private var plants: List <Biljka>,
+    private val trefleDAO: TrefleDAO
 ): RecyclerView.Adapter<CookingPlantsListAdapter.CookingPlantsViewHolder>(){
     private lateinit var itemClickListener: CookingPlantsListAdapter.PlantItemClickListener
 
@@ -40,7 +44,7 @@ class CookingPlantsListAdapter(
 
         fun bind(plant: Biljka){
             plantNaziv.text = plant.naziv
-            plantImage.setImageResource(R.drawable.biljka)
+            plantImage.setImageResource(R.drawable.vap)
             plantOkus.text = plant.profilOkusa.opis
 
             val jela = plant.jela
@@ -50,6 +54,11 @@ class CookingPlantsListAdapter(
 
             itemView.setOnClickListener {
                 itemClickListener.onPlantItemClick(plant)
+            }
+
+            CoroutineScope(Dispatchers.Main).launch {
+                val bitmap = trefleDAO.getImage(plant)
+                plantImage.setImageBitmap(bitmap)
             }
         }
     }

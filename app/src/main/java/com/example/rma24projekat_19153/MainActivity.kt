@@ -43,18 +43,20 @@ class MainActivity : AppCompatActivity() {
 
 
         val biljka = Biljka(
-            naziv = "Safet",
-            porodica = "Solanum tuberosum", // Primjer porodice
+            naziv = "alemow (Digitalis)",
+            porodica = "Safa ",
             medicinskoUpozorenje = "Gorko",
             medicinskeKoristi = listOf(MedicinskaKorist.REGULACIJAPROBAVE),
             profilOkusa = ProfilOkusaBiljke.LJUTO,
-            jela = listOf("Pesto", "Salata"), // Primjer jela,
+            jela = listOf("Pesto", "Salata"),
             zemljisniTipovi = listOf(Zemljište.PJESKOVITO, Zemljište.CRNICA),
             klimatskiTipovi = listOf(KlimatskiTip.TROPSKA, KlimatskiTip.SUBTROPSKA)
         )
 
         CoroutineScope(Dispatchers.Main).launch {
             try {
+                Log.d("Fix", "FIXA SE")
+
                 val fixedBiljka = trefleDAO.fixData(biljka)
                 Log.d("FixedBiljka", "Naziv: ${fixedBiljka.naziv}")
                 Log.d("FixedBiljka", "Porodica: ${fixedBiljka.porodica}")
@@ -131,7 +133,7 @@ class MainActivity : AppCompatActivity() {
 
                     }
                     "Kuharski" -> {
-                        cookingPlantsAdapter = CookingPlantsListAdapter(listOf())
+                        cookingPlantsAdapter = CookingPlantsListAdapter(listOf(),trefleDAO)
                         plants.adapter = cookingPlantsAdapter
                         if(similarPlants.isNotEmpty()){
                             cookingPlantsAdapter.updatePlants(similarPlants)
@@ -149,7 +151,7 @@ class MainActivity : AppCompatActivity() {
                         })
                     }
                     "Botanički" ->{
-                        botanicPlantsAdapter = BotanicPlantsListAdapter(listOf())
+                        botanicPlantsAdapter = BotanicPlantsListAdapter(listOf(),trefleDAO)
                         plants.adapter = botanicPlantsAdapter
                         if(similarPlants.isNotEmpty()){
                             botanicPlantsAdapter.updatePlants(similarPlants)

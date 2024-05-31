@@ -57,7 +57,10 @@ class TrefleDAO(private val api: Api,private val context: Context) {
     suspend fun fixData(biljka: Biljka): Biljka {
         return withContext(Dispatchers.IO) {
             try {
+                Log.d("DAO NAZIV", "NAZIV:  ${biljka.naziv}")
                 val latinName = extractTextInBrackets(biljka.naziv)
+                Log.d("LATIN", "Latin:  ${latinName}")
+
                 val searchResponse = api.searchPlants(latinName).execute()
                 if (searchResponse.isSuccessful) {
                     val plants = searchResponse.body()?.data
@@ -72,17 +75,17 @@ class TrefleDAO(private val api: Api,private val context: Context) {
                         val detailResponse = api.getPlantById(plantId).execute()
                         Log.d("API Detail", "Body: ${detailResponse.body()}")
                         Log.d("API Edible", "Edible: ${detailResponse.body()?.data?.mainSpecies?.edible}")
-                        Log.d("API Toxic", "Edible: ${detailResponse.body()?.data?.mainSpecies?.specifications?.toxicity}")
+                        Log.d("API Toxic", "TOXIC: ${detailResponse.body()?.data?.mainSpecies?.specifications?.toxicity}")
 
                         if (detailResponse.isSuccessful) {
                             val detailedPlant = detailResponse.body()
-                            biljka.naziv = detailedPlant?.data?.commonName.toString()
+                         //   biljka.naziv = detailedPlant?.data?.commonName.toString()
                             // Fix family
                             if (biljka.porodica != detailedPlant?.data?.family.toString()) {
                                 biljka.porodica = detailedPlant?.data?.family?.name.toString()
                             }
 
-                            if (detailedPlant?.data?.mainSpecies?.edible == false) {
+                            if (detailedPlant?.data?.mainSpecies?.edible == false || detailedPlant?.data?.mainSpecies?.edible == null) {
                                 biljka.jela = listOf()
                                 if (!biljka.medicinskoUpozorenje.contains("NIJE JESTIVO")) {
                                     biljka.medicinskoUpozorenje += " NIJE JESTIVO"
@@ -105,8 +108,8 @@ class TrefleDAO(private val api: Api,private val context: Context) {
                                 Zemljište.ILOVACA to listOf(5, 6),
                                 Zemljište.CRNICA to listOf(7, 8)
                             )
-                          //  val soilTextures = detailedPlant?.data?.mainSpecies?.growth?.soilTexture
-                            val soilTextures = 5
+                            val soilTextures = detailedPlant?.data?.mainSpecies?.growth?.soilTexture
+                         //   val soilTextures = 5
                             Log.d("API Soil", "Soil: ${soilTextures}")
 
                             if (soilTextures != null) {
@@ -130,11 +133,11 @@ class TrefleDAO(private val api: Api,private val context: Context) {
                                 KlimatskiTip.SUHA to (7..9 to 1..2),
                                 KlimatskiTip.PLANINSKA to (0..5 to 3..7)
                             )
-                          //  val light = detailedPlant?.data?.mainSpecies?.growth?.light
-                          //  val humidity = detailedPlant?.data?.mainSpecies?.growth?.atmosphericHumidity
+                            val light = detailedPlant?.data?.mainSpecies?.growth?.light
+                            val humidity = detailedPlant?.data?.mainSpecies?.growth?.atmosphericHumidity
 
-                            val light = 5
-                            val humidity = 5
+                         //   val light = 5
+                          //  val humidity = 5
                             Log.d("API Klima", "light: ${soilTextures}")
                             Log.d("API Klima", "humidity: ${soilTextures}")
 
