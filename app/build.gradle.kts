@@ -1,4 +1,3 @@
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.androidApplication)
@@ -19,8 +18,16 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
+        debug {
+            buildConfigField("String", "TREFLE_API_KEY", project.properties["TREFLE_API_KEY"].toString())
+        }
         release {
+            buildConfigField("String", "TREFLE_API_KEY", project.properties["TREFLE_API_KEY"].toString())
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

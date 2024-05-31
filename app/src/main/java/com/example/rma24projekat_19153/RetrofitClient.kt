@@ -1,5 +1,6 @@
 package com.example.rma24projekat_19153
 
+import com.google.gson.internal.GsonBuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -8,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
 
     private const val BASE_URL = "https://trefle.io/api/v1/"
-    private const val API_KEY = ""
+    private val API_KEY = BuildConfig.TREFLE_API_KEY
 
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
