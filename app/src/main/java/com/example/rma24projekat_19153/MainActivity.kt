@@ -17,6 +17,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
@@ -35,36 +38,46 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        val latinName = "Matricaria chamomilla"
-        val trefleDAO = TrefleDAO(RetrofitClient.retrofit)
+        val trefleDAO = TrefleDAO(RetrofitClient.retrofit,this)
 
 
-        trefleDAO.searchPlantByLatinName(latinName,
-            onSuccess = { plant ->
-                // Ovdje možete koristiti podatke o biljci (npr. prikazati sliku)
-                // Ako je biljka null, možete prikazati defaultnu sliku
-            },
-            onFailure = { throwable ->
-                // Ovdje rukujte greškom (npr. prikažite poruku korisniku)
-            }
+        val biljka = Biljka(
+            naziv = "Safet",
+            porodica = "Solanum tuberosum", // Primjer porodice
+            medicinskoUpozorenje = "Gorko",
+            medicinskeKoristi = listOf(MedicinskaKorist.REGULACIJAPROBAVE),
+            profilOkusa = ProfilOkusaBiljke.LJUTO,
+            jela = listOf("Pesto", "Salata"), // Primjer jela,
+            zemljisniTipovi = listOf(Zemljište.PJESKOVITO, Zemljište.CRNICA),
+            klimatskiTipovi = listOf(KlimatskiTip.TROPSKA, KlimatskiTip.SUBTROPSKA)
         )
 
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val fixedBiljka = trefleDAO.fixData(biljka)
+                Log.d("FixedBiljka", "Naziv: ${fixedBiljka.naziv}")
+                Log.d("FixedBiljka", "Porodica: ${fixedBiljka.porodica}")
+                Log.d("FixedBiljka", "Jela: ${fixedBiljka.jela}")
+                Log.d("FixedBiljka", "Medicinsko upozorenje: ${fixedBiljka.medicinskoUpozorenje}")
+                Log.d("FixedBiljka", "Zemljisni tipovi: ${fixedBiljka.zemljisniTipovi}")
+                Log.d("FixedBiljka", "Klimatski tipovi: ${fixedBiljka.klimatskiTipovi}")
+            } catch (e: Exception) {
+                Log.e("Error", "Error: ${e.message}")
+            }
+        }
 
 
+        /* trefleDAO.searchPlants("Ocimum basilicum",
+             onSuccess = {plants ->
+                for (plant in plants) {
+                     Log.d("Plant", "${plants[0].scientificName} - ${plants[0].commonName}")
+                }
+             },
+             onFailure = { error ->
+                 Log.e("Error", "Error: ${error.message}")
+             })*/
 
 
-
-      /*  val trefleDAO = TrefleDAO(RetrofitClient.retrofit)
-
-        trefleDAO.searchPlants("Matricaria chamomilla",
-            onSuccess = {plants ->
-            //    for (plant in plants) {
-                    Log.d("Plant", "${plants[0].scientificName} - ${plants[0].commonName}")
-           //     }
-            },
-            onFailure = { error ->
-                Log.e("Error", "Error: ${error.message}")
-            })*/
 
 
 
@@ -96,7 +109,7 @@ class MainActivity : AppCompatActivity() {
 
                 when(selectedItem){
                     "Medicinski" -> {
-                        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf())
+                        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf(),trefleDAO)
                         plants.adapter = medicalPlantsAdapter
                         if(similarPlants.isNotEmpty()){
                             medicalPlantsAdapter.updatePlants(similarPlants)
@@ -183,7 +196,7 @@ class MainActivity : AppCompatActivity() {
              medicalPlantsAdapter.updatePlants(listOfPlants)*/
             spinner.setSelection(spinner.selectedItemPosition)
         }
-        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf())
+        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf(),trefleDAO)
         plants.adapter = medicalPlantsAdapter
       //  medicalPlantsAdapter.updatePlants(listOfPlants)
 

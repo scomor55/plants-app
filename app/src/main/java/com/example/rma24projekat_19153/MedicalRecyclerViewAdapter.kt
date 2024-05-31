@@ -1,14 +1,19 @@
 package com.example.rma24projekat_19153
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MedicalPlantsListAdapter(
-    private var plants: List <Biljka>
+    private var plants: List <Biljka>,
+    private val trefleDAO: TrefleDAO
 ): RecyclerView.Adapter<MedicalPlantsListAdapter.MedicalPlantsViewHolder>(){
     private lateinit var itemClickListener: MedicalPlantsListAdapter.PlantItemClickListener
 
@@ -40,7 +45,7 @@ class MedicalPlantsListAdapter(
 
         fun bind(plant: Biljka){
             plantNaziv.text = plant.naziv
-            plantImage.setImageResource(R.drawable.biljka)
+            //       plantImage.setImageResource(R.drawable.biljka)
             plantUpozorenje.text = plant.medicinskoUpozorenje
 
             val koristi = plant.medicinskeKoristi.map { it.opis }
@@ -51,6 +56,14 @@ class MedicalPlantsListAdapter(
             itemView.setOnClickListener {
                 itemClickListener.onPlantItemClick(plant)
             }
+
+        //    Log.d("PLANT_INFO", "Plant: $plant")
+
+            CoroutineScope(Dispatchers.Main).launch {
+                val bitmap = trefleDAO.getImage(plant)
+                plantImage.setImageBitmap(bitmap)
+            }
+
         }
     }
 

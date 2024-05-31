@@ -4,28 +4,32 @@ package com.example.rma24projekat_19153
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.core.content.ContentProviderCompat.requireContext
+import android.util.Log
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.URL
 
 
 class TrefleDAO(private val api: Api,private val context: Context) {
 
 
-    private val defaultBitmap: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.biljka)
+    private val defaultBitmap: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.vap)
 
     suspend fun getImage(biljka: Biljka): Bitmap {
         return withContext(Dispatchers.IO) {
             try {
                 val response = api.searchPlants(biljka.porodica).execute()
+             //  Log.d("API_RESPONSE", "Response: ${response.raw()}")
+
                 if (response.isSuccessful) {
                     val plants = response.body()?.data
+                 //   Log.d("API_RESPONSE", "Plants: $plants")
                     if (!plants.isNullOrEmpty()) {
-                        val imageUrl = plants[0].image_url
+                        val imageUrl = plants[0].imageUrl
                         if (!imageUrl.isNullOrEmpty()) {
                             return@withContext downloadImage(imageUrl)
                         }
@@ -41,7 +45,130 @@ class TrefleDAO(private val api: Api,private val context: Context) {
 
 
 
-    fun searchPlantByLatinName(latinName: String, onSuccess: (Plant?) -> Unit, onFailure: (Throwable) -> Unit) {
+    suspend fun fixData(biljka: Biljka): Biljka {
+        return withContext(Dispatchers.IO) {
+            try {
+                // Search for the plant by Latin name to get its ID
+                val searchResponse = api.searchPlants(biljka.porodica).execute()
+                if (searchResponse.isSuccessful) {
+                    val plants = searchResponse.body()?.data
+                    val plant = plants?.firstOrNull()
+                    Log.d("DAO", "Tu saaaaaaaaaam")
+                    Log.d("API Response", "Body: ${searchResponse.body()}")
+
+                    if (plant != null) {
+
+                        // Use the ID to get detailed information about the plant
+                        val plantId = plant.id
+                        val detailResponse = api.getPlantById(plantId).execute()
+                        Log.d("API Detail", "Body: ${detailResponse.body()}")
+                        Log.d("API Edible", "Edible: ${detailResponse.body()?.data?.mainSpecies?.edible}")
+                        Log.d("API Toxic", "Edible: ${detailResponse.body()?.data?.mainSpecies?.specifications?.toxicity}")
+
+                        if (detailResponse.isSuccessful) {
+                            val detailedPlant = detailResponse.body()
+                            biljka.naziv = detailedPlant?.data?.commonName.toString()
+                            // Fix family
+                            if (biljka.porodica != detailedPlant?.data?.family.toString()) {
+                                biljka.porodica = detailedPlant?.data?.family?.name.toString()
+                            }
+
+                            if (detailedPlant?.data?.mainSpecies?.edible == false) {
+                                biljka.jela = listOf()
+                                if (!biljka.medicinskoUpozorenje.contains("NIJE JESTIVO")) {
+                                    biljka.medicinskoUpozorenje += " NIJE JESTIVO"
+                                }
+                            }
+
+                            // Fix medical warning
+                            if (detailedPlant?.data?.mainSpecies?.specifications?.toxicity == "null") {
+                                if (!biljka.medicinskoUpozorenje.contains("TOKSIČNO")) {
+                                    biljka.medicinskoUpozorenje += " TOKSIČNO"
+                                }
+                            }
+
+                            // Fix soil types
+                            val validSoilTypes = mapOf(
+                                Zemljište.SLJUNKOVITO to 9,
+                                Zemljište.KRECNJACKO to 10,
+                                Zemljište.GLINENO to listOf(1, 2),
+                                Zemljište.PJESKOVITO to listOf(3, 4),
+                                Zemljište.ILOVACA to listOf(5, 6),
+                                Zemljište.CRNICA to listOf(7, 8)
+                            )
+                          //  val soilTextures = detailedPlant?.data?.mainSpecies?.growth?.soilTexture
+                            val soilTextures = 5
+                            Log.d("API Soil", "Soil: ${soilTextures}")
+
+                            if (soilTextures != null) {
+                                val filteredSoilTypes = mutableListOf<Zemljište>()
+                                for ((soilType, validValues) in validSoilTypes) {
+                                    if (validValues is Int && validValues == soilTextures) {
+                                        filteredSoilTypes.add(soilType)
+                                    } else if (validValues is List<*> && validValues.contains(soilTextures)) {
+                                        filteredSoilTypes.add(soilType)
+                                    }
+                                }
+                                biljka.zemljisniTipovi = filteredSoilTypes
+                            }
+
+                            // Fix climate types
+                            val validClimateTypes = mapOf(
+                                KlimatskiTip.SREDOZEMNA to (6..9 to 1..5),
+                                KlimatskiTip.TROPSKA to (8..10 to 7..10),
+                                KlimatskiTip.SUBTROPSKA to (6..9 to 5..8),
+                                KlimatskiTip.UMJERENA to (4..7 to 3..7),
+                                KlimatskiTip.SUHA to (7..9 to 1..2),
+                                KlimatskiTip.PLANINSKA to (0..5 to 3..7)
+                            )
+                          //  val light = detailedPlant?.data?.mainSpecies?.growth?.light
+                          //  val humidity = detailedPlant?.data?.mainSpecies?.growth?.atmosphericHumidity
+
+                            val light = 5
+                            val humidity = 5
+                            Log.d("API Klima", "light: ${soilTextures}")
+                            Log.d("API Klima", "humidity: ${soilTextures}")
+
+
+                            if (light != null && humidity != null) {
+                                val filteredClimateTypes = mutableListOf<KlimatskiTip>()
+                                for ((climateType, ranges) in validClimateTypes) {
+                                    val (lightRange, humidityRange) = ranges
+                                    if (light in lightRange && humidity in humidityRange) {
+                                        filteredClimateTypes.add(climateType)
+                                    }
+                                }
+                                biljka.klimatskiTipovi = filteredClimateTypes
+                            }
+                        }
+                    }
+                }
+                return@withContext biljka
+            } catch (e: Exception) {
+                e.printStackTrace()
+                return@withContext biljka
+            }
+        }
+    }
+
+
+
+
+    private fun downloadImage(url: String): Bitmap {
+        return try {
+            Glide.with(context)
+                .asBitmap()
+                .load(url)
+                .apply(RequestOptions().override(600, 600))
+                .submit()
+                .get()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            defaultBitmap
+        }
+    }
+
+    suspend fun searchPlantByLatinName(latinName: String, onSuccess: (Plant?) -> Unit, onFailure: (Throwable) -> Unit) {
         val call = api.searchPlants("latin:$latinName")
         call.enqueue(object : Callback<GetPlantsResponse> {
             override fun onResponse(
@@ -64,7 +191,7 @@ class TrefleDAO(private val api: Api,private val context: Context) {
     }
 
 
-    fun searchPlants(query: String, onSuccess: (List<Plant>) -> Unit, onFailure: (Throwable) -> Unit) {
+    suspend fun searchPlants(query: String, onSuccess: (List<Plant>) -> Unit, onFailure: (Throwable) -> Unit) {
         val call = api.searchPlants(query)
         call.enqueue(object : Callback<GetPlantsResponse> {
             override fun onResponse(
