@@ -4,7 +4,7 @@ fun getPlants(): List<Biljka> {
     return listOf(
         Biljka(
             naziv = "Bosiljak (Ocimum basilicum)",
-            porodica = "Ocimum basilicum",
+            porodica = "Lamiaceae (usnate)",
             medicinskoUpozorenje = "Može iritati kožu osjetljivu na sunce. Preporučuje se oprezna upotreba pri korištenju ulja bosiljka.",
             medicinskeKoristi = listOf(
                 MedicinskaKorist.SMIRENJE,
@@ -17,7 +17,7 @@ fun getPlants(): List<Biljka> {
         ),
         Biljka(
             naziv = "Nana (Mentha spicata)",
-            porodica = "Mentha spicata",
+            porodica = "Lamiaceae (metvice)",
             medicinskoUpozorenje = "Nije preporučljivo za trudnice, dojilje i djecu mlađu od 3 godine.",
             medicinskeKoristi = listOf(MedicinskaKorist.PROTUUPALNO, MedicinskaKorist.PROTIVBOLOVA),
             profilOkusa = ProfilOkusaBiljke.MENTA,
@@ -27,7 +27,7 @@ fun getPlants(): List<Biljka> {
         ),
         Biljka(
             naziv = "Kamilica (Matricaria chamomilla)",
-            porodica = "Matricaria chamomilla",
+            porodica = "Asteraceae (glavočike)",
             medicinskoUpozorenje = "Može uzrokovati alergijske reakcije kod osjetljivih osoba.",
             medicinskeKoristi = listOf(MedicinskaKorist.SMIRENJE, MedicinskaKorist.PROTUUPALNO),
             profilOkusa = ProfilOkusaBiljke.AROMATICNO,
@@ -37,7 +37,7 @@ fun getPlants(): List<Biljka> {
         ),
         Biljka(
             naziv = "Ružmarin (Rosmarinus officinalis)",
-            porodica = "Rosmarinus officinalis",
+            porodica = "Lamiaceae (metvice)",
             medicinskoUpozorenje = "Treba ga koristiti umjereno i konsultovati se sa ljekarom pri dugotrajnoj upotrebi ili upotrebi u većim količinama.",
             medicinskeKoristi = listOf(
                 MedicinskaKorist.PROTUUPALNO,
@@ -50,7 +50,7 @@ fun getPlants(): List<Biljka> {
         ),
         Biljka(
             naziv = "Lavanda (Lavandula angustifolia)",
-            porodica = "Lavandula angustifolia",
+            porodica = "Lamiaceae (metvice)",
             medicinskoUpozorenje = "Nije preporučljivo za trudnice, dojilje i djecu mlađu od 3 godine. Također, treba izbjegavati kontakt lavanda ulja sa očima.",
             medicinskeKoristi = listOf(MedicinskaKorist.SMIRENJE, MedicinskaKorist.IMMUNOSUPORT),
             profilOkusa = ProfilOkusaBiljke.AROMATICNO,
