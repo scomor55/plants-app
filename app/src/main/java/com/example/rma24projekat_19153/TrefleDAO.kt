@@ -19,7 +19,7 @@ class TrefleDAO(private val api: Api,private val context: Context) {
 
     private val defaultBitmap: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.vap)
 
-    fun extractTextInBrackets(input: String): String {
+      fun extractTextInBrackets(input: String): String {
         val startIndex = input.indexOf('(')
         val endIndex = input.indexOf(')', startIndex)
 
@@ -57,8 +57,8 @@ class TrefleDAO(private val api: Api,private val context: Context) {
     suspend fun fixData(biljka: Biljka): Biljka {
         return withContext(Dispatchers.IO) {
             try {
-                // Search for the plant by Latin name to get its ID
-                val searchResponse = api.searchPlants(biljka.porodica).execute()
+                val latinName = extractTextInBrackets(biljka.naziv)
+                val searchResponse = api.searchPlants(latinName).execute()
                 if (searchResponse.isSuccessful) {
                     val plants = searchResponse.body()?.data
                     val plant = plants?.firstOrNull()
@@ -159,9 +159,6 @@ class TrefleDAO(private val api: Api,private val context: Context) {
             }
         }
     }
-
-
-
 
     private fun downloadImage(url: String): Bitmap {
         return try {

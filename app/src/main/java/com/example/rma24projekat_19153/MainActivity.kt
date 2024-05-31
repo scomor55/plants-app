@@ -22,6 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.Serializable
 
+
 class MainActivity : AppCompatActivity() {
     private lateinit var plants: RecyclerView
     private lateinit var currentPlantsAdapter: MedicalPlantsListAdapter
