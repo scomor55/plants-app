@@ -44,7 +44,6 @@ class CookingPlantsListAdapter(
 
         fun bind(plant: Biljka){
             plantNaziv.text = plant.naziv
-            plantImage.setImageResource(R.drawable.vap)
             plantOkus.text = plant.profilOkusa.opis
 
             val jela = plant.jela

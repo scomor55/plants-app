@@ -45,7 +45,6 @@ class MedicalPlantsListAdapter(
 
         fun bind(plant: Biljka){
             plantNaziv.text = plant.naziv
-            //       plantImage.setImageResource(R.drawable.biljka)
             plantUpozorenje.text = plant.medicinskoUpozorenje
 
             val koristi = plant.medicinskeKoristi.map { it.opis }
