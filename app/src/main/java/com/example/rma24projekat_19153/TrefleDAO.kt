@@ -163,6 +163,71 @@ class TrefleDAO(private val api: Api,private val context: Context) {
         }
     }
 
+    suspend fun getPlantsWithFlowerColor(flower_color: String, substr: String): List<Biljka> {
+        val emptyBiljkaList: MutableList<Biljka> = mutableListOf()
+        return withContext(Dispatchers.IO) {
+            try {
+                val searchResponse = api.searchPlants(substr).execute()
+                Log.d("RESPONSE", searchResponse.body()?.data.toString())
+                val plantsResponse = searchResponse.body()?.data ?: emptyList()
+                val listaId : MutableList<Int> = mutableListOf()
+          /*      for(plant in plantsResponse){
+                    Log.d("PLANT", plant.id.toString())
+                    listaId.add(plant.id.toInt())
+                }*/
+                val detailList : MutableList<PlantResponse> = mutableListOf()
+                for(plant in plantsResponse){
+                    val detailResponse = api.getPlantById(plant.id).execute()
+                    val plantDetail = detailResponse.body()
+                    plantDetail?.let {
+                        detailList.add(it)
+                    }
+                }
+                for(detail in detailList){
+                    Log.d("FORGORE", detail.data?.mainSpecies?.flower?.color.toString())
+                    Log.d("FORGORE", detail.data?.commonName.toString())
+
+                }
+                val filteredDetailList = detailList.filter { detail ->
+                    when (val color = detail.data?.mainSpecies?.flower?.color) {
+                        is String -> color.contains(flower_color, ignoreCase = true)
+                        is List<*> -> color.any { it is String && it.contains(flower_color, ignoreCase = true) }
+                        else -> false
+                    }
+                }
+                for(detail in filteredDetailList){
+                    Log.d("FILTRIRANO", detail.data?.mainSpecies?.flower?.color.toString())
+                    Log.d("FILTRIRANO", detail.data?.commonName.toString())
+
+                }
+              /*  if (searchResponse.isSuccessful) {
+                   val plantId = searchResponse
+                    val detailResponse = api.searchPlantsByColorAndSubstr(flower_color).execute()
+                  Log.d("DETAIL", detailResponse.body().toString())
+
+                }*/
+                for(plant in filteredDetailList){
+                    val newPlant = Biljka(
+                        naziv = "${plant.data?.commonName} (${plant.data?.scientificName})",
+                        porodica = "${plant.data?.family?.name} (${plant.data?.family?.commonName})",
+                        medicinskoUpozorenje = "",
+                        medicinskeKoristi = listOf(),
+                        profilOkusa = ProfilOkusaBiljke.BEZUKUSNO,
+                        jela = listOf(),
+                        klimatskiTipovi = listOf(),
+                        zemljisniTipovi = listOf()
+                    )
+                    emptyBiljkaList.add(newPlant)
+                }
+
+                return@withContext emptyBiljkaList
+            }catch (e: Exception){
+                e.printStackTrace()
+                return@withContext emptyBiljkaList
+            }
+        }
+        return emptyBiljkaList
+    }
     private fun downloadImage(url: String): Bitmap {
         return try {
             Glide.with(context)

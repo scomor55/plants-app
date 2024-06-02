@@ -13,4 +13,7 @@ interface Api {
 
     @GET("plants/{id}")
     fun getPlantById(@Path("id") id: Long): Call<PlantResponse>
+
+    @GET("plants/search")
+    fun searchPlantsByColorAndSubstr(@Query("filter[flower_color]") flowerColor: String): Call<PlantResponse>
 }

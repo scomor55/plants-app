@@ -15,6 +15,6 @@ data class PlantsResponse(
     val scientific_name: String,
     val slug: String,
     val status: String,
-    val synonyms: List<String>,
+ //   val synonyms: List<String>,
     val year: Int
 )

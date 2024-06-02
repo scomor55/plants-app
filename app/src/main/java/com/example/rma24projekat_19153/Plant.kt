@@ -15,8 +15,8 @@ data class Plant(
     @SerializedName("family_common_name") val familyCommonName: String?,
     @SerializedName("genus_id") val genusId: Int?,
     @SerializedName("image_url") val imageUrl: String?,
-    @SerializedName("synonyms") val synonyms: List<String>,
-    @SerializedName("genus") val genus: String,
+//    @SerializedName("synonyms") val synonyms: List<String>,
+//    @SerializedName("genus") val genus: String,
     @SerializedName("family") val family: String,
-    @SerializedName("links") val links: PlantLinks
+//    @SerializedName("links") val links: PlantLinks
 )

@@ -61,18 +61,22 @@ data class MainSpecies(
     @SerializedName("duration") val duration: String?,
     @SerializedName("edible_part") val ediblePart: String?,
     @SerializedName("edible") val edible: Boolean?,
-    @SerializedName("images") val images: Any?,
+//    @SerializedName("images") val images: Any?,
     @SerializedName("common_names") val commonNames: Any?,
     @SerializedName("distribution") val distribution: Any?,
     @SerializedName("distributions") val distributions: Any?,
-    @SerializedName("flower") val flower: Any?,
+    @SerializedName("flower") val flower: Flower?,
     @SerializedName("foliage") val foliage: Any?,
     @SerializedName("fruit_or_seed") val fruitOrSeed: Any?,
     @SerializedName("specifications") val specifications: Specifications?,
     @SerializedName("growth") val growth: Growth?,
-    @SerializedName("links") val links: Any?,
-    @SerializedName("synonyms") val synonyms: List<Any>?,
-    @SerializedName("sources") val sources: List<Any>?
+ //   @SerializedName("links") val links: Any?,
+ //   @SerializedName("synonyms") val synonyms: List<Any>?,
+ //   @SerializedName("sources") val sources: List<Any>?
+)
+
+data class Flower(
+    @SerializedName("color") val color: Any?,
 )
 
 data class Specifications(
