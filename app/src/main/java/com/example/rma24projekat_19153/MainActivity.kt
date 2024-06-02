@@ -43,9 +43,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+        AppContext.context = this
 
-
-        val trefleDAO = TrefleDAO(RetrofitClient.retrofit,this)
+        val trefleDAO = TrefleDAO(RetrofitClient.retrofit)
 
 
         val biljka = Biljka(

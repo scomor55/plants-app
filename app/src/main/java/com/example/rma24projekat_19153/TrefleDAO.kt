@@ -14,7 +14,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class TrefleDAO(private val api: Api,private val context: Context) {
+class TrefleDAO(private val api: Api,private val context: Context = AppContext.context) {
 
 
     private val defaultBitmap: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.vap)
