@@ -240,6 +240,21 @@ class MainActivity : AppCompatActivity() {
              medicalPlantsAdapter.updatePlants(listOfPlants)*/
             spinner.setSelection(spinner.selectedItemPosition)
         }
+
+        brzaPretraga.setOnClickListener {
+            val query = pretragaET.text.toString()
+            val selectedItem = bojaSPIN.selectedItem.toString()
+
+            if (query.isNotEmpty() && selectedItem != null){
+                CoroutineScope(Dispatchers.Main).launch {
+                    val plants = trefleDAO.getPlantsWithFlowerColor(selectedItem, query)
+
+                   botanicPlantsAdapter.updatePlants(plants, quickSearchMode = true)
+                }
+            }
+
+        }
+
         medicalPlantsAdapter = MedicalPlantsListAdapter(listOf(),trefleDAO)
         plants.adapter = medicalPlantsAdapter
       //  medicalPlantsAdapter.updatePlants(listOfPlants)

@@ -15,7 +15,7 @@ class BotanicPlantsListAdapter(
     private val trefleDAO: TrefleDAO
 ): RecyclerView.Adapter<BotanicPlantsListAdapter.BotanicPlantsViewHolder>(){
     private lateinit var itemClickListener: BotanicPlantsListAdapter.PlantItemClickListener
-
+    private var quickSearchMode: Boolean = false
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -29,8 +29,9 @@ class BotanicPlantsListAdapter(
         holder.bind(plants[position])
     }
 
-    fun updatePlants(plants: List<Biljka>){
+    fun updatePlants(plants: List<Biljka>,quickSearchMode: Boolean = false){
         this.plants = plants
+        this.quickSearchMode = quickSearchMode
         notifyDataSetChanged()
     }
 
@@ -53,11 +54,16 @@ class BotanicPlantsListAdapter(
                 itemClickListener.onPlantItemClick(plant)
             }
 
+            if(quickSearchMode){
+               itemView.setOnClickListener(null)
+            }
+
             CoroutineScope(Dispatchers.Main).launch {
                 val bitmap = trefleDAO.getImage(plant)
                 plantImage.setImageBitmap(bitmap)
             }
         }
+
     }
 
     interface PlantItemClickListener {
