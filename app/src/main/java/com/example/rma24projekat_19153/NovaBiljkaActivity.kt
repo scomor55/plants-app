@@ -227,7 +227,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
              //   val trefleDAO = TrefleDAO(RetrofitClient.retrofit,this)
                 CoroutineScope(Dispatchers.Main).launch {
                     try {
-                        val trefleDAO = TrefleDAO(/*RetrofitClient.retrofit,*/this@NovaBiljkaActivity)
+                        val trefleDAO = TrefleDAO(/*RetrofitClient.retrofit,*//*this@NovaBiljkaActivity*/)
                         val fixedBiljka = trefleDAO.fixData(novaBiljka)
 
                         newPlantsList?.add(fixedBiljka)
