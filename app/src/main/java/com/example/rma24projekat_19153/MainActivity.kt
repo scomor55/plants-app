@@ -43,60 +43,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        AppContext.context = this
-        val trefleDAO = TrefleDAO(/*RetrofitClient.retrofit,*//*this*/)
-
-
-        val biljka = Biljka(
-            naziv = "alemow (Digitalis)",
-            porodica = "Safa ",
-            medicinskoUpozorenje = "Gorko",
-            medicinskeKoristi = listOf(MedicinskaKorist.REGULACIJAPROBAVE),
-            profilOkusa = ProfilOkusaBiljke.LJUTO,
-            jela = listOf("Pesto", "Salata"),
-            zemljisniTipovi = listOf(Zemljište.PJESKOVITO, Zemljište.CRNICA),
-            klimatskiTipovi = listOf(KlimatskiTip.TROPSKA, KlimatskiTip.SUBTROPSKA)
-        )
-
-      /*  CoroutineScope(Dispatchers.Main).launch {
-            try {
-                Log.d("Fix", "FIXA SE")
-
-                val fixedBiljka = trefleDAO.fixData(biljka)
-                Log.d("FixedBiljka", "Naziv: ${fixedBiljka.naziv}")
-                Log.d("FixedBiljka", "Porodica: ${fixedBiljka.porodica}")
-                Log.d("FixedBiljka", "Jela: ${fixedBiljka.jela}")
-                Log.d("FixedBiljka", "Medicinsko upozorenje: ${fixedBiljka.medicinskoUpozorenje}")
-                Log.d("FixedBiljka", "Zemljisni tipovi: ${fixedBiljka.zemljisniTipovi}")
-                Log.d("FixedBiljka", "Klimatski tipovi: ${fixedBiljka.klimatskiTipovi}")
-            } catch (e: Exception) {
-                Log.e("Error", "Error: ${e.message}")
-            }
-        }*/
-        val flowerColor = "red"
-        val substr = "rose"
-
-        CoroutineScope(Dispatchers.Main).launch {
-            val plants = trefleDAO.getPlantsWithFlowerColor(flowerColor, substr)
-
-            Log.d("FixedBiljka", "Naziv: ${plants[0].naziv}")
-            Log.d("FixedBiljka", "Porodica: ${plants[0].porodica}")
-        }
-
-
-
-        /* trefleDAO.searchPlants("Ocimum basilicum",
-             onSuccess = {plants ->
-                for (plant in plants) {
-                     Log.d("Plant", "${plants[0].scientificName} - ${plants[0].commonName}")
-                }
-             },
-             onFailure = { error ->
-                 Log.e("Error", "Error: ${error.message}")
-             })*/
-
-
-
+        val trefleDAO = TrefleDAO(/*RetrofitClient.retrofit,*/this)
 
 
         if(intent.hasExtra("novaLista")){
@@ -248,7 +195,7 @@ class MainActivity : AppCompatActivity() {
                 CoroutineScope(Dispatchers.Main).launch {
                     val plants = trefleDAO.getPlantsWithFlowerColor(selectedItem, query)
 
-                   botanicPlantsAdapter.updatePlants(plants, quickSearchMode = true)
+                    botanicPlantsAdapter.updatePlants(plants, quickSearchMode = true)
                 }
             }
 
@@ -256,7 +203,7 @@ class MainActivity : AppCompatActivity() {
 
         medicalPlantsAdapter = MedicalPlantsListAdapter(listOf(),trefleDAO)
         plants.adapter = medicalPlantsAdapter
-      //  medicalPlantsAdapter.updatePlants(listOfPlants)
+        //  medicalPlantsAdapter.updatePlants(listOfPlants)
 
 
         val novaBiljkaBtn = findViewById<Button>(R.id.novaBiljkaBtn)

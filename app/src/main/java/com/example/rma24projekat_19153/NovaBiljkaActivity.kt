@@ -82,9 +82,9 @@ class NovaBiljkaActivity : AppCompatActivity() {
             val novoJelo = jeloET.text.toString().trim()
 
             if (novoJelo.isNotEmpty() && dodajJeloBtn.text == "Dodaj jelo") {
-                 if(sameMeals(findViewById<EditText>(R.id.jeloET),jelaAdapter)) {
-                     jelaAdapter.add(novoJelo)
-                 }
+                if(sameMeals(findViewById<EditText>(R.id.jeloET),jelaAdapter)) {
+                    jelaAdapter.add(novoJelo)
+                }
             }
             if (dodajJeloBtn.text == "Izmijeni jelo"){
                 if (novoJelo.isNotEmpty()) {
@@ -106,7 +106,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
                     jelaListView.clearChoices()
                     selectedPosition = ListView.INVALID_POSITION
                 }
-             }
+            }
         }
 
         jelaListView.setOnItemClickListener { parent, view, position, id ->
@@ -116,9 +116,9 @@ class NovaBiljkaActivity : AppCompatActivity() {
             dodajJeloBtn.text = "Izmijeni jelo"
 
         }
-       /* val jelaAdapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice)
-        jelaListView.adapter = jelaAdapter
-     Ovo pogledaj   jelaListView.choiceMode = ListView.CHOICE_MODE_MULTIPLE*/
+        /* val jelaAdapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice)
+         jelaListView.adapter = jelaAdapter
+      Ovo pogledaj   jelaListView.choiceMode = ListView.CHOICE_MODE_MULTIPLE*/
 
         val uslikajBiljkuBtn = findViewById<Button>(R.id.uslikajBiljkuBtn)
         slikaIV = findViewById(R.id.slikaIV)
@@ -224,10 +224,10 @@ class NovaBiljkaActivity : AppCompatActivity() {
                 val newPlantsList = allPlants?.toMutableList()
 
 
-             //   val trefleDAO = TrefleDAO(RetrofitClient.retrofit,this)
+                //   val trefleDAO = TrefleDAO(RetrofitClient.retrofit,this)
                 CoroutineScope(Dispatchers.Main).launch {
                     try {
-                        val trefleDAO = TrefleDAO(/*RetrofitClient.retrofit,*//*this@NovaBiljkaActivity*/)
+                        val trefleDAO = TrefleDAO(/*RetrofitClient.retrofit,*/this@NovaBiljkaActivity)
                         val fixedBiljka = trefleDAO.fixData(novaBiljka)
 
                         newPlantsList?.add(fixedBiljka)
@@ -259,7 +259,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
         listViewZemljisniTip: ListView,
         listViewProfilOkusa: ListView,
         jelaAdapter: ArrayAdapter<String>
-        ):Boolean {
+    ):Boolean {
         var isValid = true
 
         if (nazivBiljke.text.length < 2 || nazivBiljke.text.length > 40) {
@@ -280,7 +280,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
             textViewMedicinskaKorist = findViewById<TextView>(R.id.labelMedicinskaKorist)
             textViewMedicinskaKorist.visibility = View.VISIBLE
 
-        //    Toast.makeText(this, "Odaberite barem jednu medicinsku korist", Toast.LENGTH_SHORT).show()
+            //    Toast.makeText(this, "Odaberite barem jednu medicinsku korist", Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
@@ -289,7 +289,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
             textViewKlimatskiTip = findViewById<TextView>(R.id.labelKlimatskiTip)
             textViewKlimatskiTip.visibility = View.VISIBLE
 
-        //    Toast.makeText(this, "Odaberite barem jedan klimatski tip", Toast.LENGTH_SHORT).show()
+            //    Toast.makeText(this, "Odaberite barem jedan klimatski tip", Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
@@ -297,7 +297,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
             textViewZemljisniTip = findViewById<TextView>(R.id.labelZemljisniTip)
             textViewZemljisniTip.visibility = View.VISIBLE
 
-        //    Toast.makeText(this, "Odaberite barem jedan zemljisni tip", Toast.LENGTH_SHORT).show()
+            //    Toast.makeText(this, "Odaberite barem jedan zemljisni tip", Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
@@ -305,7 +305,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
             textViewProfilOkusa = findViewById<TextView>(R.id.labelProfilOkusa)
             textViewProfilOkusa.visibility = View.VISIBLE
 
-        //    Toast.makeText(this, "Odaberite profil okusa", Toast.LENGTH_SHORT).show()
+            //    Toast.makeText(this, "Odaberite profil okusa", Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
@@ -313,7 +313,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
             textViewJelo = findViewById<TextView>(R.id.labelJelo)
             textViewJelo.visibility = View.VISIBLE
 
-        //    Toast.makeText(this, "Dodajte barem jedno jelo", Toast.LENGTH_SHORT).show()
+            //    Toast.makeText(this, "Dodajte barem jedno jelo", Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
@@ -323,10 +323,10 @@ class NovaBiljkaActivity : AppCompatActivity() {
 
     private fun sameMeals(jelo: EditText,jelaAdapter: ArrayAdapter<String>):Boolean {
         for (i in 0 until jelaAdapter.count){
-                if (jelo.text.toString().lowercase() == jelaAdapter.getItem(i)?.lowercase()){
-                    jelo.error = "Jelo je vec dodano"
-                    return false
-                }
+            if (jelo.text.toString().lowercase() == jelaAdapter.getItem(i)?.lowercase()){
+                jelo.error = "Jelo je vec dodano"
+                return false
+            }
         }
         if (jelo.text.length < 2 || jelo.text.length > 20) {
             jelo.error = "Jelo mora imati između 2 i 20 znakova"

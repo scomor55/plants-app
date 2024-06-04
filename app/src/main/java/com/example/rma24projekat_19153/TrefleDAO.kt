@@ -14,13 +14,12 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class TrefleDAO(/*private val api: Api,*//*private val context: Context*/ ) {
+class TrefleDAO(private val context: Context ?= null ) {
 
     private val api = RetrofitClient.retrofit
-    private val context = AppContext.context
-    private val defaultBitmap: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.biljka)
+   private val defaultBitmap: Bitmap = BitmapFactory.decodeResource(context?.resources , R.drawable.biljka)
 
-      fun extractTextInBrackets(input: String): String {
+    fun extractTextInBrackets(input: String): String {
         val startIndex = input.indexOf('(')
         val endIndex = input.indexOf(')', startIndex)
 
@@ -33,11 +32,11 @@ class TrefleDAO(/*private val api: Api,*//*private val context: Context*/ ) {
             try {
                 val latinName = extractTextInBrackets(biljka.naziv)
                 val response = api.searchPlants(latinName).execute()
-             //  Log.d("API_RESPONSE", "Response: ${response.raw()}")
+                //  Log.d("API_RESPONSE", "Response: ${response.raw()}")
 
                 if (response.isSuccessful) {
                     val plants = response.body()?.data
-                 //   Log.d("API_RESPONSE", "Plants: $plants")
+                    //   Log.d("API_RESPONSE", "Plants: $plants")
                     if (!plants.isNullOrEmpty()) {
                         val imageUrl = plants[0].imageUrl
                         if (!imageUrl.isNullOrEmpty()) {
@@ -80,7 +79,7 @@ class TrefleDAO(/*private val api: Api,*//*private val context: Context*/ ) {
 
                         if (detailResponse.isSuccessful) {
                             val detailedPlant = detailResponse.body()
-                         //   biljka.naziv = detailedPlant?.data?.commonName.toString()
+                            //   biljka.naziv = detailedPlant?.data?.commonName.toString()
                             // Fix family
                             if (biljka.porodica != detailedPlant?.data?.family.toString()) {
                                 biljka.porodica = detailedPlant?.data?.family?.name.toString()
@@ -110,7 +109,7 @@ class TrefleDAO(/*private val api: Api,*//*private val context: Context*/ ) {
                                 Zemljište.CRNICA to listOf(7, 8)
                             )
                             val soilTextures = detailedPlant?.data?.mainSpecies?.growth?.soilTexture
-                         //   val soilTextures = 5
+                            //   val soilTextures = 5
                             Log.d("API Soil", "Soil: ${soilTextures}")
 
                             if (soilTextures != null) {
@@ -137,8 +136,8 @@ class TrefleDAO(/*private val api: Api,*//*private val context: Context*/ ) {
                             val light = detailedPlant?.data?.mainSpecies?.growth?.light
                             val humidity = detailedPlant?.data?.mainSpecies?.growth?.atmosphericHumidity
 
-                         //   val light = 5
-                          //  val humidity = 5
+                            //   val light = 5
+                            //  val humidity = 5
                             Log.d("API Klima", "light: ${soilTextures}")
                             Log.d("API Klima", "humidity: ${soilTextures}")
 
@@ -180,10 +179,10 @@ class TrefleDAO(/*private val api: Api,*//*private val context: Context*/ ) {
                         detailList.add(it)
                     }
                 }
-              /*  for(detail in detailList){
-                    Log.d("FORGORE", detail.data?.mainSpecies?.flower?.color.toString())
-                    Log.d("FORGORE", detail.data?.commonName.toString())
-                }*/
+                /*  for(detail in detailList){
+                      Log.d("FORGORE", detail.data?.mainSpecies?.flower?.color.toString())
+                      Log.d("FORGORE", detail.data?.commonName.toString())
+                  }*/
                 val filteredDetailList = detailList.filter { detail ->
                     when (val color = detail.data?.mainSpecies?.flower?.color) {
                         is String -> color.contains(flower_color, ignoreCase = true)
@@ -191,11 +190,11 @@ class TrefleDAO(/*private val api: Api,*//*private val context: Context*/ ) {
                         else -> false
                     }
                 }
-               /* for(detail in filteredDetailList){
-                    Log.d("FILTRIRANO", detail.data?.mainSpecies?.flower?.color.toString())
-                    Log.d("FILTRIRANO", detail.data?.commonName.toString())
+                /* for(detail in filteredDetailList){
+                     Log.d("FILTRIRANO", detail.data?.mainSpecies?.flower?.color.toString())
+                     Log.d("FILTRIRANO", detail.data?.commonName.toString())
 
-                }*/
+                 }*/
 
                 for(plant in filteredDetailList){
                     val newPlant = Biljka(
@@ -221,7 +220,7 @@ class TrefleDAO(/*private val api: Api,*//*private val context: Context*/ ) {
     }
     private fun downloadImage(url: String): Bitmap {
         return try {
-            Glide.with(context)
+            Glide.with(context!!)
                 .asBitmap()
                 .load(url)
                 .apply(RequestOptions().override(600, 600))

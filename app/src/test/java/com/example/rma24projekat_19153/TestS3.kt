@@ -1,5 +1,7 @@
 package com.example.rma24projekat_19153
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.JUnitSoftAssertions
 import org.junit.Assert.assertTrue
@@ -7,13 +9,18 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.Mock
+import org.mockito.junit.MockitoJUnitRunner
 
 
-@RunWith(JUnit4::class)
+@RunWith(MockitoJUnitRunner::class)
 class TestS3 {
+
     @get:Rule
     var softAssert = JUnitSoftAssertions()
 
+    @Mock
+    lateinit var bitmap: Bitmap
     @Test
     fun fixBosiljakTest() = runBlocking{
         var fixed = TrefleDAO().fixData(    Biljka(
@@ -62,13 +69,13 @@ class TestS3 {
 
     @Test
     fun getFlowerRosaPurple()= runBlocking {
-        var plants = TrefleDAO().getPlantswithFlowerColor("purple","rosa")
+        var plants = TrefleDAO().getPlantsWithFlowerColor("purple","rosa")
         assertTrue("T3.1 - should contain \"Rosa pendulina\"",plants.find { biljka -> biljka.naziv.contains("Rosa pendulina",ignoreCase = true) }!=null)
     }
 
     @Test
     fun getFlowerRampionBlue()= runBlocking {
-        var plants = TrefleDAO().getPlantswithFlowerColor("blue","rampion")
+        var plants = TrefleDAO().getPlantsWithFlowerColor("blue","rampion")
         assertTrue("T4.1 - should contain \"Phyteuma spicatum\"",plants.find { biljka -> biljka.naziv.contains("Phyteuma spicatum",ignoreCase = true) }!=null)
     }
 }
