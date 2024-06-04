@@ -14,9 +14,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class TrefleDAO(private val api: Api,private val context: Context ) {
+class TrefleDAO(/*private val api: Api,*/private val context: Context ) {
 
-
+    private val api = RetrofitClient.retrofit
     private val defaultBitmap: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.biljka)
 
       fun extractTextInBrackets(input: String): String {

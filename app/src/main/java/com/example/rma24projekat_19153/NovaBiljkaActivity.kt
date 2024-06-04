@@ -227,7 +227,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
              //   val trefleDAO = TrefleDAO(RetrofitClient.retrofit,this)
                 CoroutineScope(Dispatchers.Main).launch {
                     try {
-                        val trefleDAO = TrefleDAO(RetrofitClient.retrofit,this@NovaBiljkaActivity)
+                        val trefleDAO = TrefleDAO(/*RetrofitClient.retrofit,*/this@NovaBiljkaActivity)
                         val fixedBiljka = trefleDAO.fixData(novaBiljka)
 
                         newPlantsList?.add(fixedBiljka)
@@ -262,8 +262,8 @@ class NovaBiljkaActivity : AppCompatActivity() {
         ):Boolean {
         var isValid = true
 
-        if (nazivBiljke.text.length < 2 || nazivBiljke.text.length > 20) {
-            nazivBiljke.error = "Naziv biljke mora imati između 2 i 20 znakova"
+        if (nazivBiljke.text.length < 2 || nazivBiljke.text.length > 40) {
+            nazivBiljke.error = "Naziv biljke mora imati između 2 i 40 znakova"
             isValid = false
         }
         if (porodica.text.length < 2 || porodica.text.length > 20) {

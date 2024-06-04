@@ -64,6 +64,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation("com.github.bumptech.glide:glide:5.0.0-rc01")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.8.1")
+    testImplementation ("org.assertj:assertj-core:3.22.0")
 
     // implementation("com.github.bumptech.glide:compiler:5.0.0-rc01")
 
