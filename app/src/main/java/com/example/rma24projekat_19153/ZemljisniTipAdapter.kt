@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 
-class ZemljisniTipAdapter(context: Context, resource: Int, objects: Array<Zemljište>):
-    ArrayAdapter<Zemljište>(context,resource,objects)  {
+class ZemljisniTipAdapter(context: Context, resource: Int, objects: Array<Zemljiste>):
+    ArrayAdapter<Zemljiste>(context,resource,objects)  {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val itemView = convertView ?: LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_multiple_choice, parent, false)

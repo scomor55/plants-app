@@ -13,7 +13,7 @@ fun getPlants(): List<Biljka> {
             profilOkusa = ProfilOkusaBiljke.BEZUKUSNO,
             jela = listOf("Salata od paradajza", "Punjene tikvice"),
             klimatskiTipovi = listOf(KlimatskiTip.SREDOZEMNA, KlimatskiTip.SUBTROPSKA),
-            zemljisniTipovi = listOf(Zemljište.PJESKOVITO, Zemljište.ILOVICA)
+            zemljisniTipovi = listOf(Zemljiste.PJESKOVITO, Zemljiste.ILOVICA)
         ),
         Biljka(
             naziv = "Nana (Mentha spicata)",
@@ -23,7 +23,7 @@ fun getPlants(): List<Biljka> {
             profilOkusa = ProfilOkusaBiljke.MENTA,
             jela = listOf("Jogurt sa voćem", "Gulaš"),
             klimatskiTipovi = listOf(KlimatskiTip.SREDOZEMNA, KlimatskiTip.UMJERENA),
-            zemljisniTipovi = listOf(Zemljište.GLINENO, Zemljište.CRNICA)
+            zemljisniTipovi = listOf(Zemljiste.GLINENO, Zemljiste.CRNICA)
         ),
         Biljka(
             naziv = "Kamilica (Matricaria chamomilla)",
@@ -33,7 +33,7 @@ fun getPlants(): List<Biljka> {
             profilOkusa = ProfilOkusaBiljke.AROMATICNO,
             jela = listOf("Čaj od kamilice"),
             klimatskiTipovi = listOf(KlimatskiTip.UMJERENA, KlimatskiTip.SUBTROPSKA),
-            zemljisniTipovi = listOf(Zemljište.PJESKOVITO, Zemljište.KRECNJACKO)
+            zemljisniTipovi = listOf(Zemljiste.PJESKOVITO, Zemljiste.KRECNJACKO)
         ),
         Biljka(
             naziv = "Ružmarin (Rosmarinus officinalis)",
@@ -46,7 +46,7 @@ fun getPlants(): List<Biljka> {
             profilOkusa = ProfilOkusaBiljke.AROMATICNO,
             jela = listOf("Pečeno pile", "Grah", "Gulaš"),
             klimatskiTipovi = listOf(KlimatskiTip.SREDOZEMNA, KlimatskiTip.SUHA),
-            zemljisniTipovi = listOf(Zemljište.SLJUNKOVITO, Zemljište.KRECNJACKO)
+            zemljisniTipovi = listOf(Zemljiste.SLJUNKOVITO, Zemljiste.KRECNJACKO)
         ),
         Biljka(
             naziv = "Lavanda (Lavandula angustifolia)",
@@ -56,7 +56,7 @@ fun getPlants(): List<Biljka> {
             profilOkusa = ProfilOkusaBiljke.AROMATICNO,
             jela = listOf("Jogurt sa voćem"),
             klimatskiTipovi = listOf(KlimatskiTip.SREDOZEMNA, KlimatskiTip.SUHA),
-            zemljisniTipovi = listOf(Zemljište.PJESKOVITO, Zemljište.KRECNJACKO)
+            zemljisniTipovi = listOf(Zemljiste.PJESKOVITO, Zemljiste.KRECNJACKO)
         ),
         Biljka(
             naziv = "Hibiskus (Hibiscus sabdariffa)",
@@ -66,7 +66,7 @@ fun getPlants(): List<Biljka> {
             profilOkusa = ProfilOkusaBiljke.CITRUSNI,
             jela = listOf("Torta od limuna i hibiskusa"),
             klimatskiTipovi = listOf(KlimatskiTip.TROPSKA, KlimatskiTip.SUBTROPSKA),
-            zemljisniTipovi = listOf(Zemljište.CRNICA, Zemljište.KRECNJACKO)
+            zemljisniTipovi = listOf(Zemljiste.CRNICA, Zemljiste.KRECNJACKO)
         ),
         Biljka(
             naziv = "Šafran (Crocus sativus)",
@@ -79,7 +79,7 @@ fun getPlants(): List<Biljka> {
             profilOkusa = ProfilOkusaBiljke.LJUTO,
             jela = listOf("Juha od luka sa šafranom"),
             klimatskiTipovi = listOf(KlimatskiTip.UMJERENA),
-            zemljisniTipovi = listOf(Zemljište.CRNICA, Zemljište.KRECNJACKO)
+            zemljisniTipovi = listOf(Zemljiste.CRNICA, Zemljiste.KRECNJACKO)
         ),
         Biljka(
             naziv = "Kopriva (Urtica dioica)",
@@ -89,7 +89,7 @@ fun getPlants(): List<Biljka> {
             profilOkusa = ProfilOkusaBiljke.MENTA,
             jela = listOf("Pire od koprive"),
             klimatskiTipovi = listOf(KlimatskiTip.UMJERENA),
-            zemljisniTipovi = listOf(Zemljište.CRNICA, Zemljište.KRECNJACKO)
+            zemljisniTipovi = listOf(Zemljiste.CRNICA, Zemljiste.KRECNJACKO)
         ),
         Biljka(
             naziv = "Kadulja (Salvia officinalis)",
@@ -99,7 +99,7 @@ fun getPlants(): List<Biljka> {
             profilOkusa = ProfilOkusaBiljke.AROMATICNO,
             jela = listOf("Tjestenina u umaku od maslaca i kadulje"),
             klimatskiTipovi = listOf(KlimatskiTip.UMJERENA),
-            zemljisniTipovi = listOf(Zemljište.CRNICA, Zemljište.KRECNJACKO)
+            zemljisniTipovi = listOf(Zemljiste.CRNICA, Zemljiste.KRECNJACKO)
         ),
         Biljka(
             naziv = "Orhideja  (Orchidaceae)",
@@ -109,7 +109,7 @@ fun getPlants(): List<Biljka> {
             profilOkusa = ProfilOkusaBiljke.AROMATICNO,
             jela = listOf("Salata od orhideje"),
             klimatskiTipovi = listOf(KlimatskiTip.UMJERENA),
-            zemljisniTipovi = listOf(Zemljište.CRNICA, Zemljište.KRECNJACKO)
+            zemljisniTipovi = listOf(Zemljiste.CRNICA, Zemljiste.KRECNJACKO)
         )
     )
 }

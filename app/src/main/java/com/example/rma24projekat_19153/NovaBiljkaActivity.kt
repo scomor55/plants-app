@@ -59,7 +59,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
         listViewKlimatskiTip.choiceMode = ListView.CHOICE_MODE_MULTIPLE
 
         val listViewZemljisniTip = findViewById<ListView>(R.id.zemljisniTipLV)
-        val enumValuesZemljisniTip = Zemljište.values()
+        val enumValuesZemljisniTip = Zemljiste.values()
         val adapterZemljisniTip = ZemljisniTipAdapter(this,android.R.layout.simple_list_item_multiple_choice,enumValuesZemljisniTip)
         listViewZemljisniTip.adapter = adapterZemljisniTip
         listViewZemljisniTip.choiceMode = ListView.CHOICE_MODE_MULTIPLE
@@ -175,7 +175,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
                 }
             }
 
-            val selectedZemljisniTip = mutableListOf<Zemljište>()
+            val selectedZemljisniTip = mutableListOf<Zemljiste>()
             val zemljisniTipCheckedPositions = listViewZemljisniTip.checkedItemPositions
             for(i in 0 until zemljisniTipCheckedPositions.size()){
                 if(zemljisniTipCheckedPositions.valueAt(i)){

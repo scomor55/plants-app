@@ -1,5 +1,6 @@
 package com.example.rma24projekat_19153
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +10,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class MedicalPlantsListAdapter(
     private var plants: List <Biljka>,
-    private val trefleDAO: TrefleDAO
+   // private val trefleDAO: TrefleDAO
 ): RecyclerView.Adapter<MedicalPlantsListAdapter.MedicalPlantsViewHolder>(){
     private lateinit var itemClickListener: MedicalPlantsListAdapter.PlantItemClickListener
 
@@ -27,6 +29,12 @@ class MedicalPlantsListAdapter(
 
     override fun getItemCount(): Int = plants.size
     override fun onBindViewHolder(holder: MedicalPlantsViewHolder, position: Int) {
+        val context: Context = holder.plantImage.context
+        val t = TrefleDAO(context)
+        val scope = CoroutineScope(Job()+ Dispatchers.Main)
+        scope.launch {
+            holder.plantImage.setImageBitmap(t.getImage(plants[position]))
+        }
         holder.bind(plants[position])
     }
 
@@ -58,10 +66,10 @@ class MedicalPlantsListAdapter(
 
         //    Log.d("PLANT_INFO", "Plant: $plant")
 
-            CoroutineScope(Dispatchers.Main).launch {
+          /*  CoroutineScope(Dispatchers.Main).launch {
                 val bitmap = trefleDAO.getImage(plant)
                 plantImage.setImageBitmap(bitmap)
-            }
+            }*/
 
         }
     }

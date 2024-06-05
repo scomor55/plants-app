@@ -10,5 +10,5 @@ data class Biljka(
     val profilOkusa: ProfilOkusaBiljke,
     var jela: List<String>,
     var klimatskiTipovi: List<KlimatskiTip>,
-    var zemljisniTipovi: List<Zemljište>
+    var zemljisniTipovi: List<Zemljiste>
 ):Serializable
