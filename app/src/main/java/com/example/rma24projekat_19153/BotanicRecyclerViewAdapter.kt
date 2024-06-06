@@ -1,6 +1,5 @@
 package com.example.rma24projekat_19153
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class BotanicPlantsListAdapter(
     private var plants: List <Biljka>,
-  //  private val trefleDAO: TrefleDAO
+    private val trefleDAO: TrefleDAO
 ): RecyclerView.Adapter<BotanicPlantsListAdapter.BotanicPlantsViewHolder>(){
     private lateinit var itemClickListener: BotanicPlantsListAdapter.PlantItemClickListener
     private var quickSearchMode: Boolean = false
@@ -28,12 +26,6 @@ class BotanicPlantsListAdapter(
 
     override fun getItemCount(): Int = plants.size
     override fun onBindViewHolder(holder: BotanicPlantsViewHolder, position: Int) {
-        val context: Context = holder.plantImage.context
-        val t = TrefleDAO(context)
-        val scope = CoroutineScope(Job() + Dispatchers.Main)
-        scope.launch {
-            holder.plantImage.setImageBitmap(t.getImage(plants[position]))
-        }
         holder.bind(plants[position])
     }
 
@@ -62,13 +54,13 @@ class BotanicPlantsListAdapter(
             }
 
             if(quickSearchMode){
-               itemView.setOnClickListener(null)
+                itemView.setOnClickListener(null)
             }
 
-           /* CoroutineScope(Dispatchers.Main).launch {
+            CoroutineScope(Dispatchers.Main).launch {
                 val bitmap = trefleDAO.getImage(plant)
                 plantImage.setImageBitmap(bitmap)
-            }*/
+            }
         }
 
     }
@@ -81,3 +73,4 @@ class BotanicPlantsListAdapter(
         itemClickListener = listener
     }
 }
+

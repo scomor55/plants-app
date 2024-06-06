@@ -43,7 +43,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-       // val trefleDAO = TrefleDAO(/*RetrofitClient.retrofit,*/this)
+
+        val trefleDAO = TrefleDAO(/*RetrofitClient.retrofit,*/this)
 
 
         if(intent.hasExtra("novaLista")){
@@ -92,7 +93,7 @@ class MainActivity : AppCompatActivity() {
 
                         constraintSet.connect(R.id.biljkeRV, ConstraintSet.TOP, R.id.resetBtn, ConstraintSet.BOTTOM)
 
-                        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf())
+                        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf(),trefleDAO)
                         plants.adapter = medicalPlantsAdapter
                         if(similarPlants.isNotEmpty()){
                             medicalPlantsAdapter.updatePlants(similarPlants)
@@ -116,7 +117,7 @@ class MainActivity : AppCompatActivity() {
                         pretragaET.visibility = View.INVISIBLE
                         bojaSPIN.visibility = View.INVISIBLE
                         brzaPretraga.visibility = View.INVISIBLE
-                        cookingPlantsAdapter = CookingPlantsListAdapter(listOf())
+                        cookingPlantsAdapter = CookingPlantsListAdapter(listOf(),trefleDAO)
                         plants.adapter = cookingPlantsAdapter
                         if(similarPlants.isNotEmpty()){
                             cookingPlantsAdapter.updatePlants(similarPlants)
@@ -137,7 +138,7 @@ class MainActivity : AppCompatActivity() {
                         pretragaET.visibility = View.VISIBLE
                         bojaSPIN.visibility = View.VISIBLE
                         brzaPretraga.visibility = View.VISIBLE
-                        botanicPlantsAdapter = BotanicPlantsListAdapter(listOf())
+                        botanicPlantsAdapter = BotanicPlantsListAdapter(listOf(),trefleDAO)
                         plants.adapter = botanicPlantsAdapter
                         if(similarPlants.isNotEmpty()){
                             botanicPlantsAdapter.updatePlants(similarPlants)
@@ -187,7 +188,7 @@ class MainActivity : AppCompatActivity() {
             spinner.setSelection(spinner.selectedItemPosition)
         }
 
-    /*    brzaPretraga.setOnClickListener {
+        brzaPretraga.setOnClickListener {
             val query = pretragaET.text.toString()
             val selectedItem = bojaSPIN.selectedItem.toString()
 
@@ -199,9 +200,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-        }*/
+        }
 
-        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf())
+        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf(),trefleDAO)
         plants.adapter = medicalPlantsAdapter
         //  medicalPlantsAdapter.updatePlants(listOfPlants)
 

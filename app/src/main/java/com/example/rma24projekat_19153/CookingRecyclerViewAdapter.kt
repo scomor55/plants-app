@@ -1,6 +1,5 @@
 package com.example.rma24projekat_19153
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class CookingPlantsListAdapter(
     private var plants: List <Biljka>,
-   // private val trefleDAO: TrefleDAO
+    private val trefleDAO: TrefleDAO
 ): RecyclerView.Adapter<CookingPlantsListAdapter.CookingPlantsViewHolder>(){
     private lateinit var itemClickListener: CookingPlantsListAdapter.PlantItemClickListener
 
@@ -28,12 +26,6 @@ class CookingPlantsListAdapter(
 
     override fun getItemCount(): Int = plants.size
     override fun onBindViewHolder(holder: CookingPlantsViewHolder, position: Int) {
-        val context: Context = holder.plantImage.context
-        val t = TrefleDAO(context)
-        val scope = CoroutineScope(Job() + Dispatchers.Main)
-        scope.launch {
-            holder.plantImage.setImageBitmap(t.getImage(plants[position]))
-        }
         holder.bind(plants[position])
     }
 
@@ -43,7 +35,7 @@ class CookingPlantsListAdapter(
     }
 
     inner class CookingPlantsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-       val plantImage: ImageView = itemView.findViewById(R.id.slikaItem)
+        val plantImage: ImageView = itemView.findViewById(R.id.slikaItem)
         val plantNaziv: TextView = itemView.findViewById(R.id.nazivItem)
         val plantOkus: TextView = itemView.findViewById(R.id.profilOkusaItem)
         val plantJelo1: TextView = itemView.findViewById(R.id.jelo1Item)
@@ -63,10 +55,10 @@ class CookingPlantsListAdapter(
                 itemClickListener.onPlantItemClick(plant)
             }
 
-        /*   CoroutineScope(Dispatchers.Main).launch {
+            CoroutineScope(Dispatchers.Main).launch {
                 val bitmap = trefleDAO.getImage(plant)
                 plantImage.setImageBitmap(bitmap)
-            }*/
+            }
         }
     }
 
@@ -78,3 +70,4 @@ class CookingPlantsListAdapter(
         itemClickListener = listener
     }
 }
+
