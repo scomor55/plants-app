@@ -22,6 +22,8 @@ import java.io.Serializable
 
 class NovaBiljkaActivity : AppCompatActivity() {
 
+    private lateinit var biljkaDAO: BiljkaDAO
+
     private val REQUEST_IMAGE_CAPTURE = 1
     private lateinit var slikaIV: ImageView
     private lateinit var textViewMedicinskaKorist: TextView
@@ -33,6 +35,8 @@ class NovaBiljkaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nova_biljka)
+
+        biljkaDAO = BiljkaDatabase.getDatabase(application).biljkaDao()
 
         textViewMedicinskaKorist = findViewById<TextView>(R.id.labelMedicinskaKorist)
         textViewMedicinskaKorist.visibility = View.INVISIBLE
@@ -220,7 +224,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
 
 
                 val allPlants = intent.getSerializableExtra("allPlants") as? List<Biljka>
-                val novaBiljka = Biljka(nazivBiljke,porodica,medicinskoUpozorenje,selectedMedicinskaKorist,selectedProfilOkusa.first(),selectedJela,selectedKlimatskiTip,selectedZemljisniTip)
+                val novaBiljka = Biljka(nazivBiljke,porodica,medicinskoUpozorenje,selectedMedicinskaKorist,selectedProfilOkusa.first(),selectedJela,selectedKlimatskiTip,selectedZemljisniTip, onlineChecked = false,)
                 val newPlantsList = allPlants?.toMutableList()
 
 
@@ -229,7 +233,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
                     try {
                         val trefleDAO = TrefleDAO(/*RetrofitClient.retrofit,*/this@NovaBiljkaActivity)
                         val fixedBiljka = trefleDAO.fixData(novaBiljka)
-
+                        biljkaDAO.saveBiljka(fixedBiljka)
                         newPlantsList?.add(fixedBiljka)
                         val returnIntent = Intent(this@NovaBiljkaActivity, MainActivity::class.java)
                         returnIntent.putExtra("novaLista",newPlantsList as Serializable)
