@@ -20,7 +20,7 @@ interface BiljkaDAO {
     suspend fun updateBiljkas(biljkas: List<Biljka>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertBiljkaBitmap(BiljkaBitmap: BiljkaBitmap): Long
+    suspend fun insertBiljkaBitmap(biljkaBitmap: BiljkaBitmap): Long
 
     @Query("SELECT * FROM Biljka")
     suspend fun getAllBiljkas(): List<Biljka>
@@ -28,7 +28,7 @@ interface BiljkaDAO {
     @Query("DELETE FROM Biljka")
     suspend fun clearAllBiljkas()
 
-    @Query("DELETE FROM biljkaBitmap")
+    @Query("DELETE FROM BiljkaBitmap")
     suspend fun clearAllBitmaps()
 
     @Transaction
@@ -61,7 +61,7 @@ interface BiljkaDAO {
     }
 
     suspend fun addImage(idBiljke: Int, bitmap: Bitmap): Boolean {
-        val biljkaBitmap = BiljkaBitmap(idBiljke, bitmap)
+        val biljkaBitmap = BiljkaBitmap(biljkaId = idBiljke, bitmap = bitmap)
         return insertBiljkaBitmap(biljkaBitmap) > 0
     }
 }

@@ -4,17 +4,13 @@ package com.example.rma24projekat_19153
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
-class TrefleDAO(private val context: Context ?= null ) {
+class TrefleDAO(private val context: Context?= null ) {
 
     private val api = RetrofitClient.retrofit
   // private val defaultBitmap: Bitmap = BitmapFactory.decodeResource(context?.resources , R.drawable.biljka)

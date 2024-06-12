@@ -18,11 +18,13 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.Serializable
 
 class NovaBiljkaActivity : AppCompatActivity() {
 
     private lateinit var biljkaDAO: BiljkaDAO
+    private lateinit var trefleDAO: TrefleDAO
 
     private val REQUEST_IMAGE_CAPTURE = 1
     private lateinit var slikaIV: ImageView
@@ -36,7 +38,9 @@ class NovaBiljkaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nova_biljka)
 
+
         biljkaDAO = BiljkaDatabase.getDatabase(application).biljkaDao()
+        trefleDAO = TrefleDAO(this)
 
         textViewMedicinskaKorist = findViewById<TextView>(R.id.labelMedicinskaKorist)
         textViewMedicinskaKorist.visibility = View.INVISIBLE
@@ -228,28 +232,38 @@ class NovaBiljkaActivity : AppCompatActivity() {
                 val newPlantsList = allPlants?.toMutableList()
 
 
-                //   val trefleDAO = TrefleDAO(RetrofitClient.retrofit,this)
-                CoroutineScope(Dispatchers.Main).launch {
-                    try {
-                        val trefleDAO = TrefleDAO(/*RetrofitClient.retrofit,*/this@NovaBiljkaActivity)
-                        val fixedBiljka = trefleDAO.fixData(novaBiljka)
-                        biljkaDAO.saveBiljka(fixedBiljka)
-                        newPlantsList?.add(fixedBiljka)
-                        val returnIntent = Intent(this@NovaBiljkaActivity, MainActivity::class.java)
-                        returnIntent.putExtra("novaLista",newPlantsList as Serializable)
-                        startActivity(returnIntent)
-                        finish()
-
-                    } catch (e: Exception) {
-                        Log.e("Error", "Error: ${e.message}")
-                    }
-                }
-
+                addNewBiljka(novaBiljka)
+                val returnIntent = Intent(this@NovaBiljkaActivity, MainActivity::class.java)
+               // returnIntent.putExtra("novaLista",newPlantsList as Serializable)
+                startActivity(returnIntent)
+                finish()
 
             }else {
                 Toast.makeText(this@NovaBiljkaActivity, "Molimo popunite sva polja", Toast.LENGTH_SHORT).show()
             }
 
+        }
+    }
+
+
+    private fun addNewBiljka(biljka: Biljka) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val fixedBiljka = trefleDAO.fixData(biljka)
+            val biljkaId = biljkaDAO.insertBiljka(fixedBiljka)
+
+            if (biljkaId > 0) {
+                biljka.id = biljkaId.toInt()
+                val bitmap = trefleDAO.getImage(biljka)
+                biljkaDAO.addImage(biljka.id, bitmap)
+                withContext(Dispatchers.Main) {
+                    slikaIV.setImageBitmap(bitmap)
+                    Toast.makeText(this@NovaBiljkaActivity, "Biljka dodana uspješno", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@NovaBiljkaActivity, "Dodavanje biljke nije uspjelo", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

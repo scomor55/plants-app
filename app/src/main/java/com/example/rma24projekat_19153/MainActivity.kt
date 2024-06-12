@@ -1,12 +1,8 @@
 package com.example.rma24projekat_19153
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
@@ -16,7 +12,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,7 +24,7 @@ import java.io.Serializable
 class MainActivity : AppCompatActivity() {
     private lateinit var plants: RecyclerView
     private lateinit var currentPlantsAdapter: MedicalPlantsListAdapter
-    val listOfPlants = getPlants().toMutableList()
+    private lateinit var listOfPlants : MutableList<Biljka>
     private lateinit var resetButton: Button
     private lateinit var pretragaET: EditText
     private lateinit var bojaSPIN: Spinner
@@ -38,21 +33,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cookingPlantsAdapter: CookingPlantsListAdapter
     private lateinit var botanicPlantsAdapter: BotanicPlantsListAdapter
     private lateinit var similarPlants: List <Biljka>
+    private lateinit var biljkaDAO: BiljkaDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        val trefleDAO = TrefleDAO(/*RetrofitClient.retrofit,*/this)
+        val trefleDAO = TrefleDAO(this)
+
+        biljkaDAO = BiljkaDatabase.getDatabase(this).biljkaDao()
 
 
-        if(intent.hasExtra("novaLista")){
-            val newPlantsList = intent.getSerializableExtra("novaLista") as? List<Biljka>
-            if(newPlantsList != null){
-                listOfPlants.clear()
-                listOfPlants.addAll(newPlantsList)
-            }
+        CoroutineScope(Dispatchers.IO).launch {
+            listOfPlants = biljkaDAO.getAllBiljkas().toMutableList()
         }
 
         plants = findViewById(R.id.biljkeRV)

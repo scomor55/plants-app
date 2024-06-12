@@ -7,7 +7,7 @@ import java.io.Serializable
 
 @Entity
 data class Biljka(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
     @ColumnInfo(name = "naziv") var naziv: String,
     @ColumnInfo(name = "porodica") var porodica: String,
     @ColumnInfo(name = "medicinskoUpozorenje") var medicinskoUpozorenje: String,
