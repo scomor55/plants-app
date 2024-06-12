@@ -1,5 +1,6 @@
 package com.example.rma24projekat_19153
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,8 @@ import kotlinx.coroutines.launch
 
 class BotanicPlantsListAdapter(
     private var plants: List <Biljka>,
-    private val trefleDAO: TrefleDAO
+    private val trefleDAO: TrefleDAO,
+    private val context: Context
 ): RecyclerView.Adapter<BotanicPlantsListAdapter.BotanicPlantsViewHolder>(){
     private lateinit var itemClickListener: BotanicPlantsListAdapter.PlantItemClickListener
     private var quickSearchMode: Boolean = false
@@ -41,6 +43,7 @@ class BotanicPlantsListAdapter(
         val plantPorodica: TextView = itemView.findViewById(R.id.porodicaItem)
         val plantKlimatskiTip: TextView = itemView.findViewById(R.id.klimatskiTipItem)
         val plantZemljisniTip: TextView = itemView.findViewById(R.id.zemljisniTipItem)
+        private lateinit var biljkaDAO: BiljkaDAO
 
         fun bind(plant: Biljka){
             plantNaziv.text = plant.naziv
@@ -55,12 +58,19 @@ class BotanicPlantsListAdapter(
 
             if(quickSearchMode){
                 itemView.setOnClickListener(null)
+                CoroutineScope(Dispatchers.Main).launch {
+                    val bitmap = trefleDAO.getImage(plant)
+                    plantImage.setImageBitmap(bitmap)
+                }
+            }else{
+                biljkaDAO = BiljkaDatabase.getDatabase(context).biljkaDao()
+                CoroutineScope(Dispatchers.Main).launch{
+                    val biljkaBitmap = biljkaDAO.getBiljkaBitmap(plant.id)
+                    plantImage.setImageBitmap(biljkaBitmap?.bitmap)
+                }
             }
 
-            CoroutineScope(Dispatchers.Main).launch {
-                val bitmap = trefleDAO.getImage(plant)
-                plantImage.setImageBitmap(bitmap)
-            }
+
         }
 
     }

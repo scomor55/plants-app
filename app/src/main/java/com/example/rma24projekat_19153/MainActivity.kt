@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
                         constraintSet.connect(R.id.biljkeRV, ConstraintSet.TOP, R.id.resetBtn, ConstraintSet.BOTTOM)
 
-                        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf(),trefleDAO,application)
+                        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf(),application)
                         plants.adapter = medicalPlantsAdapter
                         if(similarPlants.isNotEmpty()){
                             medicalPlantsAdapter.updatePlants(similarPlants)
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
                         pretragaET.visibility = View.INVISIBLE
                         bojaSPIN.visibility = View.INVISIBLE
                         brzaPretraga.visibility = View.INVISIBLE
-                        cookingPlantsAdapter = CookingPlantsListAdapter(listOf(),trefleDAO)
+                        cookingPlantsAdapter = CookingPlantsListAdapter(listOf(),application)
                         plants.adapter = cookingPlantsAdapter
                         if(similarPlants.isNotEmpty()){
                             cookingPlantsAdapter.updatePlants(similarPlants)
@@ -132,7 +132,7 @@ class MainActivity : AppCompatActivity() {
                         pretragaET.visibility = View.VISIBLE
                         bojaSPIN.visibility = View.VISIBLE
                         brzaPretraga.visibility = View.VISIBLE
-                        botanicPlantsAdapter = BotanicPlantsListAdapter(listOf(),trefleDAO)
+                        botanicPlantsAdapter = BotanicPlantsListAdapter(listOf(),trefleDAO,application)
                         plants.adapter = botanicPlantsAdapter
                         if(similarPlants.isNotEmpty()){
                             botanicPlantsAdapter.updatePlants(similarPlants)
@@ -196,7 +196,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf(),trefleDAO,application)
+        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf(),application)
         plants.adapter = medicalPlantsAdapter
         //  medicalPlantsAdapter.updatePlants(listOfPlants)
 

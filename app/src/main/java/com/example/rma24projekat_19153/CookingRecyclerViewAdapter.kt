@@ -1,5 +1,6 @@
 package com.example.rma24projekat_19153
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class CookingPlantsListAdapter(
     private var plants: List <Biljka>,
-    private val trefleDAO: TrefleDAO
+    private val context: Context
 ): RecyclerView.Adapter<CookingPlantsListAdapter.CookingPlantsViewHolder>(){
     private lateinit var itemClickListener: CookingPlantsListAdapter.PlantItemClickListener
 
@@ -41,6 +42,7 @@ class CookingPlantsListAdapter(
         val plantJelo1: TextView = itemView.findViewById(R.id.jelo1Item)
         val plantJelo2: TextView = itemView.findViewById(R.id.jelo2Item)
         val plantJelo3: TextView = itemView.findViewById(R.id.jelo3Item)
+        private lateinit var biljkaDAO: BiljkaDAO
 
         fun bind(plant: Biljka){
             plantNaziv.text = plant.naziv
@@ -54,10 +56,10 @@ class CookingPlantsListAdapter(
             itemView.setOnClickListener {
                 itemClickListener.onPlantItemClick(plant)
             }
-
+            biljkaDAO = BiljkaDatabase.getDatabase(context).biljkaDao()
             CoroutineScope(Dispatchers.Main).launch {
-                val bitmap = trefleDAO.getImage(plant)
-                plantImage.setImageBitmap(bitmap)
+                val biljkaBitmap = biljkaDAO.getBiljkaBitmap(plant.id)
+                plantImage.setImageBitmap(biljkaBitmap?.bitmap)
             }
         }
     }

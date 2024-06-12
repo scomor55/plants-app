@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 
 class MedicalPlantsListAdapter(
     private var plants: List <Biljka>,
-    private val trefleDAO: TrefleDAO,
     private val context: Context
     ): RecyclerView.Adapter<MedicalPlantsListAdapter.MedicalPlantsViewHolder>(){
     private lateinit var itemClickListener: MedicalPlantsListAdapter.PlantItemClickListener
