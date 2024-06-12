@@ -1,5 +1,6 @@
 package com.example.rma24projekat_19153
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +14,9 @@ import kotlinx.coroutines.launch
 
 class MedicalPlantsListAdapter(
     private var plants: List <Biljka>,
-    private val trefleDAO: TrefleDAO
-): RecyclerView.Adapter<MedicalPlantsListAdapter.MedicalPlantsViewHolder>(){
+    private val trefleDAO: TrefleDAO,
+    private val context: Context
+    ): RecyclerView.Adapter<MedicalPlantsListAdapter.MedicalPlantsViewHolder>(){
     private lateinit var itemClickListener: MedicalPlantsListAdapter.PlantItemClickListener
 
     override fun onCreateViewHolder(
@@ -42,6 +44,7 @@ class MedicalPlantsListAdapter(
         val plantKorist1: TextView = itemView.findViewById(R.id.korist1Item)
         val plantKorist2: TextView = itemView.findViewById(R.id.korist2Item)
         val plantKorist3: TextView = itemView.findViewById(R.id.korist3Item)
+        private lateinit var biljkaDAO: BiljkaDAO
 
         fun bind(plant: Biljka){
             plantNaziv.text = plant.naziv
@@ -55,14 +58,11 @@ class MedicalPlantsListAdapter(
             itemView.setOnClickListener {
                 itemClickListener.onPlantItemClick(plant)
             }
-
-            //    Log.d("PLANT_INFO", "Plant: $plant")
-
-            CoroutineScope(Dispatchers.Main).launch {
-                val bitmap = trefleDAO.getImage(plant)
-                plantImage.setImageBitmap(bitmap)
+            biljkaDAO = BiljkaDatabase.getDatabase(context).biljkaDao()
+            CoroutineScope(Dispatchers.Main).launch{
+                val biljkaBitmap = biljkaDAO.getBiljkaBitmap(plant.id)
+                plantImage.setImageBitmap(biljkaBitmap?.bitmap)
             }
-
         }
     }
 

@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
                         constraintSet.connect(R.id.biljkeRV, ConstraintSet.TOP, R.id.resetBtn, ConstraintSet.BOTTOM)
 
-                        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf(),trefleDAO)
+                        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf(),trefleDAO,application)
                         plants.adapter = medicalPlantsAdapter
                         if(similarPlants.isNotEmpty()){
                             medicalPlantsAdapter.updatePlants(similarPlants)
@@ -196,7 +196,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf(),trefleDAO)
+        medicalPlantsAdapter = MedicalPlantsListAdapter(listOf(),trefleDAO,application)
         plants.adapter = medicalPlantsAdapter
         //  medicalPlantsAdapter.updatePlants(listOfPlants)
 

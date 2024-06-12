@@ -31,6 +31,9 @@ interface BiljkaDAO {
     @Query("DELETE FROM BiljkaBitmap")
     suspend fun clearAllBitmaps()
 
+    @Query("SELECT * FROM BiljkaBitmap WHERE biljkaId = :biljkaId")
+    suspend fun getBiljkaBitmap(biljkaId: Int): BiljkaBitmap?
+
     @Transaction
     suspend fun clearData() {
         clearAllBiljkas()
