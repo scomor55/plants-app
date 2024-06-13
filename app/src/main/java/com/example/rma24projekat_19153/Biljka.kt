@@ -9,7 +9,7 @@ import java.io.Serializable
 data class Biljka(
     @PrimaryKey(autoGenerate = true) var id: Int = 0,
     @ColumnInfo(name = "naziv") var naziv: String,
-    @ColumnInfo(name = "porodica") var porodica: String,
+    @ColumnInfo(name = "family") var porodica: String,
     @ColumnInfo(name = "medicinskoUpozorenje") var medicinskoUpozorenje: String,
     @ColumnInfo(name = "medicinskeKoristi") val medicinskeKoristi: List<MedicinskaKorist>,
     @ColumnInfo(name = "profilOkusa") val profilOkusa: ProfilOkusaBiljke,

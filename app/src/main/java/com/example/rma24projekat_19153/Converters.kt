@@ -5,7 +5,9 @@ import android.graphics.BitmapFactory
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.CoroutineStart
 import java.io.ByteArrayOutputStream
+import kotlin.io.encoding.Base64
 
 class Converters {
     @TypeConverter
@@ -52,14 +54,18 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromBitmap(bitmap: Bitmap): ByteArray {
+    fun fromBitmap(bitmap: Bitmap): String {
         val outputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        return outputStream.toByteArray()
+        val byteArray = outputStream.toByteArray()
+        return byteArray.joinToString("") { "%02x".format(it) }
     }
 
     @TypeConverter
-    fun toBitmap(byteArray: ByteArray): Bitmap {
+    fun toBitmap(hexString: String): Bitmap {
+        val byteArray = hexString.chunked(2)
+            .map { it.toInt(16).toByte() }
+            .toByteArray()
         return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 }

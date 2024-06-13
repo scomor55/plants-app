@@ -13,14 +13,14 @@ import androidx.room.PrimaryKey
         ForeignKey(
             entity = Biljka::class,
             parentColumns = ["id"],
-            childColumns = ["biljkaId"],
+            childColumns = ["idBiljke"],
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index(value = ["biljkaId"], unique = true)]
+    indices = [Index(value = ["idBiljke"], unique = true)]
 )
 data class BiljkaBitmap(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    @ColumnInfo(name = "biljkaId") val biljkaId: Int,
+    @ColumnInfo(name = "idBiljke") val biljkaId: Int,
     @ColumnInfo(name = "bitmap") val bitmap: Bitmap
 )
