@@ -4,6 +4,7 @@ package com.example.rma24projekat_19153
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.coroutines.Dispatchers
@@ -205,9 +206,14 @@ class TrefleDAO(private val context: Context?= null ) {
                 .apply(RequestOptions().override(600, 600))
                 .submit()
                 .get()
-        } catch (e: Exception) {
-            e.printStackTrace()
+
+
+       } catch (e: Exception) {
+           Log.d("BOSILJAK", "Bio sam ovdjeeeeee")
+
+           e.printStackTrace()
             return defaultBitmap
         }
-    }
+         Log.d("BOSILJAK", "Bio sam ovdjeeeeee")
+   }
 }

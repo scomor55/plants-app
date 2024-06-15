@@ -48,16 +48,18 @@ class MainActivity : AppCompatActivity() {
         val trefleDAO = TrefleDAO(this)
 
         biljkaDAO = BiljkaDatabase.getDatabase(application).biljkaDao()
-        medicalPlantsAdapter = MedicalPlantsListAdapter(listOfPlants, application)
+        medicalPlantsAdapter = MedicalPlantsListAdapter(listOfPlants, this)
         cookingPlantsAdapter = CookingPlantsListAdapter(listOfPlants, trefleDAO)
         botanicPlantsAdapter = BotanicPlantsListAdapter(listOfPlants, trefleDAO)
 
         CoroutineScope(Dispatchers.IO).launch {
             listOfPlants = biljkaDAO.getAllBiljkas().toMutableList()
 
-               medicalPlantsAdapter.updatePlants(listOfPlants)
+            withContext(Dispatchers.Main) {
+                medicalPlantsAdapter.updatePlants(listOfPlants)
                 cookingPlantsAdapter.updatePlants(listOfPlants)
                 botanicPlantsAdapter.updatePlants(listOfPlants)
+            }
 
      }
 

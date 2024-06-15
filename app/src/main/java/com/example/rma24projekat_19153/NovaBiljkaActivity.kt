@@ -233,9 +233,9 @@ class NovaBiljkaActivity : AppCompatActivity() {
                 //   val trefleDAO = TrefleDAO(RetrofitClient.retrofit,this)
 
                 addNewBiljka(novaBiljka)
-                newPlantsList?.add(novaBiljka)
+       //         newPlantsList?.add(novaBiljka)
                 val returnIntent = Intent(this@NovaBiljkaActivity, MainActivity::class.java)
-                returnIntent.putExtra("novaLista",newPlantsList as Serializable)
+       //         returnIntent.putExtra("novaLista",newPlantsList as Serializable)
                 startActivity(returnIntent)
                 finish()
 
@@ -261,14 +261,14 @@ class NovaBiljkaActivity : AppCompatActivity() {
                 biljka.id = biljkaId.toInt()
                 val bitmap = trefleDAO.getImage(biljka)
                 biljkaDAO.addImage(biljka.id, bitmap)
-                withContext(Dispatchers.Main) {
+              /*  withContext(Dispatchers.Main) {
                     slikaIV.setImageBitmap(bitmap)
                     Toast.makeText(this@NovaBiljkaActivity, "Biljka dodana uspješno", Toast.LENGTH_SHORT).show()
-                }
+                }*/
             } else {
-                withContext(Dispatchers.Main) {
+              /*  withContext(Dispatchers.Main) {
                     Toast.makeText(this@NovaBiljkaActivity, "Dodavanje biljke nije uspjelo", Toast.LENGTH_SHORT).show()
-                }
+                }*/
             }
         }
     }
