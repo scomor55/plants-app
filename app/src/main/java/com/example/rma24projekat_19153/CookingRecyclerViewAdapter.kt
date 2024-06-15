@@ -10,10 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CookingPlantsListAdapter(
     private var plants: List <Biljka>,
-    private val trefleDAO: TrefleDAO
+    private val context: Context
 ): RecyclerView.Adapter<CookingPlantsListAdapter.CookingPlantsViewHolder>(){
     private lateinit var itemClickListener: CookingPlantsListAdapter.PlantItemClickListener
 
@@ -42,6 +43,7 @@ class CookingPlantsListAdapter(
         val plantJelo1: TextView = itemView.findViewById(R.id.jelo1Item)
         val plantJelo2: TextView = itemView.findViewById(R.id.jelo2Item)
         val plantJelo3: TextView = itemView.findViewById(R.id.jelo3Item)
+        private lateinit var biljkaDAO: BiljkaDAO
 
         fun bind(plant: Biljka){
             plantNaziv.text = plant.naziv
@@ -55,10 +57,16 @@ class CookingPlantsListAdapter(
             itemView.setOnClickListener {
                 itemClickListener.onPlantItemClick(plant)
             }
-
+            biljkaDAO = BiljkaDatabase.getDatabase(context).biljkaDao()
+            val trefleDAO = TrefleDAO(context)
             CoroutineScope(Dispatchers.Main).launch {
-                val bitmap = trefleDAO.getImage(plant)
-                plantImage.setImageBitmap(bitmap)
+                val biljkaBitmap = biljkaDAO.getBiljkaBitmap(plant.id)
+                val bitmap = biljkaBitmap?.bitmap ?: trefleDAO.getImage(plant).also {
+                    biljkaDAO.addImage(plant.id, it)
+                }
+                withContext(Dispatchers.Main) {
+                    plantImage.setImageBitmap(bitmap)
+                }
             }
         }
     }

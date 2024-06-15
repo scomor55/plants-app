@@ -59,9 +59,15 @@ class MedicalPlantsListAdapter(
                 itemClickListener.onPlantItemClick(plant)
             }
             biljkaDAO = BiljkaDatabase.getDatabase(context).biljkaDao()
-            CoroutineScope(Dispatchers.Main).launch{
+            val trefleDAO = TrefleDAO(context)
+            CoroutineScope(Dispatchers.Main).launch {
                 val biljkaBitmap = biljkaDAO.getBiljkaBitmap(plant.id)
-                plantImage.setImageBitmap(biljkaBitmap?.bitmap)
+                val bitmap = biljkaBitmap?.bitmap ?: trefleDAO.getImage(plant).also {
+                    biljkaDAO.addImage(plant.id, it)
+                }
+                withContext(Dispatchers.Main) {
+                    plantImage.setImageBitmap(bitmap)
+                }
             }
         }
     }

@@ -230,21 +230,13 @@ class NovaBiljkaActivity : AppCompatActivity() {
                 val newPlantsList = allPlants?.toMutableList()
 
 
-                //   val trefleDAO = TrefleDAO(RetrofitClient.retrofit,this)
-
-                addNewBiljka(novaBiljka) { success ->
-                    if (success) {
-                        val returnIntent = Intent(this@NovaBiljkaActivity, MainActivity::class.java)
-                        startActivity(returnIntent)
-                        finish()
-                    } else {
-                        Toast.makeText(this@NovaBiljkaActivity, "Failed to add plant", Toast.LENGTH_SHORT).show()
-                    }
+                CoroutineScope(Dispatchers.Main).launch {
+                    //addNewBiljka(novaBiljka)
+                    biljkaDAO.saveBiljka(trefleDAO.fixData(novaBiljka))
+                    val returnIntent = Intent(this@NovaBiljkaActivity, MainActivity::class.java)
+                    startActivity(returnIntent)
+                    finish()
                 }
-
-
-
-
 
             }else {
                 Toast.makeText(this@NovaBiljkaActivity, "Molimo popunite sva polja", Toast.LENGTH_SHORT).show()
@@ -254,7 +246,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
     }
 
 
-    private fun addNewBiljka(biljka: Biljka, onComplete: (Boolean) -> Unit) {
+    private fun addNewBiljka(biljka: Biljka/*, onComplete: (Boolean) -> Unit*/) {
         CoroutineScope(Dispatchers.Main).launch {
             val fixedBiljka = trefleDAO.fixData(biljka)
             val biljkaId = biljkaDAO.insertBiljka(fixedBiljka)
@@ -263,9 +255,9 @@ class NovaBiljkaActivity : AppCompatActivity() {
                 biljka.id = biljkaId.toInt()
                 val bitmap = trefleDAO.getImage(biljka)
                 biljkaDAO.addImage(biljka.id, bitmap)
-                onComplete(true)
+               // onComplete(true)
             } else {
-                onComplete(false)
+               // onComplete(false)
             }
         }
     }

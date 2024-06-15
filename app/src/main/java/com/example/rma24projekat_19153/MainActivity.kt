@@ -49,10 +49,10 @@ class MainActivity : AppCompatActivity() {
 
         biljkaDAO = BiljkaDatabase.getDatabase(application).biljkaDao()
         medicalPlantsAdapter = MedicalPlantsListAdapter(listOfPlants, this)
-        cookingPlantsAdapter = CookingPlantsListAdapter(listOfPlants, trefleDAO)
-        botanicPlantsAdapter = BotanicPlantsListAdapter(listOfPlants, trefleDAO)
+        cookingPlantsAdapter = CookingPlantsListAdapter(listOfPlants, this)
+        botanicPlantsAdapter = BotanicPlantsListAdapter(listOfPlants, this)
 
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             listOfPlants = biljkaDAO.getAllBiljkas().toMutableList()
 
             withContext(Dispatchers.Main) {
@@ -126,7 +126,7 @@ class MainActivity : AppCompatActivity() {
                         pretragaET.visibility = View.INVISIBLE
                         bojaSPIN.visibility = View.INVISIBLE
                         brzaPretraga.visibility = View.INVISIBLE
-                        cookingPlantsAdapter = CookingPlantsListAdapter(listOf(),trefleDAO)
+                        cookingPlantsAdapter = CookingPlantsListAdapter(listOf(),application)
                         plants.adapter = cookingPlantsAdapter
                         if(similarPlants.isNotEmpty()){
                             cookingPlantsAdapter.updatePlants(similarPlants)
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
                         pretragaET.visibility = View.VISIBLE
                         bojaSPIN.visibility = View.VISIBLE
                         brzaPretraga.visibility = View.VISIBLE
-                        botanicPlantsAdapter = BotanicPlantsListAdapter(listOf(),trefleDAO)
+                        botanicPlantsAdapter = BotanicPlantsListAdapter(listOf(),application)
                         plants.adapter = botanicPlantsAdapter
                         if(similarPlants.isNotEmpty()){
                             botanicPlantsAdapter.updatePlants(similarPlants)
