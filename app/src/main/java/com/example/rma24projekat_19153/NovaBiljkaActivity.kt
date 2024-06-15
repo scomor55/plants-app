@@ -232,12 +232,15 @@ class NovaBiljkaActivity : AppCompatActivity() {
 
                 //   val trefleDAO = TrefleDAO(RetrofitClient.retrofit,this)
 
-                addNewBiljka(novaBiljka)
-       //         newPlantsList?.add(novaBiljka)
-                val returnIntent = Intent(this@NovaBiljkaActivity, MainActivity::class.java)
-       //         returnIntent.putExtra("novaLista",newPlantsList as Serializable)
-                startActivity(returnIntent)
-                finish()
+                addNewBiljka(novaBiljka) { success ->
+                    if (success) {
+                        val returnIntent = Intent(this@NovaBiljkaActivity, MainActivity::class.java)
+                        startActivity(returnIntent)
+                        finish()
+                    } else {
+                        Toast.makeText(this@NovaBiljkaActivity, "Failed to add plant", Toast.LENGTH_SHORT).show()
+                    }
+                }
 
 
 
@@ -251,9 +254,8 @@ class NovaBiljkaActivity : AppCompatActivity() {
     }
 
 
-
-    private fun addNewBiljka(biljka: Biljka) {
-        CoroutineScope(Dispatchers.IO).launch {
+    private fun addNewBiljka(biljka: Biljka, onComplete: (Boolean) -> Unit) {
+        CoroutineScope(Dispatchers.Main).launch {
             val fixedBiljka = trefleDAO.fixData(biljka)
             val biljkaId = biljkaDAO.insertBiljka(fixedBiljka)
 
@@ -261,14 +263,9 @@ class NovaBiljkaActivity : AppCompatActivity() {
                 biljka.id = biljkaId.toInt()
                 val bitmap = trefleDAO.getImage(biljka)
                 biljkaDAO.addImage(biljka.id, bitmap)
-              /*  withContext(Dispatchers.Main) {
-                    slikaIV.setImageBitmap(bitmap)
-                    Toast.makeText(this@NovaBiljkaActivity, "Biljka dodana uspješno", Toast.LENGTH_SHORT).show()
-                }*/
+                onComplete(true)
             } else {
-              /*  withContext(Dispatchers.Main) {
-                    Toast.makeText(this@NovaBiljkaActivity, "Dodavanje biljke nije uspjelo", Toast.LENGTH_SHORT).show()
-                }*/
+                onComplete(false)
             }
         }
     }
