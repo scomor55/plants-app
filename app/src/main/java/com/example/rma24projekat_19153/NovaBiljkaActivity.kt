@@ -23,9 +23,6 @@ import java.io.Serializable
 
 class NovaBiljkaActivity : AppCompatActivity() {
 
-    private lateinit var biljkaDAO: BiljkaDAO
-    private lateinit var trefleDAO: TrefleDAO
-
     private val REQUEST_IMAGE_CAPTURE = 1
     private lateinit var slikaIV: ImageView
     private lateinit var textViewMedicinskaKorist: TextView
@@ -33,14 +30,15 @@ class NovaBiljkaActivity : AppCompatActivity() {
     private lateinit var textViewZemljisniTip: TextView
     private lateinit var textViewProfilOkusa: TextView
     private lateinit var textViewJelo: TextView
-
+    private lateinit var biljkaDAO: BiljkaDAO
+    private lateinit var trefleDAO: TrefleDAO
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nova_biljka)
 
-
         biljkaDAO = BiljkaDatabase.getDatabase(application).biljkaDao()
-        trefleDAO = TrefleDAO(this)
+        trefleDAO = TrefleDAO( this)
+
 
         textViewMedicinskaKorist = findViewById<TextView>(R.id.labelMedicinskaKorist)
         textViewMedicinskaKorist.visibility = View.INVISIBLE
@@ -228,15 +226,22 @@ class NovaBiljkaActivity : AppCompatActivity() {
 
 
                 val allPlants = intent.getSerializableExtra("allPlants") as? List<Biljka>
-                val novaBiljka = Biljka(nazivBiljke,porodica,medicinskoUpozorenje,selectedMedicinskaKorist,selectedProfilOkusa.first(),selectedJela,selectedKlimatskiTip,selectedZemljisniTip, onlineChecked = false,)
+                val novaBiljka = Biljka(nazivBiljke,porodica,medicinskoUpozorenje,selectedMedicinskaKorist,selectedProfilOkusa.first(),selectedJela,selectedKlimatskiTip,selectedZemljisniTip)
                 val newPlantsList = allPlants?.toMutableList()
 
 
+                //   val trefleDAO = TrefleDAO(RetrofitClient.retrofit,this)
+
                 addNewBiljka(novaBiljka)
+                newPlantsList?.add(novaBiljka)
                 val returnIntent = Intent(this@NovaBiljkaActivity, MainActivity::class.java)
-               // returnIntent.putExtra("novaLista",newPlantsList as Serializable)
+                returnIntent.putExtra("novaLista",newPlantsList as Serializable)
                 startActivity(returnIntent)
                 finish()
+
+
+
+
 
             }else {
                 Toast.makeText(this@NovaBiljkaActivity, "Molimo popunite sva polja", Toast.LENGTH_SHORT).show()
@@ -244,6 +249,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
 
         }
     }
+
 
 
     private fun addNewBiljka(biljka: Biljka) {
@@ -266,6 +272,7 @@ class NovaBiljkaActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun validation(
         nazivBiljke: EditText,

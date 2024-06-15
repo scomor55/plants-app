@@ -11,11 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MedicalPlantsListAdapter(
     private var plants: List <Biljka>,
     private val context: Context
-    ): RecyclerView.Adapter<MedicalPlantsListAdapter.MedicalPlantsViewHolder>(){
+): RecyclerView.Adapter<MedicalPlantsListAdapter.MedicalPlantsViewHolder>(){
     private lateinit var itemClickListener: MedicalPlantsListAdapter.PlantItemClickListener
 
     override fun onCreateViewHolder(

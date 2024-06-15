@@ -1,8 +1,12 @@
 package com.example.rma24projekat_19153
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
@@ -12,19 +16,21 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.Serializable
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var plants: RecyclerView
+    private var listOfPlants: MutableList<Biljka> = mutableListOf()
     private lateinit var currentPlantsAdapter: MedicalPlantsListAdapter
-    private lateinit var listOfPlants : MutableList<Biljka>
     private lateinit var resetButton: Button
     private lateinit var pretragaET: EditText
     private lateinit var bojaSPIN: Spinner
@@ -34,7 +40,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var botanicPlantsAdapter: BotanicPlantsListAdapter
     private lateinit var similarPlants: List <Biljka>
     private lateinit var biljkaDAO: BiljkaDAO
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -42,12 +47,20 @@ class MainActivity : AppCompatActivity() {
 
         val trefleDAO = TrefleDAO(this)
 
-        biljkaDAO = BiljkaDatabase.getDatabase(this).biljkaDao()
-
+        biljkaDAO = BiljkaDatabase.getDatabase(application).biljkaDao()
+        medicalPlantsAdapter = MedicalPlantsListAdapter(listOfPlants, application)
+        cookingPlantsAdapter = CookingPlantsListAdapter(listOfPlants, trefleDAO)
+        botanicPlantsAdapter = BotanicPlantsListAdapter(listOfPlants, trefleDAO)
 
         CoroutineScope(Dispatchers.IO).launch {
             listOfPlants = biljkaDAO.getAllBiljkas().toMutableList()
-        }
+
+               medicalPlantsAdapter.updatePlants(listOfPlants)
+                cookingPlantsAdapter.updatePlants(listOfPlants)
+                botanicPlantsAdapter.updatePlants(listOfPlants)
+
+     }
+
 
         plants = findViewById(R.id.biljkeRV)
         plants.layoutManager = LinearLayoutManager(
@@ -111,7 +124,7 @@ class MainActivity : AppCompatActivity() {
                         pretragaET.visibility = View.INVISIBLE
                         bojaSPIN.visibility = View.INVISIBLE
                         brzaPretraga.visibility = View.INVISIBLE
-                        cookingPlantsAdapter = CookingPlantsListAdapter(listOf(),application)
+                        cookingPlantsAdapter = CookingPlantsListAdapter(listOf(),trefleDAO)
                         plants.adapter = cookingPlantsAdapter
                         if(similarPlants.isNotEmpty()){
                             cookingPlantsAdapter.updatePlants(similarPlants)
@@ -132,7 +145,7 @@ class MainActivity : AppCompatActivity() {
                         pretragaET.visibility = View.VISIBLE
                         bojaSPIN.visibility = View.VISIBLE
                         brzaPretraga.visibility = View.VISIBLE
-                        botanicPlantsAdapter = BotanicPlantsListAdapter(listOf(),trefleDAO,application)
+                        botanicPlantsAdapter = BotanicPlantsListAdapter(listOf(),trefleDAO)
                         plants.adapter = botanicPlantsAdapter
                         if(similarPlants.isNotEmpty()){
                             botanicPlantsAdapter.updatePlants(similarPlants)

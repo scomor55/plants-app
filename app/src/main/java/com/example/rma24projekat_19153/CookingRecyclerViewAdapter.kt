@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class CookingPlantsListAdapter(
     private var plants: List <Biljka>,
-    private val context: Context
+    private val trefleDAO: TrefleDAO
 ): RecyclerView.Adapter<CookingPlantsListAdapter.CookingPlantsViewHolder>(){
     private lateinit var itemClickListener: CookingPlantsListAdapter.PlantItemClickListener
 
@@ -42,7 +42,6 @@ class CookingPlantsListAdapter(
         val plantJelo1: TextView = itemView.findViewById(R.id.jelo1Item)
         val plantJelo2: TextView = itemView.findViewById(R.id.jelo2Item)
         val plantJelo3: TextView = itemView.findViewById(R.id.jelo3Item)
-        private lateinit var biljkaDAO: BiljkaDAO
 
         fun bind(plant: Biljka){
             plantNaziv.text = plant.naziv
@@ -56,10 +55,10 @@ class CookingPlantsListAdapter(
             itemView.setOnClickListener {
                 itemClickListener.onPlantItemClick(plant)
             }
-            biljkaDAO = BiljkaDatabase.getDatabase(context).biljkaDao()
+
             CoroutineScope(Dispatchers.Main).launch {
-                val biljkaBitmap = biljkaDAO.getBiljkaBitmap(plant.id)
-                plantImage.setImageBitmap(biljkaBitmap?.bitmap)
+                val bitmap = trefleDAO.getImage(plant)
+                plantImage.setImageBitmap(bitmap)
             }
         }
     }
