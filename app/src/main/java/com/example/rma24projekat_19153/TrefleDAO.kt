@@ -54,6 +54,7 @@ class TrefleDAO(private val context: Context?= null ) {
     suspend fun fixData(biljka: Biljka): Biljka {
         return withContext(Dispatchers.IO) {
             try {
+                biljka.onlineChecked = true
                 val latinName = extractTextInBrackets(biljka.naziv)
 
                 val searchResponse = api.searchPlants(latinName).execute()
