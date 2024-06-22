@@ -63,14 +63,12 @@ class TrefleDAO(private val context: Context?= null ) {
 
                     if (plant != null) {
 
-                        // Use the ID to get detailed information about the plant
                         val plantId = plant.id
                         val detailResponse = api.getPlantById(plantId).execute()
 
                         if (detailResponse.isSuccessful) {
                             val detailedPlant = detailResponse.body()
                             //   biljka.naziv = detailedPlant?.data?.commonName.toString()
-                            // Fix family
                             if (biljka.porodica != detailedPlant?.data?.family.toString()) {
                                 biljka.porodica = detailedPlant?.data?.family?.name.toString()
                             }
@@ -82,14 +80,12 @@ class TrefleDAO(private val context: Context?= null ) {
                                 }
                             }
 
-                            // Fix medical warning
                             if (detailedPlant?.data?.mainSpecies?.specifications?.toxicity == "null") {
                                 if (!biljka.medicinskoUpozorenje.contains("TOKSIČNO")) {
                                     biljka.medicinskoUpozorenje += " TOKSIČNO"
                                 }
                             }
 
-                            // Fix soil types
                             val validSoilTypes = mapOf(
                                 Zemljiste.SLJUNKOVITO to 9,
                                 Zemljiste.KRECNJACKO to 10,
@@ -113,7 +109,6 @@ class TrefleDAO(private val context: Context?= null ) {
                                 biljka.zemljisniTipovi = filteredSoilTypes
                             }
 
-                            // Fix climate types
                             val validClimateTypes = mapOf(
                                 KlimatskiTip.SREDOZEMNA to (6..9 to 1..5),
                                 KlimatskiTip.TROPSKA to (8..10 to 7..10),
@@ -154,8 +149,12 @@ class TrefleDAO(private val context: Context?= null ) {
         val emptyBiljkaList: MutableList<Biljka> = mutableListOf()
         return withContext(Dispatchers.IO) {
             try {
+                Log.d("TrefleDAO", "Searching for plants with color: $flower_color and substring: $substr")
+
                 val searchResponse = api.searchPlants(substr).execute()
                 val plantsResponse = searchResponse.body()?.data ?: emptyList()
+
+                Log.d("TrefleDAO", "Plants response size: ${plantsResponse.size}")
 
                 val detailList : MutableList<PlantResponse> = mutableListOf()
                 for(plant in plantsResponse){
@@ -165,6 +164,7 @@ class TrefleDAO(private val context: Context?= null ) {
                         detailList.add(it)
                     }
                 }
+                Log.d("TrefleDAO", "Detail list size: ${detailList.size}")
 
                 val filteredDetailList = detailList.filter { detail ->
                     when (val color = detail.data?.mainSpecies?.flower?.color) {
@@ -188,10 +188,12 @@ class TrefleDAO(private val context: Context?= null ) {
                     )
                     emptyBiljkaList.add(newPlant)
                 }
+                Log.d("TrefleDAO", "Filtered detail list size: ${filteredDetailList.size}")
 
                 return@withContext emptyBiljkaList
             }catch (e: Exception){
                 e.printStackTrace()
+                Log.e("TrefleDAO", "Error fetching plants with flower color", e)
                 return@withContext emptyBiljkaList
             }
         }

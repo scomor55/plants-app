@@ -1,6 +1,7 @@
 package com.example.rma24projekat_19153
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,32 +46,48 @@ class BotanicPlantsListAdapter(
         val plantZemljisniTip: TextView = itemView.findViewById(R.id.zemljisniTipItem)
         private lateinit var biljkaDAO: BiljkaDAO
 
-        fun bind(plant: Biljka){
+        fun bind(plant: Biljka) {
             plantNaziv.text = plant.naziv
             plantPorodica.text = plant.porodica
             plantKlimatskiTip.text = plant.klimatskiTipovi.getOrNull(0)?.opis ?: ""
             plantZemljisniTip.text = plant.zemljisniTipovi.getOrNull(0)?.naziv ?: ""
 
+            Log.d("BotanicPlantsAdapter", "Binding plant: ${plant.naziv}")
 
             itemView.setOnClickListener {
                 itemClickListener.onPlantItemClick(plant)
             }
-
-            if(quickSearchMode){
-                itemView.setOnClickListener(null)
-            }
-
-            biljkaDAO = BiljkaDatabase.getDatabase(context).biljkaDao()
             val trefleDAO = TrefleDAO(context)
-            CoroutineScope(Dispatchers.Main).launch {
-                val biljkaBitmap = biljkaDAO.getBiljkaBitmap(plant.id)
-                val bitmap = biljkaBitmap?.bitmap ?: trefleDAO.getImage(plant).also {
-                    biljkaDAO.addImage(plant.id, it)
-                }
-                withContext(Dispatchers.Main) {
+
+            if (quickSearchMode) {
+                itemView.setOnClickListener(null)
+                CoroutineScope(Dispatchers.Main).launch {
+                    val bitmap = trefleDAO.getImage(plant)
                     plantImage.setImageBitmap(bitmap)
                 }
+            }else {
+            biljkaDAO = BiljkaDatabase.getDatabase(context).biljkaDao()
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                    val biljkaBitmap = biljkaDAO.getBiljkaBitmap(plant.id)
+                    Log.d("BotanicPlantsAdapter", "BiljkaBitmap: $biljkaBitmap")
+
+                    val bitmap = biljkaBitmap?.bitmap ?: trefleDAO.getImage(plant).also {
+                        biljkaDAO.addImage(plant.id, it)
+                    }
+                    Log.d("BotanicPlantsAdapter", "Bitmap retrieved for plant: ${plant.naziv}")
+                    withContext(Dispatchers.Main) {
+                        plantImage.setImageBitmap(bitmap)
+                    }
+                } catch (e: Exception) {
+                    Log.e("BotanicPlantsAdapter", "Error binding plant image", e)
+
+                }
             }
+
+        }
+
+
         }
 
     }

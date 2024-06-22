@@ -25,6 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.Serializable
+import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
@@ -201,11 +202,17 @@ class MainActivity : AppCompatActivity() {
             val query = pretragaET.text.toString()
             val selectedItem = bojaSPIN.selectedItem.toString()
 
+            Log.d("BrzaPretraga", "Query: $query, SelectedItem: $selectedItem")
+
+
             if (query.isNotEmpty() && selectedItem != null){
                 CoroutineScope(Dispatchers.Main).launch {
-                    val plants = trefleDAO.getPlantsWithFlowerColor(selectedItem, query)
-
-                    botanicPlantsAdapter.updatePlants(plants, quickSearchMode = true)
+                    try {
+                        val plants = trefleDAO.getPlantsWithFlowerColor(selectedItem, query)
+                        botanicPlantsAdapter.updatePlants(plants, quickSearchMode = true)
+                    }catch (e: Exception){
+                       Log.e("BrzaPretraga", "Error during quick search", e)
+                    }
                 }
             }
 
