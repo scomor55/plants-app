@@ -54,11 +54,11 @@ class TrefleDAO(private val context: Context?= null ) {
     suspend fun fixData(biljka: Biljka): Biljka {
         return withContext(Dispatchers.IO) {
             try {
-                biljka.onlineChecked = true
                 val latinName = extractTextInBrackets(biljka.naziv)
 
                 val searchResponse = api.searchPlants(latinName).execute()
                 if (searchResponse.isSuccessful) {
+                    biljka.onlineChecked = true
                     val plants = searchResponse.body()?.data
                     val plant = plants?.firstOrNull()
 
