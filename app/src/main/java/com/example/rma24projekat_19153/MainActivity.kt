@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         biljkaDAO = BiljkaDatabase.getDatabase(application).biljkaDao()
 
- /*       CoroutineScope(Dispatchers.Main).launch {
+/*        CoroutineScope(Dispatchers.Main).launch {
            val updated =  biljkaDAO.fixOfflineBiljka()
             Log.d("BIO", updated.toString())
         }*/
