@@ -45,13 +45,14 @@ interface BiljkaDAO {
     }
 
     @Transaction
-    suspend fun fixOfflineBiljka(fixData: suspend (Biljka) -> Biljka): Int {
+    suspend fun fixOfflineBiljka(): Int {
         val offlineBiljkas = getOfflineBiljkas()
         val updatedBiljkas = mutableListOf<Biljka>()
+        val trefleDAO = TrefleDAO()
 
         for (biljka in offlineBiljkas) {
             val originalBiljka = biljka.copy()
-            val fixedBiljka = fixData(biljka)
+            val fixedBiljka = trefleDAO.fixData(biljka)
 
             if (originalBiljka != fixedBiljka) {
                 fixedBiljka.onlineChecked = true

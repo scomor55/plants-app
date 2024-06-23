@@ -55,6 +55,7 @@ class TrefleDAO(private val context: Context?= null ) {
         return withContext(Dispatchers.IO) {
             try {
                 val latinName = extractTextInBrackets(biljka.naziv)
+                 // Log.d("FIX", "Response: }")
 
                 val searchResponse = api.searchPlants(latinName).execute()
                 if (searchResponse.isSuccessful) {

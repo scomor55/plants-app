@@ -49,6 +49,13 @@ class MainActivity : AppCompatActivity() {
         val trefleDAO = TrefleDAO(this)
 
         biljkaDAO = BiljkaDatabase.getDatabase(application).biljkaDao()
+
+ /*       CoroutineScope(Dispatchers.Main).launch {
+           val updated =  biljkaDAO.fixOfflineBiljka()
+            Log.d("BIO", updated.toString())
+        }*/
+
+
         medicalPlantsAdapter = MedicalPlantsListAdapter(listOfPlants, this)
         cookingPlantsAdapter = CookingPlantsListAdapter(listOfPlants, this)
         botanicPlantsAdapter = BotanicPlantsListAdapter(listOfPlants, this)
