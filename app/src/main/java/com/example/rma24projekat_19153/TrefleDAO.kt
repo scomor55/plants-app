@@ -156,12 +156,10 @@ class TrefleDAO(private val context: Context?= null ) {
         val emptyBiljkaList: MutableList<Biljka> = mutableListOf()
         return withContext(Dispatchers.IO) {
             try {
-                Log.d("TrefleDAO", "Searching for plants with color: $flower_color and substring: $substr")
 
                 val searchResponse = api.searchPlants(substr).execute()
                 val plantsResponse = searchResponse.body()?.data ?: emptyList()
 
-                Log.d("TrefleDAO", "Plants response size: ${plantsResponse.size}")
 
                 val detailList : MutableList<PlantResponse> = mutableListOf()
                 for(plant in plantsResponse){
@@ -171,7 +169,6 @@ class TrefleDAO(private val context: Context?= null ) {
                         detailList.add(it)
                     }
                 }
-                Log.d("TrefleDAO", "Detail list size: ${detailList.size}")
 
                 val filteredDetailList = detailList.filter { detail ->
                     when (val color = detail.data?.mainSpecies?.flower?.color) {
@@ -195,12 +192,10 @@ class TrefleDAO(private val context: Context?= null ) {
                     )
                     emptyBiljkaList.add(newPlant)
                 }
-                Log.d("TrefleDAO", "Filtered detail list size: ${filteredDetailList.size}")
 
                 return@withContext emptyBiljkaList
             }catch (e: Exception){
                 e.printStackTrace()
-                Log.e("TrefleDAO", "Error fetching plants with flower color", e)
                 return@withContext emptyBiljkaList
             }
         }
@@ -218,11 +213,9 @@ class TrefleDAO(private val context: Context?= null ) {
 
 
        } catch (e: Exception) {
-           Log.d("BOSILJAK", "Bio sam ovdjeeeeee")
 
            e.printStackTrace()
             return defaultBitmap
         }
-         Log.d("BOSILJAK", "Bio sam ovdjeeeeee")
    }
 }
