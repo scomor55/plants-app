@@ -59,6 +59,7 @@ class TrefleDAO(private val context: Context?= null ) {
 
                 val searchResponse = api.searchPlants(latinName).execute()
                 if (searchResponse.isSuccessful) {
+                    biljka.onlineChecked = true
                     val plants = searchResponse.body()?.data
                     val plant = plants?.firstOrNull()
 
@@ -72,7 +73,6 @@ class TrefleDAO(private val context: Context?= null ) {
                             //   biljka.naziv = detailedPlant?.data?.commonName.toString()
                             if (biljka.porodica != detailedPlant?.data?.family.toString()) {
                                 biljka.porodica = detailedPlant?.data?.family?.name.toString()
-                                biljka.onlineChecked = true
 
                             }
 
@@ -80,14 +80,12 @@ class TrefleDAO(private val context: Context?= null ) {
                                 biljka.jela = listOf()
                                 if (!biljka.medicinskoUpozorenje.contains("NIJE JESTIVO")) {
                                     biljka.medicinskoUpozorenje += " NIJE JESTIVO"
-                                    biljka.onlineChecked = true
                                 }
                             }
 
                             if (detailedPlant?.data?.mainSpecies?.specifications?.toxicity == "null") {
                                 if (!biljka.medicinskoUpozorenje.contains("TOKSIČNO")) {
                                     biljka.medicinskoUpozorenje += " TOKSIČNO"
-                                    biljka.onlineChecked = true
                                 }
                             }
 
@@ -112,7 +110,6 @@ class TrefleDAO(private val context: Context?= null ) {
                                     }
                                 }
                                 biljka.zemljisniTipovi = filteredSoilTypes
-                                biljka.onlineChecked = true
                             }
 
                             val validClimateTypes = mapOf(
@@ -139,7 +136,6 @@ class TrefleDAO(private val context: Context?= null ) {
                                     }
                                 }
                                 biljka.klimatskiTipovi = filteredClimateTypes
-                                biljka.onlineChecked = true
                             }
                         }
                     }
