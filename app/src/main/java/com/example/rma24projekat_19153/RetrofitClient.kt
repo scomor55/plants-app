@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val BASE_URL = "https://trefle.io/api/v1/"
+    private const val BASE_URL = "http://trefle.io/api/v1/"
     private val API_KEY = BuildConfig.TREFLE_API_KEY
 
 
